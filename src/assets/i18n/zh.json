@@ -17,8 +17,10 @@
 		"Nonce": "杜撰",
 		"Reserved Balance": "预留余额",
 		"Success": "成功",
-		"Updated at block": "在街区更新"
-	},
+		"Updated at block": "在街区更新",
+    "ShardNum": "余额"
+
+  },
 	"AccountIndexDetail": {
 		"Account": "帐户",
 		"Account Index": "帐户指数",
@@ -37,7 +39,8 @@
 		"Reclaimable": "可回收",
 		"Short Address": "简短地址",
 		"View next": "查看下一个"
-	},
+
+  },
 	"AccountList": {
 		"Accounts": "帳號",
 		"Active": "活性",
@@ -45,7 +48,9 @@
 		"Details": "细节",
 		"No items": "没有项目",
 		"Updated at block": "在街区更新",
-		"View next": "查看下一个"
+		"View next": "查看下一个",
+    "ShardNum": "分片号",
+    "Balance": " 余额"
 	},
 	"AddressDetail": {
 		"Amount": "量",
@@ -87,8 +92,9 @@
 		"Sender": "寄件人",
 		"Success": "成功",
 		"Value": "值",
-		"View next": "查看下一个"
-	},
+		"View next": "查看下一个",
+    "ShardNum": "分片号"
+  },
 	"Block-Detail": {
 		"Block": "块",
 		"Block time": "阻止时间",
@@ -124,13 +130,19 @@
 		"Transaction ID": "交易ID",
 		"Transactions": "交易",
 		"Type": "类型",
-		"seconds": "秒"
+		"seconds": "秒",
+    "ShardNum": "分片号",
+    "MPMR": "MPMR",
+    "Validators": "验证地址",
+    "RewardedTo": "投票地址",
+    "Fee": "奖励金额"
 	},
 	"Block-List": {
 		"Age": "年龄",
 		"Block hash": "块哈希",
 		"Blocks": "塊",
-		"Details": "细节",
+    "ShardNum": "分片号",
+    "Details": "细节",
 		"Module Events": "模块事件",
 		"No items": "没有项目",
 		"Number": "数",
@@ -153,7 +165,7 @@
 	},
 	"DashBoard": {
 		"Active Accounts": "活跃账户",
-		"Age": "年龄",
+		"Age": "出块时间",
 		"Amount": "量",
 		"Destination": "目的地",
 		"Details": "细节",
@@ -163,9 +175,12 @@
 		"Module Events": "模块事件",
 		"Number": "数",
 		"Runtime Versions": "运行时版本",
+    "Shards": "分片号",
 		"Search": "搜索",
-		"Transactions": "交易"
-	},
+		"Transactions": "交易",
+    "ShardNum": "分片号"
+
+  },
 	"Democracy-proposal-detail": {
 		"Bond": "Enlace",
 		"Call": "呼叫",

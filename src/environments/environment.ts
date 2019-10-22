@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  jsonApiRootUrl: 'https://polkascan.io/kusama/api/v1/',
-  networkName: 'Kusama',
-  networkTokenSymbol: 'KSM',
+  jsonApiRootUrl: 'https://polkascan.io/alexander/api/v1/',
+  networkName: 'Yeeroot',
+  networkTokenSymbol: 'yee',
   networkTokenDecimals: 12
 };
 

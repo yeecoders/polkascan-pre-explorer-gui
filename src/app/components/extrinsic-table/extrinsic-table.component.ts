@@ -62,7 +62,7 @@ export class ExtrinsicTableComponent implements OnInit {
   paramName(name: string) {
 
     if (name === 'dest') {
-      name = 'Destination';
+      name = 'To';
     }
 
     return name;

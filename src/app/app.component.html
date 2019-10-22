@@ -41,86 +41,11 @@
                       <a class="navbar-item" routerLink="/log">
                         {{ 'NavBar.item_Logs' | translate }}
                       </a>
-                    </div>
-                  </div>
-
-                  <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
-                    <a class="navbar-link">
-                      {{ 'NavBar.Accounts' | translate }}
-                    </a>
-                    <div class="navbar-dropdown" (click)="toggleSubmenus()">
                       <a class="navbar-item" routerLink="/account">
                         {{ 'NavBar.item_Accounts' | translate }}
                       </a>
-                      <a class="navbar-item" routerLink="/indices/account">
-                        {{ 'NavBar.item_Indices' | translate }}
-                      </a>
                       <a class="navbar-item" routerLink="/balances/transfer">
                         {{ 'NavBar.item_Transfers' | translate }}
-                      </a>
-                      <hr class="navbar-divider">
-                      <a class="navbar-item" routerLink="/contracts/contract">
-                        {{ 'NavBar.item_Contracts' | translate }}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
-                    <a class="navbar-link">
-                      {{ 'NavBar.Staking' | translate }}
-                    </a>
-                    <div class="navbar-dropdown" (click)="toggleSubmenus()">
-                       <a class="navbar-item" routerLink="/session/session">
-                        {{ 'NavBar.item_Sessions' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/session/validator">
-                        {{ 'NavBar.item_Validators' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/session/nominator">
-                        {{ 'NavBar.item_Nominators' | translate }}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
-                    <a class="navbar-link">
-                      {{ 'NavBar.Governance' | translate }}
-                    </a>
-                    <div class="navbar-dropdown" (click)="toggleSubmenus()">
-                       <a class="navbar-item" routerLink="/democracy/proposal">
-                        {{ 'NavBar.item_Proposals' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/democracy/referendum">
-                        {{ 'NavBar.item_Referenda' | translate }}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
-                    <a class="navbar-link">
-                        {{ 'NavBar.Analytics' | translate }}
-                    </a>
-                    <div class="navbar-dropdown" (click)="toggleSubmenus()">
-                       <a class="navbar-item" routerLink="/analytics/search">
-                           {{ 'NavBar.item_Search' | translate }}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
-                    <a class="navbar-link">
-                        {{ 'NavBar.Runtime' | translate }}
-                    </a>
-                    <div class="navbar-dropdown" (click)="toggleSubmenus()">
-                      <a class="navbar-item" routerLink="/runtime-module">
-                        {{ 'NavBar.item_Modules' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/runtime-type">
-                        {{ 'NavBar.item_Types' | translate }}
-                      </a>
-                      <hr class="navbar-divider">
-                      <a class="navbar-item" routerLink="/runtime">
-                        {{ 'NavBar.item_Upgrade_history' | translate }}
                       </a>
                     </div>
                   </div>

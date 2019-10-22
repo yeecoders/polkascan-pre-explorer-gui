@@ -6,9 +6,9 @@
 		"Block": "Block",
 		"Call": "Call",
 		"Created at block": "Created at block",
-		"Destination": "Destination",
+		"Destination": "To",
 		"Details": "Details",
-		"Free Balance": "Free Balance",
+		"Free Balance": " Balance",
 		"ID": "ID",
 		"Last 25 balance transfers": "Last 25 balance transfers",
 		"Last 25 transactions": "Last 25 transactions",
@@ -16,9 +16,10 @@
 		"No extrinsics found for this account": "No extrinsics found for this account",
 		"Nonce": "Nonce",
 		"Reserved Balance": "Reserved Balance",
-		"Success": "Success",
-		"Updated at block": "Updated at block"
-	},
+		"Success": "Status",
+		"Updated at block": "Updated at block",
+    "ShardNum": "ShardNum"
+  },
 	"AccountIndexDetail": {
 		"Account": "Account",
 		"Account Index": "Account Index",
@@ -45,13 +46,15 @@
 		"Details": "Details",
 		"No items": "No items",
 		"Updated at block": "Updated at block",
-		"View next": "View next"
-	},
+		"View next": "View next",
+    "ShardNum": "ShardNum",
+    "Balance": " Balance"
+  },
 	"AddressDetail": {
 		"Amount": "Amount",
 		"Block": "Block",
 		"Call": "Call",
-		"Destination": "Destination",
+		"Destination": "To",
 		"Details": "Details",
 		"ID": "ID",
 		"Last 25 balance transfers sent by": "Last 25 balance transfers sent by",
@@ -60,9 +63,11 @@
 		"No": "No",
 		"No transactions found for this account": "No transactions found for this account",
 		"Signed": "Signed",
-		"Success": "Success",
-		"Yes": "Yes"
-	},
+		"Success": "Status",
+		"Yes": "Yes",
+    "ShardNum": "ShardNum"
+
+  },
 	"Analytics-Search": {
 		"No results": "No results",
 		"No results found for ": "No results found for ",
@@ -71,24 +76,28 @@
 	"BalanceTransfer": {
 		"Balance transfer": "Balance transfer",
 		"Block": "Block",
-		"Destination": "Destination",
+		"Destination": "To",
 		"Extrinsic Index": "Extrinsic Index",
-		"Sender": "Sender",
-		"Success": "Success",
+		"Sender": "From",
+		"Success": "Status",
 		"Transaction Hash": "Transaction Hash",
-		"Value": "Value"
-	},
+		"Value": "Value",
+    "ShardNum": "ShardNum"
+
+  },
 	"BalanceTransferList": {
 		"Balance transfers": "Balance transfers",
-		"Block": "Block",
-		"Destination": "Destination",
+		"Block": "Height",
+		"Destination": "To",
 		"Details": "Details",
 		"No items": "No items",
-		"Sender": "Sender",
-		"Success": "Success",
+		"Sender": "From",
+		"Success": "Status",
 		"Value": "Value",
-		"View next": "View next"
-	},
+		"View next": "View next",
+    "ShardNum": "ShardNum"
+
+  },
 	"Block-Detail": {
 		"Block": "Block",
 		"Block time": "Block time",
@@ -113,7 +122,7 @@
 		"Runtime version": "Runtime Versions",
 		"Session ID": "Session ID",
 		"State Root": "State Root",
-		"Success": "Success",
+		"Success": "Status",
 		"Timestamp": "Timestamp",
 		"Total events": "Total events",
 		"Total extrinsics": "Total extrinsics",
@@ -124,17 +133,23 @@
 		"Transaction ID": "Transaction ID",
 		"Transactions": "Transactions",
 		"Type": "Type",
-		"seconds": "seconds"
-	},
+		"seconds": "seconds",
+    "ShardNum": "ShardNum",
+    "MPMR": "MPMR",
+    "Validators": "Validators",
+    "RewardedTo": "RewardedTo",
+    "Fee": "Fee"
+  },
 	"Block-List": {
-		"Age": "Age",
+		"Age": "Time",
 		"Block hash": "Block hash",
 		"Blocks": "Blocks",
 		"Details": "Details",
-		"Module Events": "Module Events",
-		"No items": "No items",
-		"Number": "Number",
-		"Signed Extrinsics": "Signed Extrinsics",
+		"Module Events": " Events",
+    "ShardNum": "ShardNum",
+    "No items": "No items",
+		"Number": "Height",
+		"Signed Extrinsics": "Transactions",
 		"View next": "View next"
 	},
 	"Contract-Detail": {
@@ -152,19 +167,21 @@
 		"View next": "View next"
 	},
 	"DashBoard": {
-		"Active Accounts": "Active Accounts",
-		"Age": "Age",
+		"Active Accounts": " Accounts",
+		"Age": "Time",
 		"Amount": "Amount",
-		"Destination": "Destination",
+		"Destination": "To",
 		"Details": "Details",
 		"Finalized Block": "Finalized Block",
 		"Last balance transfers": "Last balance transfers",
 		"Last blocks": "Last blocks",
-		"Module Events": "Module Events",
-		"Number": "Number",
+		"Module Events": " Events",
+		"Number": "Height",
 		"Runtime Versions": "Runtime Versions",
+    "Shards": "Shards",
 		"Search": "Search",
-		"Transactions": "Transactions"
+		"Transactions": "Transactions",
+    "ShardNum": "ShardNum"
 	},
 	"Democracy-proposal-detail": {
 		"Bond": "Bond",
@@ -193,7 +210,7 @@
 		"Democracy referendum": "Democracy referendum",
 		"End": "End",
 		"Proposal": "Proposal",
-		"Result": "Result",
+		"Result": "Status",
 		"Stash": "Stash",
 		"Status": "Status",
 		"Updated at block": "Updated at block",
@@ -208,7 +225,7 @@
 		"No items": "No items",
 		"Referendum ID": "Referendum ID",
 		"Status": "Status",
-		"Success": "Success",
+		"Success": "Status",
 		"View next": "View next",
 		"Vote Threshold": "Vote Threshold"
 	},
@@ -223,8 +240,10 @@
 		"Filter": "Filter",
 		"Module": "Module",
 		"No items": "No items",
-		"View next": "View next"
-	},
+		"View next": "View next",
+    "ShardNum": "ShardNum"
+
+  },
 	"Extrinsic-list": {
 		"Block": "Block",
 		"Call": "Call",
@@ -236,10 +255,12 @@
 		"No items": "No items",
 		"Signed": "Signed",
 		"Signed only": "Signed only",
-		"Success": "Success",
+		"Success": "Status",
 		"View next": "View next",
-		"Yes": "Yes"
-	},
+		"Yes": "Yes",
+    "ShardNum": "ShardNum"
+
+  },
 	"Global": {
 		"View next": "View next"
 	},
@@ -251,8 +272,10 @@
 		"Progress": "Progress",
 		"Running": "Running",
 		"Start": "Start",
-		"To": "To"
-	},
+		"To": "To",
+    "ShardNum": "ShardNum"
+
+  },
 	"Inherent-list": {
 		"All calls": "All calls",
 		"All modules": "All modules",
@@ -264,8 +287,10 @@
 		"Inherents": "Inherents",
 		"Module": "Module",
 		"No items": "No items",
-		"Success": "Success"
-	},
+		"Success": "Status",
+    "ShardNum": "ShardNum"
+
+  },
 	"Log-list": {
 		"Block": "Block",
 		"Details": "Details",
@@ -273,8 +298,10 @@
 		"Logs": "Logs",
 		"No items": "No items",
 		"Type": "Type",
-		"View next": "View next"
-	},
+		"View next": "View next",
+    "ShardNum": "ShardNum"
+
+  },
 	"NavBar": {
 		"Accounts": "Accounts",
 		"Analytics": "Analytics",
@@ -322,11 +349,13 @@
 		"Event": "Event",
 		"Event Index": "Event Index",
 		"Event name": "Event name",
-		"Module": "Module"
-	},
+		"Module": "Module",
+    "ShardNum": "ShardNum"
+
+  },
 	"extrinsic-table": {
 		"Account Index": "Account index",
-		"Address": "Address",
+		"Address": "From",
 		"Block": "Block",
 		"Call": "Call",
 		"Hash": "Hash",
@@ -334,16 +363,20 @@
 		"Module": "Module",
 		"Nonce": "Nonce",
 		"Parameters": "Parameters",
-		"Result": "Result",
-		"Signature": "Signature"
-	},
+		"Result": "Status",
+		"Signature": "Signature",
+    "ShardNum": "ShardNum"
+
+  },
 	"log-table": {
 		"Block": "Block",
 		"Data": "Data",
 		"Log": "Log",
 		"Log Index": "Log Index",
-		"Type": "Type"
-	},
+		"Type": "Type",
+    "ShardNum": "ShardNum"
+
+  },
 	"messages": {
 		"Messages": "Messages",
 		"clear": "clear"
@@ -357,7 +390,7 @@
 		"Name": "Name",
 		"Parameters": "Parameters",
 		"Recent extrinsics using call": "Recent extrinsics using call",
-		"Result": "Result",
+		"Result": "Status",
 		"Spec version": "Spec version",
 		"Type": "Type"
 	},
@@ -505,15 +538,17 @@
 	"transaction-list": {
 		"All calls": "All calls",
 		"All modules": "All modules",
-		"Block": "Block",
+		"Block": "Height",
 		"Call": "Call",
 		"Details": "Details",
 		"Filter": "Filter",
 		"From": "From",
 		"Module": "Module",
 		"No items": "No items",
-		"Success": "Success",
-		"Transaction ID": "Transaction ID",
-		"Transactions": "Transactions"
-	}
+		"Success": "Status",
+		"Transaction ID": "Transaction Hash",
+		"Transactions": "Transactions",
+    "ShardNum": "ShardNum"
+
+  }
 }

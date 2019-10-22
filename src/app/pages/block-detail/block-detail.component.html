@@ -41,46 +41,69 @@
                                   <td>{{ 'Block-Detail.Total extrinsics' | translate }}</td>
                                   <td >{{block.attributes.count_extrinsics}}</td>
                               </tr>
+
+
+
                               <tr>
-                                  <td>{{ 'Block-Detail.Total signed extrinsics' | translate }}</td>
-                                  <td >{{ block.attributes.count_extrinsics_signed }}</td>
+                                <td>{{ 'Block-Detail.ShardNum' | translate }}</td>
+                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
                               </tr>
                               <tr>
-                                  <td>{{ 'Block-Detail.Total failed extrinsics' | translate }}</td>
-                                  <td >{{ block.attributes.count_extrinsics_error }}</td>
+                                <td>{{ 'Block-Detail.MPMR' | translate }}</td>
+                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
                               </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.Validators' | translate }}</td>
+                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                              </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.RewardedTo' | translate }}</td>
+                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                              </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.Fee' | translate }}</td>
+                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                              </tr>
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.Total signed extrinsics' | translate }}</td>-->
+<!--                                  <td >{{ block.attributes.count_extrinsics_signed }}</td>-->
+<!--                              </tr>-->
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.Total failed extrinsics' | translate }}</td>-->
+<!--                                  <td >{{ block.attributes.count_extrinsics_error }}</td>-->
+<!--                              </tr>-->
                               <tr>
                                   <td>{{ 'Block-Detail.Total events' | translate }}</td>
                                   <td >{{block.attributes.count_events}}</td>
                               </tr>
-                              <tr>
-                                  <td>{{ 'Block-Detail.Total system events' | translate }}</td>
-                                  <td >{{block.attributes.count_events_system}}</td>
-                              </tr>
-                              <tr>
-                                  <td>{{ 'Block-Detail.Total module events' | translate }}</td>
-                                  <td >{{block.attributes.count_events_module}}</td>
-                              </tr>
-                              <tr>
-                                  <td>{{ 'Block-Detail.New accounts' | translate }}</td>
-                                  <td >{{block.attributes.count_contracts_new}}</td>
-                              </tr>
-                              <tr>
-                                  <td>{{ 'Block-Detail.Reaped accounts' | translate }}</td>
-                                  <td >{{block.attributes.count_accounts_reaped}}</td>
-                              </tr>
-                              <tr>
-                                  <td>{{ 'Block-Detail.New contracts' | translate }}</td>
-                                  <td >{{block.attributes.count_contracts_new}}</td>
-                              </tr>
-                              <tr>
-                                  <td>{{ 'Block-Detail.New sessions' | translate }}</td>
-                                  <td >{{block.attributes.count_sessions_new}}</td>
-                              </tr>
-                              <tr>
-                                  <td>{{ 'Block-Detail.Runtime version' | translate }}</td>
-                                  <td><a routerLink="{{ networkURLPrefix }}/runtime/{{ block.attributes.spec_version_id }}">{{block.attributes.spec_version_id}}</a></td>
-                              </tr>
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.Total system events' | translate }}</td>-->
+<!--                                  <td >{{block.attributes.count_events_system}}</td>-->
+<!--                              </tr>-->
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.Total module events' | translate }}</td>-->
+<!--                                  <td >{{block.attributes.count_events_module}}</td>-->
+<!--                              </tr>-->
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.New accounts' | translate }}</td>-->
+<!--                                  <td >{{block.attributes.count_contracts_new}}</td>-->
+<!--                              </tr>-->
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.Reaped accounts' | translate }}</td>-->
+<!--                                  <td >{{block.attributes.count_accounts_reaped}}</td>-->
+<!--                              </tr>-->
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.New contracts' | translate }}</td>-->
+<!--                                  <td >{{block.attributes.count_contracts_new}}</td>-->
+<!--                              </tr>-->
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.New sessions' | translate }}</td>-->
+<!--                                  <td >{{block.attributes.count_sessions_new}}</td>-->
+<!--                              </tr>-->
+<!--                              <tr>-->
+<!--                                  <td>{{ 'Block-Detail.Runtime version' | translate }}</td>-->
+<!--                                  <td><a routerLink="{{ networkURLPrefix }}/runtime/{{ block.attributes.spec_version_id }}">{{block.attributes.spec_version_id}}</a></td>-->
+<!--                              </tr>-->
                               <tr *ngIf="blockTotal$ | async as blockTotal">
                                   <td>{{ 'Block-Detail.Block time' | translate }}</td>
                                   <td >{{blockTotal.attributes.blocktime }} {{ 'Block-Detail.seconds' | translate }}</td>

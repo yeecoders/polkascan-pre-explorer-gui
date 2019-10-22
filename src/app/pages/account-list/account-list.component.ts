@@ -4,6 +4,7 @@ import {Account} from '../../classes/account.class';
 import {AccountService} from '../../services/account.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-account-list',
@@ -11,7 +12,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./account-list.component.scss']
 })
 export class AccountListComponent implements OnInit, OnDestroy {
-
+  public networkTokenDecimals: number;
   public accounts: DocumentCollection<Account>;
   currentPage = 1;
 
@@ -26,6 +27,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.networkTokenDecimals = environment.networkTokenDecimals;
     this.fragmentSubsription = this.activatedRoute.fragment.subscribe(value => {
       if (+value > 0) {
         this.currentPage = +value;
@@ -53,4 +55,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     this.fragmentSubsription.unsubscribe();
   }
 
+  public formatBalance(balance: number) {
+    return balance / Math.pow(10, this.networkTokenDecimals);
+  }
 }

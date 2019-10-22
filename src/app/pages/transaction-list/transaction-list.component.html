@@ -60,6 +60,8 @@
                               <tr>
                                 <th></th>
                                 <th>{{ 'transaction-list.Transaction ID' | translate }}</th>
+                                <th>{{ 'transaction-list.ShardNum' | translate }}</th>
+                                <th>{{ 'transaction-list.Module' | translate }}</th>
                                 <th class="is-hidden-mobile">{{ 'transaction-list.From' | translate }}</th>
                                 <th class="is-hidden-mobile">{{ 'transaction-list.Block' | translate }}</th>
                                 <th>{{ 'transaction-list.Module' | translate }}</th>
@@ -75,6 +77,7 @@
                                       <i *ngIf="extrinsic.attributes.unsigned" class="fa fa-file-alt"></i>
                                     </td>
                                     <td><a routerLink="{{ networkURLPrefix }}/transaction/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}"><div class="hash-format">0x{{ extrinsic.attributes.extrinsic_hash }}</div></a></td>
+                                    <td>{{ extrinsic.attributes.nonce }}</td>
                                     <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ extrinsic.attributes.address }}" class="address-format"><app-identicon [accountId]="extrinsic.attributes.address_id"></app-identicon> {{ extrinsic.attributes.address }}</a></td>
                                     <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/block/{{ extrinsic.attributes.block_id }}">{{ extrinsic.attributes.block_id }}</a></td>
                                     <td>{{ extrinsic.attributes.module_id }}</td>

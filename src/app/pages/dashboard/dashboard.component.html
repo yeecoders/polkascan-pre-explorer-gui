@@ -93,8 +93,7 @@
                               <i class="fa fa-cogs fa-2x"></i>
                           </span>
                           <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.total_runtimes }}</p>
-                          <p class="subtitle">{{ 'DashBoard.Runtime Versions' | translate }}</p>
-                        </div>
+                          <p class="subtitle">{{ 'DashBoard.Shards' | translate }}</p>                        </div>
                       </a>
                     </article>
                 </div>
@@ -125,6 +124,7 @@
                                     <th>{{ 'DashBoard.Number' | translate }}</th>
                                     <th class="is-hidden-mobile">{{ 'DashBoard.Age' | translate }}</th>
                                     <th>{{ 'DashBoard.Transactions' | translate }}</th>
+                                    <th>{{ 'DashBoard.ShardNum' | translate }}</th>
                                     <th>{{ 'DashBoard.Module Events' | translate }}</th>
                                     <th></th>
                                   </tr>
