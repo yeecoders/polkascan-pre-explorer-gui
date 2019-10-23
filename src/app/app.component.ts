@@ -46,7 +46,7 @@ export class AppComponent {
     translate.addLangs(this.langs);
     translate.setDefaultLang('en');
 
-    this.selectedLanguage = translate.getBrowserLang().match(/en|de|fr|it|es|zh|ja|ko|ru|uk/) ? translate.getBrowserLang() : 'en';
+    // this.selectedLanguage = translate.getBrowserLang().match(/en|de|fr|it|es|zh|ja|ko|ru|uk/) ? translate.getBrowserLang() : 'en';
     translate.use(this.selectedLanguage);
   }
 

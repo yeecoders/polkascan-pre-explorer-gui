@@ -123,8 +123,8 @@
                                     <th></th>
                                     <th>{{ 'DashBoard.Number' | translate }}</th>
                                     <th class="is-hidden-mobile">{{ 'DashBoard.Age' | translate }}</th>
-                                    <th>{{ 'DashBoard.Transactions' | translate }}</th>
                                     <th>{{ 'DashBoard.ShardNum' | translate }}</th>
+                                    <th>{{ 'DashBoard.Transactions' | translate }}</th>
                                     <th>{{ 'DashBoard.Module Events' | translate }}</th>
                                     <th></th>
                                   </tr>
@@ -164,7 +164,8 @@
                                 <thead>
                                   <tr>
                                     <th></th>
-                                    <th>{{ 'DashBoard.Destination' | translate }}</th>
+                                    <th>{{ 'DashBoard.Hash' | translate }}</th>
+                                    <th>{{ 'DashBoard.Age' | translate }}</th>
                                     <th>{{ 'DashBoard.Amount' | translate }}</th>
                                     <th></th>
                                   </tr>
@@ -172,7 +173,8 @@
                                 <tbody *ngIf="balanceTransfers">
                                     <tr *ngFor="let balanceTransfer of balanceTransfers.data; trackBy: balanceTransfers.trackBy">
                                         <td width="5%"><i class="fa fa-exchange-alt"></i></td>
-                                        <td><a routerLink="{{ networkURLPrefix }}/account/{{balanceTransfer.attributes.destination}}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.destination_id"></app-identicon>{{ balanceTransfer.attributes.destination }}</a></td>
+                                        <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
+                                        <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
                                         <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
                                         <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}">{{ 'DashBoard.Details' | translate }}</a></td>
                                     </tr>

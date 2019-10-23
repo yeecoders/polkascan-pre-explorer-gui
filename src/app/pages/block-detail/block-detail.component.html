@@ -7,7 +7,7 @@
           <div class="card events-card">
               <header class="card-header">
                   <p class="card-header-title">
-                      {{ 'Block-Detail.Block' | translate }} #{{ block.id }}
+                      {{ 'Block-Detail.Block' | translate }} #{{ block.attributes.hash }}
                   </p>
                 <a [routerLink]="" fragment="details" class="card-header-icon" aria-label="more options">
                  <span class="icon"><i class="fa fa-cube fa-2x"></i></span>
@@ -22,9 +22,17 @@
                                   <td>{{ block.attributes.datetime | date:'medium'}}</td>
                               </tr>
                               <tr>
-                                  <td width="15%">{{ 'Block-Detail.Hash' | translate }}</td>
-                                  <td><div class="mobile-hash-format">{{block.attributes.hash}}</div></td>
+                                <td>{{ 'Block-Detail.ShardNum' | translate }}</td>
+                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
                               </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.MPMR' | translate }}</td>
+                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                              </tr>
+<!--                              <tr>-->
+<!--                                  <td width="15%">{{ 'Block-Detail.Hash' | translate }}</td>-->
+<!--                                  <td><div class="mobile-hash-format">{{block.attributes.hash}}</div></td>-->
+<!--                              </tr>-->
                               <tr>
                                   <td>{{ 'Block-Detail.Parent hash' | translate }}</td>
                                   <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
@@ -44,14 +52,7 @@
 
 
 
-                              <tr>
-                                <td>{{ 'Block-Detail.ShardNum' | translate }}</td>
-                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
-                              </tr>
-                              <tr>
-                                <td>{{ 'Block-Detail.MPMR' | translate }}</td>
-                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
-                              </tr>
+
                               <tr>
                                 <td>{{ 'Block-Detail.Validators' | translate }}</td>
                                 <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>

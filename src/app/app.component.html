@@ -21,7 +21,11 @@
           </div>
           <div id="navMenu" class="navbar-menu" [ngClass]="{'is-active': showNavigation}">
               <div class="navbar-start">
+                <a class="navbar-item" routerLink="/">
+                  {{ 'NavBar.Home' | translate }}
+                </a>
                   <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
+
                     <a class="navbar-link">
                       {{ 'NavBar.Chain' | translate }}
                     </a>
@@ -32,21 +36,23 @@
                       <a class="navbar-item" routerLink="/transaction">
                         {{ 'NavBar.item_Transactions' | translate }}
                       </a>
-                      <a class="navbar-item" routerLink="/inherent">
-                        {{ 'NavBar.item_Inherents' | translate }}
+                      <a class="navbar-item" routerLink="/balances/transfer">
+                        {{ 'NavBar.item_Transfers' | translate }}
                       </a>
+                      <a class="navbar-item" routerLink="/account">
+                        {{ 'NavBar.item_Accounts' | translate }}
+                      </a>
+<!--                      <a class="navbar-item" routerLink="/inherent">-->
+<!--                        {{ 'NavBar.item_Inherents' | translate }}-->
+<!--                      </a>-->
                       <a class="navbar-item" routerLink="/event">
                         {{ 'NavBar.item_Events' | translate }}
                       </a>
                       <a class="navbar-item" routerLink="/log">
                         {{ 'NavBar.item_Logs' | translate }}
                       </a>
-                      <a class="navbar-item" routerLink="/account">
-                        {{ 'NavBar.item_Accounts' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/balances/transfer">
-                        {{ 'NavBar.item_Transfers' | translate }}
-                      </a>
+
+
                     </div>
                   </div>
               </div>
