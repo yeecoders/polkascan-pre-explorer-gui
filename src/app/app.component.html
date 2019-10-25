@@ -11,7 +11,8 @@
       <div class="container">
           <div class="navbar-brand">
               <a class="navbar-item brand-text" routerLink="/">
-                <img src="assets/logo.png" width="120">
+                <img src="assets/logo.png" width="20">&nbsp;&nbsp;<p style="text-align:center;color:#000000;font-size:18px;">Yeeco</p>
+
               </a>
               <a role="button" class="navbar-burger burger" data-target="navMenu" [ngClass]="{'is-active': showNavigation}" (click)="toggleNavigation()">
                   <span></span>
@@ -20,10 +21,14 @@
               </a>
           </div>
           <div id="navMenu" class="navbar-menu" [ngClass]="{'is-active': showNavigation}">
-              <div class="navbar-start">
+
+
+              <div class="navbar-end">
                 <a class="navbar-item" routerLink="/">
                   {{ 'NavBar.Home' | translate }}
                 </a>
+                <div class="navbar-start">
+
                   <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
 
                     <a class="navbar-link">
@@ -42,22 +47,18 @@
                       <a class="navbar-item" routerLink="/account">
                         {{ 'NavBar.item_Accounts' | translate }}
                       </a>
-<!--                      <a class="navbar-item" routerLink="/inherent">-->
-<!--                        {{ 'NavBar.item_Inherents' | translate }}-->
-<!--                      </a>-->
+                      <!--                      <a class="navbar-item" routerLink="/inherent">-->
+                      <!--                        {{ 'NavBar.item_Inherents' | translate }}-->
+                      <!--                      </a>-->
                       <a class="navbar-item" routerLink="/event">
                         {{ 'NavBar.item_Events' | translate }}
                       </a>
                       <a class="navbar-item" routerLink="/log">
                         {{ 'NavBar.item_Logs' | translate }}
                       </a>
-
-
                     </div>
                   </div>
-              </div>
-
-              <div class="navbar-end">
+                </div>
                 <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
                     <a class="navbar-link">
                       <i class="fa fa-language language-icon" aria-hidden="true"></i> {{ langsTitle(selectedLanguage) }}
@@ -73,7 +74,6 @@
                     </div>
                   </div>
               </div>
-
           </div>
         </div>
   </nav>

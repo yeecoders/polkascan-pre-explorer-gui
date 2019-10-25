@@ -1,13 +1,13 @@
 <div class="columns">
   <div class="column is-12">
-      <app-polkascan-header></app-polkascan-header>
+<!--      <app-polkascan-header></app-polkascan-header>-->
 
       <div *ngIf="block$ | async as block">
         <section class="info-tiles">
           <div class="card events-card">
               <header class="card-header">
                   <p class="card-header-title">
-                      {{ 'Block-Detail.Block' | translate }} #{{ block.attributes.hash }}
+                      {{ 'Block-Detail.Block' | translate }} {{ block.attributes.hash }}
                   </p>
                 <a [routerLink]="" fragment="details" class="card-header-icon" aria-label="more options">
                  <span class="icon"><i class="fa fa-cube fa-2x"></i></span>
@@ -25,6 +25,11 @@
                                 <td>{{ 'Block-Detail.ShardNum' | translate }}</td>
                                 <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
                               </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.Number' | translate }}</td>
+                                <td width="10%"><a routerLink="{{ networkURLPrefix }}/block/{{ block.id }}">{{ block.id }}</a></td>
+                              </tr>
+
                               <tr>
                                 <td>{{ 'Block-Detail.MPMR' | translate }}</td>
                                 <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>

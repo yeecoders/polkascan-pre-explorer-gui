@@ -38,11 +38,11 @@ nav.navbar {
 }
 .menu-list a:hover {
   background-color: transparent;
-  color: #276cda;
+  color: #d32e79;
 }
 .menu-list a.is-active {
   background-color: transparent;
-  color: #276cda;
+  color: #d32e79;
   font-weight: 700;
 }
 .card {
@@ -83,7 +83,7 @@ nav.navbar {
 .card-footer-item {
   font-size: 14px;
   font-weight: 700;
-  color: #8F99A3;
+  color: #276cda;
 }
 .card-footer-item:hover {
 }
@@ -111,7 +111,7 @@ nav.navbar {
     color: #da68a7;
   }
   .navbar {
-    background: linear-gradient(to right, #da68a7, #ba4887);
+    background: linear-gradient(to right, #0000, #da68a7);
   }
 
   .tabs li.is-active a {
@@ -124,7 +124,7 @@ nav.navbar {
   }
 
   .navbar-item a {
-    color: #4a4a4a;
+    color: #276cda;
   }
 }
 
@@ -226,7 +226,7 @@ nav.navbar {
   }
 
   .navbar-item a {
-    color: #4a4a4a;
+    color: #276cda;
   }
 }
 
@@ -264,36 +264,36 @@ nav.navbar {
 }
 
 .hero.welcome.is-info {
-  background: linear-gradient(to right, #999, #777);
+  background: linear-gradient(to right, #276cda, #276cda);
 }
 
 .button.is-primary {
-  background-color: #999;
+  background-color: #276cda;
 }
 
 .button.is-primary:hover {
-  background-color: #999;
+  background-color: #276cda;
 }
 
 .card-header-icon {
-  color: #999;
+  color: #276cda;
 }
 
 .navbar {
-  background: linear-gradient(to right, #999, #777);
+  background: linear-gradient(to right, #276cda, #276cda);
 }
 
 .tabs li.is-active a {
-  color: #999;
-  border-bottom-color: #999;
+  color: #276cda;
+  border-bottom-color: #276cda;
 }
 
 .tabs a {
-  color: #4a4a4a;
+  color: #276cda;
 }
 
 a {
-  color: #777;
+  color: #276cda;
 }
 
 .no-items {
@@ -357,4 +357,23 @@ a {
             }
         }
     }
+}
+
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('/assets/fontawesome/yeecowebfonts/iconfont.eot');
+  src: url('/assets/fontawesome/yeecowebfonts/iconfont.eot?#iefix') format('embedded-opentype'),
+  url('/assets/fontawesome/yeecowebfonts/iconfont.woff2') format('woff2'),
+  url('/assets/fontawesome/yeecowebfonts/iconfont.woff') format('woff'),
+  url('/assets/fontawesome/yeecowebfonts/iconfont.ttf') format('truetype'),
+  url('/assets/fontawesome/yeecowebfonts/iconfont.svg#iconfont') format('svg');
+}
+
+.yeecoiconfont {
+  font-family: "iconfont" !important;
+  font-size: 45px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

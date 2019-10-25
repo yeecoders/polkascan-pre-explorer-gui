@@ -139,7 +139,8 @@
     "MPMR": "MPMR",
     "Validators": "Validators",
     "RewardedTo": "RewardedTo",
-    "Fee": "Fee"
+    "Fee": "Fee",
+    "Number": "Height"
   },
 	"Block-List": {
 		"Age": "Time",
