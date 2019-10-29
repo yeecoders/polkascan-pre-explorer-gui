@@ -26,6 +26,7 @@ export class AccountDetailComponent implements OnInit {
 
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
+  public currentTab: string;
 
   constructor(
     private balanceTransferService: BalanceTransferService,
@@ -36,6 +37,12 @@ export class AccountDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentTab = 'transfers';
+    this.activatedRoute.fragment.subscribe(value => {
+      if (value === 'transactions' || value === 'transfers') {
+        this.currentTab = value;
+      }
+    });
 
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
