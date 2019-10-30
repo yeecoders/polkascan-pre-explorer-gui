@@ -118,6 +118,7 @@
           <app-loading-box *ngIf="!balanceTransfers || balanceTransfers.is_loading"></app-loading-box>
           <table class="table is-fullwidth is-striped" *ngIf="balanceTransfers && balanceTransfers.data.length > 0">
             <thead>
+            <th></th>
             <th class="is-hidden-mobile">{{ 'BalanceTransferList.TxHash' | translate }}</th>
             <th class="is-hidden-mobile">{{ 'BalanceTransferList.Time' | translate }}</th>
             <th class="is-hidden-mobile">{{ 'BalanceTransferList.ShardNum' | translate }}</th>

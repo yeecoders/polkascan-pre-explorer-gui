@@ -14,6 +14,10 @@
                 <table class="table is-fullwidth is-striped">
                     <tbody>
                         <tr *ngIf="context != 'block'">
+                          <td width="15%">{{ 'log-table.ShardNum' | translate }}</td>
+                          <td><a routerLink="/block/{{ log.attributes.block_id }}">{{ log.attributes.block_id }}</a></td>
+                        </tr>
+                        <tr *ngIf="context != 'block'">
                           <td width="15%">{{ 'log-table.Block' | translate }}</td>
                           <td><a routerLink="/block/{{ log.attributes.block_id }}">{{ log.attributes.block_id }}</a></td>
                         </tr>
