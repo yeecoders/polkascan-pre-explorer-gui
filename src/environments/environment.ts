@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  jsonApiRootUrl: 'https://polkascan.io/alexander/api/v1/',
+  jsonApiRootUrl: 'http://127.0.0.1:8000/',
   networkName: 'YeeCo',
   networkTokenSymbol: 'YEE',
   networkTokenDecimals: 12

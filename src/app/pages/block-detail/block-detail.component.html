@@ -23,8 +23,7 @@
                               </tr>
                               <tr>
                                 <td>{{ 'Block-Detail.ShardNum' | translate }}</td>
-                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
-                              </tr>
+                                <td>{{ block.attributes.shard_num }}</td>                              </tr>
                               <tr>
                                 <td>{{ 'Block-Detail.Number' | translate }}</td>
                                 <td width="10%"><a routerLink="{{ networkURLPrefix }}/block/{{ block.id }}">{{ block.id }}</a></td>
@@ -32,7 +31,7 @@
 
                               <tr>
                                 <td>{{ 'Block-Detail.MPMR' | translate }}</td>
-                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                                <td><a *ngIf="block.id > 0" class="mobile-hash-format">{{block.attributes.mpmr}}</a></td>
                               </tr>
 <!--                              <tr>-->
 <!--                                  <td width="15%">{{ 'Block-Detail.Hash' | translate }}</td>-->
@@ -60,15 +59,15 @@
 
                               <tr>
                                 <td>{{ 'Block-Detail.Validators' | translate }}</td>
-                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                                <td><a *ngIf="block.id > 0" class="mobile-hash-format">{{block.attributes.validators}}</a></td>
                               </tr>
                               <tr>
                                 <td>{{ 'Block-Detail.RewardedTo' | translate }}</td>
-                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                                <td>{{ formatBalance(block.attributes.reward) | number:'1.0-15'}} {{ networkTokenSymbol }}</td>
                               </tr>
                               <tr>
                                 <td>{{ 'Block-Detail.Fee' | translate }}</td>
-                                <td><a *ngIf="block.id > 0" routerLink="{{ networkURLPrefix }}/block/{{ block.id - 1 }}" class="mobile-hash-format">{{block.attributes.parent_hash}}</a></td>
+                                <td>{{ formatBalance(block.attributes.fee) | number:'1.0-15'}} {{ networkTokenSymbol }}</td>
                               </tr>
 <!--                              <tr>-->
 <!--                                  <td>{{ 'Block-Detail.Total signed extrinsics' | translate }}</td>-->

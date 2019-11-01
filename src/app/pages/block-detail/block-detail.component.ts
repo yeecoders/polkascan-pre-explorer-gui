@@ -104,5 +104,7 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
     // Will clear when component is destroyed e.g. route is navigated away from.
     this.fragmentSubsription.unsubscribe();
   }
-
+  public formatBalance(balance: number) {
+    return balance / Math.pow(10, this.networkTokenDecimals);
+  }
 }
