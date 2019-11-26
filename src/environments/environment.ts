@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  jsonApiRootUrl: 'http://127.0.0.1:8000/',
+  jsonApiRootUrl: 'https://polkascan.io/kulupu/api/v1/',
   networkName: 'YeeCo',
   networkTokenSymbol: 'YEE',
   networkTokenDecimals: 12

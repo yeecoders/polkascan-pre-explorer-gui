@@ -6,7 +6,9 @@
         <header class="card-header" *ngIf="account && account.attributes && account.attributes.id">
           <div class="card-header-title">
             <app-identicon [accountId]="account.attributes.id" size="64"></app-identicon>
-            <div class="address-mobile-format">{{ account.attributes.address }}</div>
+            <div id= address class="address-mobile-format">{{ account.attributes.address }}</div>
+            &nbsp;&nbsp;&nbsp;
+            <td width="1%"><button  class="button is-small is-primary"  (click)="Copy()">{{ 'AccountDetail.Copy' | translate }}</button></td>
           </div>
           <a class="card-header-icon" aria-label="more options">
             <span class="icon"><i class="fa fa-id-card fa-2x"></i></span>
@@ -42,7 +44,7 @@
       </div>
     </section>
     <section class="info-tiles">
-      <div class="card ">
+      <div class="cards ">
         <div class="tabs">
           <ul>
             <li [ngClass]="{'is-active': currentTab == 'transfers'}"
@@ -102,9 +104,6 @@
                   <i *ngIf="extrinsic.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
                   <i *ngIf="extrinsic.attributes.error" class="fa fa-times" style="color: darkred"></i>
                 </td>-->
-              <td width="5%"><a class="button is-small is-primary"
-                                routerLink="{{ networkURLPrefix }}/transaction/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}">Details</a>
-              </td>
             </tr>
             </tbody>
           </table>
@@ -149,10 +148,6 @@
               <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
               <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
 
-
-              <td width="5%"><a class="button is-small is-primary"
-                                routerLink="/balances/transfer/0x{{ balanceTransfer.id }}">{{ 'AccountDetail.Details' | translate }}</a>
-              </td>
             </tr>
             </tbody>
           </table>

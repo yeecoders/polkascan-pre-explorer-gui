@@ -18,7 +18,8 @@
 		"Reserved Balance": "Reserved Balance",
 		"Success": "Status",
 		"Updated at block": "Updated at block",
-    "ShardNum": "ShardNum"
+    "ShardNum": "ShardNum",
+    "Copy": "Copy"
   },
 	"AccountIndexDetail": {
 		"Account": "Account",

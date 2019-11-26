@@ -49,7 +49,7 @@ export class AccountDetailComponent implements OnInit {
 
     this.account$ = this.activatedRoute.paramMap.pipe(
       switchMap((params: ParamMap) => {
-          return this.accountService.get(params.get('id'), { include: ['indices'] });
+        return this.accountService.get(params.get('id'), {include: ['indices']});
       })
     );
 
@@ -57,7 +57,7 @@ export class AccountDetailComponent implements OnInit {
 
       this.balanceTransferService.all({
         remotefilter: {address: val.id},
-        page: { number: 0}
+        page: {number: 0}
       }).subscribe(balanceTransfers => (this.balanceTransfers = balanceTransfers));
 
       const params = {
@@ -72,8 +72,19 @@ export class AccountDetailComponent implements OnInit {
     });
   }
 
-   public formatBalance(balance: number) {
+  public formatBalance(balance: number) {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }
+
+  public Copy() {
+    const range = document.createRange();
+    range.selectNode(document.getElementById('address'));
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) { selection.removeAllRanges(); }
+    selection.addRange(range);
+    document.execCommand('copy');
+    alert('复制成功');
+  }
+
 
 }

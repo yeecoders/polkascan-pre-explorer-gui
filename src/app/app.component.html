@@ -59,20 +59,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
-                    <a class="navbar-link">
-                      <i class="fa fa-language language-icon" aria-hidden="true"></i> {{ langsTitle(selectedLanguage) }}
-                    </a>
-                    <div class="navbar-dropdown" (click)="toggleSubmenus()">
-                      <ul *ngFor="let lang of langs">
-                        <li>
-                          <a class="navbar-item" (click)="selectedLanguage = lang; translate.use(lang)">
-                            {{ langsTitle(lang) }}
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+<!--                <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">-->
+<!--                    <a class="navbar-link">-->
+<!--                      <i class="fa fa-language language-icon" aria-hidden="true"></i> {{ langsTitle(selectedLanguage) }}-->
+<!--                    </a>-->
+<!--                    <div class="navbar-dropdown" (click)="toggleSubmenus()">-->
+<!--                      <ul *ngFor="let lang of langs">-->
+<!--                        <li>-->
+<!--                          <a class="navbar-item" (click)="selectedLanguage = lang; translate.use(lang)">-->
+<!--                            {{ langsTitle(lang) }}-->
+<!--                          </a>-->
+<!--                        </li>-->
+<!--                      </ul>-->
+<!--                    </div>-->
+<!--                  </div>-->
               </div>
           </div>
         </div>

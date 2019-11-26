@@ -83,13 +83,14 @@
                 </div>
                 <div class="tile is-parent is-2-mobile">
                     <article class="tile is-child box">
-                      <a routerLink="{{ networkURLPrefix }}/runtime">
+<!--                      <a routerLink="{{ networkURLPrefix }}/runtime">-->
                         <div>
                           <span class="yeecoiconfont" >&#xe651;</span>
 
-                          <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.total_runtimes }}</p>
-                          <p class="subtitle">{{ 'DashBoard.Shards' | translate }}</p>                        </div>
-                      </a>
+                          <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.shards }}4</p>
+                          <p class="subtitle">{{ 'DashBoard.Shards' | translate }}</p>
+                        </div>
+<!--                      </a>-->
                     </article>
                 </div>
             </div>
@@ -132,7 +133,6 @@
                                       <td width="10%"><a>{{ block.attributes.shard_num }}</a></td>
                                       <td>{{ block.attributes.count_extrinsics_signed }}</td>
                                       <td>{{ block.attributes.count_events_module }}</td>
-                                      <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/block/{{ block.id }}">{{ 'DashBoard.Details' | translate }}</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -172,7 +172,6 @@
                                         <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
                                         <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
                                         <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
-                                        <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}">{{ 'DashBoard.Details' | translate }}</a></td>
                                     </tr>
                                 </tbody>
                             </table>
