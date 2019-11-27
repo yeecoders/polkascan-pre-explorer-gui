@@ -87,7 +87,7 @@
                         <div>
                           <span class="yeecoiconfont" >&#xe651;</span>
 
-                          <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.shards }}4</p>
+                          <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.shard_count }}</p>
                           <p class="subtitle">{{ 'DashBoard.Shards' | translate }}</p>
                         </div>
 <!--                      </a>-->
@@ -170,7 +170,7 @@
                                     <tr *ngFor="let balanceTransfer of balanceTransfers.data; trackBy: balanceTransfers.trackBy">
                                         <td width="5%"><i class="fa fa-exchange-alt"></i></td>
                                         <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
-                                        <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
+                                        <td>{{ balanceTransfer.attributes.datetime}}</td>
                                         <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
                                     </tr>
                                 </tbody>
