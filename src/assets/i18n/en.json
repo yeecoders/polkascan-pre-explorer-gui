@@ -338,7 +338,7 @@
 		"No page could be found for current URL": "No page could be found for current URL",
 		"Page not found": "Page not found"
 	},
-	"PlaceHolderSearch": "Search by block / transaction / account",
+	"PlaceHolderSearch": "Search by block（ 0号分片高度3的区块 eg:0-3） / transaction / account",
 	"Proposal": {
 		"Call": "Call",
 		"Module": "Module",

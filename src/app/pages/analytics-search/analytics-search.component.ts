@@ -100,7 +100,7 @@ export class AnalyticsSearchComponent implements OnInit {
       });
 
       // Search block
-      if (this.currentSearchQuery.startsWith('0x') || +this.currentSearchQuery) {
+      if (this.currentSearchQuery.startsWith('') || +this.currentSearchQuery) {
         this.loadingCount++;
         this.blockService.get(this.currentSearchQuery).subscribe(block => {
           this.block = block;
