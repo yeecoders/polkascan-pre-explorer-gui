@@ -113,10 +113,10 @@
                                 <td>{{ 'Block-Detail.Block time' | translate }}</td>
                                 <td >{{blockTotal.attributes.blocktime }} {{ 'Block-Detail.seconds' | translate }}</td>
                               </tr>
-                              <tr *ngIf="blockTotal$ | async as blockTotal">
-                                <td>{{ 'Block-Detail.Session ID' | translate }}</td>
-                                <td><a routerLink="{{ networkURLPrefix }}/session/session/{{ blockTotal.attributes.session_id }}">{{ blockTotal.attributes.session_id }}</a></td>
-                              </tr>
+<!--                              <tr *ngIf="blockTotal$ | async as blockTotal">-->
+<!--                                <td>{{ 'Block-Detail.Session ID' | translate }}</td>-->
+<!--                                <td><a routerLink="{{ networkURLPrefix }}/session/session/{{ blockTotal.attributes.session_id }}">{{ blockTotal.attributes.session_id }}</a></td>-->
+<!--                              </tr>-->
                           </tbody>
                       </table>
                   </div>

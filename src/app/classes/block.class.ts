@@ -20,30 +20,31 @@
  * block.class.ts
  */
 
-import { Resource, DocumentCollection } from 'ngx-jsonapi';
+import {Resource, DocumentCollection} from 'ngx-jsonapi';
 import {Extrinsic} from './extrinsic.class';
 import {Event} from './event.class';
 import {Log} from './log.class';
 
 export class Block extends Resource {
 
-    public attributes = {
-        id: 'id',
-        hash: 'hash',
-        parent_hash: 'parent_hash',
-        state_root: 'state_root',
-        extrinsics_root: 'extrinsics_root',
-        count_extrinsics: 'count_extrinsics',
-        count_events: 'count_events',
-        runtime_id: 'runtime_id'
-    };
+  public attributes = {
+    id: 'id',
+    hash: 'hash',
+    parent_hash: 'parent_hash',
+    state_root: 'state_root',
+    extrinsics_root: 'extrinsics_root',
+    count_extrinsics: 'count_extrinsics',
+    count_events: 'count_events',
+    runtime_id: 'runtime_id',
+    shard_num: 'shard_num'
+  };
 
-    public relationships = {
-        extrinsics: new DocumentCollection<Extrinsic>(),
-        transactions: new DocumentCollection<Extrinsic>(),
-        inherents: new DocumentCollection<Extrinsic>(),
-        events: new DocumentCollection<Event>(),
-        logs: new DocumentCollection<Log>(),
-    };
+  public relationships = {
+    extrinsics: new DocumentCollection<Extrinsic>(),
+    transactions: new DocumentCollection<Extrinsic>(),
+    inherents: new DocumentCollection<Extrinsic>(),
+    events: new DocumentCollection<Event>(),
+    logs: new DocumentCollection<Log>(),
+  };
 
 }
