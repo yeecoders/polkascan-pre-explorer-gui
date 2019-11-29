@@ -31,11 +31,11 @@
                         </tr>
                         <tr *ngIf="context != 'block'">
                           <td width="15%">{{ 'extrinsic-table.Block' | translate }}</td>
-                          <td><a routerLink="{{ networkURLPrefix }}/block/{{ extrinsic.attributes.block_id }}">{{ extrinsic.attributes.block_id }}</a></td>
+                          <td><a routerLink="{{ networkURLPrefix }}/block/{{extrinsic.attributes.shard_num }}-{{extrinsic.attributes.block_id}}">{{ extrinsic.attributes.block_id }}</a></td>
                         </tr>
                         <tr>
                           <td width="15%">{{ 'extrinsic-table.ShardNum' | translate }}</td>
-                          <td>{{ extrinsic.attributes.shard_num }}</td>
+                          <td>#{{ extrinsic.attributes.shard_num }}</td>
                         </tr>
                         <tr>
                           <td width="15%">{{ title || 'Extrinsic'}} {{ 'extrinsic-table.Index' | translate }}</td>

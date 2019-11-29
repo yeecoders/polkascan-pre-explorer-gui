@@ -49,6 +49,7 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
   public currentTab: string;
 
   private fragmentSubsription: Subscription;
+  networkURLPrefix: any;
 
   constructor(
     private route: ActivatedRoute,

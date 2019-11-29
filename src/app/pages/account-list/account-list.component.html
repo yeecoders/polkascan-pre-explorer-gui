@@ -38,7 +38,7 @@
                                       <i class="fa fa-id-card"></i>
                                     </td>
                                     <td><a routerLink="/account/{{ account.id }}" class="address-mobile-format"><app-identicon [accountId]="account.attributes.id"></app-identicon> {{ account.attributes.address }}</a></td>
-                                    <td>{{ account.attributes.shard_num || 0}}</td>
+                                    <td>#{{ account.attributes.shard_num || 0}}</td>
                                     <td>{{ formatBalance(account.attributes.free_balance) }} </td>
 
                                   <!--

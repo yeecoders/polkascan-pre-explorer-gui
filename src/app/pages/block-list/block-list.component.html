@@ -34,7 +34,7 @@
                 <td width="5%"><i class="fa fa-cube"></i></td>
                 <td width="10%"> <div class="hash-format"><a routerLink="{{ networkURLPrefix }}/block/{{ block.id }}">{{ block.attributes.hash }}</a></div></td>
                 <td>#{{ block.attributes.shard_num }}</td>
-                <td width="10%">{{ block.id }}</td>
+                <td width="10%">{{ block.attributes.bid }}</td>
                 <td class="is-hidden-mobile"><span rel="tooltip"
                                                    title="{{ block.attributes.datetime | date:'medium'}}">{{ block.attributes.datetime | timeago }}</span>
                 </td>

@@ -28,11 +28,11 @@
                             </tr>
                             <tr>
                               <td width="20%">{{ 'BalanceTransfer.Block' | translate }}</td>
-                              <td><a routerLink="{{ networkURLPrefix }}/block/{{ balanceTransfer.attributes.block_id }}">{{ balanceTransfer.attributes.block_id }}</a></td>
+                              <td><a routerLink="{{ networkURLPrefix }}/block/{{ balanceTransfer.attributes.shard_num }}-{{ balanceTransfer.attributes.block_id }}">{{ balanceTransfer.attributes.block_id }}</a></td>
                             </tr>
                             <tr>
                               <td>{{ 'BalanceTransfer.ShardNum' | translate }}</td>
-                              <td>{{ balanceTransfer.attributes.shard_num }}</td>                            </tr>
+                              <td>#{{ balanceTransfer.attributes.shard_num }}</td>                            </tr>
                             <tr>
                               <td>{{ 'BalanceTransfer.Sender' | translate }}</td>
                               <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-mobile-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>

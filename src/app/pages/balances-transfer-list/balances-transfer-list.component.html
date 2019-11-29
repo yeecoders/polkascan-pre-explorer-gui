@@ -35,7 +35,7 @@
                                   <td width="5%"><i class="fa fa-exchange-alt"></i></td>
                                   <td><a><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
                                   <td>{{ balanceTransfer.attributes.datetime }}</td>
-                                  <td>{{ balanceTransfer.attributes.shard_num }}</td>
+                                  <td>#{{ balanceTransfer.attributes.shard_num }}</td>
                                   <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
                                   <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.destination_id"></app-identicon> {{ balanceTransfer.attributes.destination }}</a></td>
                                   <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15'}} {{ networkTokenSymbol }}</td>

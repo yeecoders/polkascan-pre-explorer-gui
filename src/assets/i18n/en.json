@@ -176,6 +176,7 @@
 		"Destination": "To",
 		"Details": "Details",
 		"Finalized Block": "Finalized Block",
+    "Total Block": "Total Block",
 		"Last balance transfers": "Last balance transfers",
 		"Last blocks": "Last blocks",
 		"Module Events": " Events",
