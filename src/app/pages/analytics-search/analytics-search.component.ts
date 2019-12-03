@@ -66,7 +66,7 @@ export class AnalyticsSearchComponent implements OnInit {
       this.extrinsic = null;
 
       // Search extrinsic
-      if (this.currentSearchQuery.startsWith('0x') || this.currentSearchQuery.includes('-')) {
+      if (this.currentSearchQuery.startsWith('0x')) {
         this.loadingCount++;
         this.extrinsicService.get(this.currentSearchQuery).subscribe(extrinsic => {
           this.extrinsic = extrinsic;
@@ -86,21 +86,23 @@ export class AnalyticsSearchComponent implements OnInit {
       }
 
       // Search accounts
-      this.loadingCount++;
-      this.accountService.get(this.currentSearchQuery).subscribe(account => {
-        this.account = account;
-      }, error => {
-        this.loadingCount--;
-      }, () => {
-        this.router.navigate(
-          [this.networkURLPrefix, 'account', this.account.id],
-          { replaceUrl: this.replaceUrl }
+      if (this.currentSearchQuery.startsWith('yee') || this.currentSearchQuery.includes('tyee')) {
+        this.loadingCount++;
+        this.accountService.get(this.currentSearchQuery).subscribe(account => {
+          this.account = account;
+        }, error => {
+          this.loadingCount--;
+        }, () => {
+          this.router.navigate(
+            [this.networkURLPrefix, 'account', this.account.id],
+            {replaceUrl: this.replaceUrl}
           );
-        this.loadingCount--;
-      });
+          this.loadingCount--;
+        });
+      }
 
       // Search block
-      if (this.currentSearchQuery.startsWith('') || +this.currentSearchQuery) {
+      if (this.currentSearchQuery.startsWith('0x') || this.currentSearchQuery.includes('-') ) {
         this.loadingCount++;
         this.blockService.get(this.currentSearchQuery).subscribe(block => {
           this.block = block;
@@ -116,18 +118,18 @@ export class AnalyticsSearchComponent implements OnInit {
       }
 
       // Search account indices
-      this.loadingCount++;
-      this.accountIndexService.get(this.currentSearchQuery).subscribe(accountIndex => {
-        this.accountIndex = accountIndex;
-      }, error => {
-        this.loadingCount--;
-      }, () => {
-        this.router.navigate(
-          [this.networkURLPrefix, 'indices', 'account', this.accountIndex.id],
-          { replaceUrl: this.replaceUrl }
-          );
-        this.loadingCount--;
-      });
+      // this.loadingCount++;
+      // this.accountIndexService.get(this.currentSearchQuery).subscribe(accountIndex => {
+      //   this.accountIndex = accountIndex;
+      // }, error => {
+      //   this.loadingCount--;
+      // }, () => {
+      //   this.router.navigate(
+      //     [this.networkURLPrefix, 'indices', 'account', this.accountIndex.id],
+      //     { replaceUrl: this.replaceUrl }
+      //     );
+      //   this.loadingCount--;
+      // });
     }
   }
 

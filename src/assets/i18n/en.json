@@ -139,8 +139,10 @@
     "ShardNum": "ShardNum",
     "MPMR": "MPMR",
     "Validators": "Validators",
-    "RewardedTo": "RewardedTo",
-    "Fee": "Fee",
+    "Coinbase": "Coinbase",
+    "Block Reward": "Block Reward",
+    "Fee Reward": "Fee Reward",
+    "Reward At Block": "Reward At Block",
     "Number": "Height"
   },
 	"Block-List": {
@@ -338,7 +340,7 @@
 		"No page could be found for current URL": "No page could be found for current URL",
 		"Page not found": "Page not found"
 	},
-	"PlaceHolderSearch": "Search by block（ 0号分片高度3的区块 eg:0-3） / transaction / account",
+	"PlaceHolderSearch": "Search by block（ shardNum-blockNumber eg:0-3） / transaction / account",
 	"Proposal": {
 		"Call": "Call",
 		"Module": "Module",
@@ -362,7 +364,7 @@
 	"extrinsic-table": {
 		"Account Index": "Account index",
 		"Address": "From",
-		"Block": "BlockHash",
+		"Block": "Block",
 		"Call": "Call",
 		"Hash": "TxHash",
 		"Index": "Index",

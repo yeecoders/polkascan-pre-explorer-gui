@@ -78,7 +78,6 @@
                                       <i *ngIf="extrinsic.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
                                       <i *ngIf="extrinsic.attributes.error" class="fa fa-times" style="color: darkred"></i>
                                     </td>
-                                    <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/inherent/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}">{{ 'Inherent-list.Details' | translate }}</a></td>
                                 </tr>
                             </tbody>
                         </table>

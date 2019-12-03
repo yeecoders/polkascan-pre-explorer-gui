@@ -11,7 +11,7 @@
             <td width="1%"><button  class="button is-small is-primary"  (click)="Copy()">{{ 'AccountDetail.Copy' | translate }}</button></td>
           </div>
           <a class="card-header-icon" aria-label="more options">
-            <span class="icon"><i class="fa fa-id-card fa-2x"></i></span>
+<!--            <span class="icon"><i class="fa fa-id-card fa-2x"></i></span>-->
           </a>
         </header>
         <div class="card-table" *ngIf="account">
@@ -90,12 +90,10 @@
               <!--              </td>-->
               <td><a routerLink="{{ networkURLPrefix }}/transaction/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}"><div class="hash-format">0x{{ extrinsic.attributes.extrinsic_hash }}</div></a></td>
 
-              <td class="is-hidden-mobile"><a
-                routerLink="{{ networkURLPrefix }}/block/{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}">{{ extrinsic.attributes.block_id }}</a>
-              </td>
-              <td class="is-hidden-mobile"><a
-                routerLink="{{ networkURLPrefix }}/block/{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}">{{ extrinsic.attributes.block_id }}</a>
-              </td>
+              <td>{{ extrinsic.attributes.datetime | date:'medium'}}</td>
+
+              <td class="is-hidden-mobile">#{{ extrinsic.attributes.shard_num }}</td>
+
               <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ extrinsic.attributes.address }}" class="address-format"><app-identicon [accountId]="extrinsic.attributes.address_id"></app-identicon> {{ extrinsic.attributes.address }}</a></td>
 
               <td>{{ extrinsic.attributes.module_id }}</td>
@@ -129,23 +127,13 @@
             <tbody>
             <tr *ngFor="let balanceTransfer of balanceTransfers.data; trackBy: balanceTransfers.trackBy">
               <td width="5%"><i class="fa fa-exchange-alt"></i></td>
-              <!--              <td class="is-hidden-mobile"><a-->
-              <!--                [routerLink]="['/', 'block', balanceTransfer.attributes.block_id]">{{ balanceTransfer.attributes.block_id }}</a>-->
-              <!--              </td>-->
-              <!--              <td><a [routerLink]="['/', 'account', balanceTransfer.attributes.destination]"-->
-              <!--                     class="address-mobile-format">-->
-              <!--                <app-identicon [accountId]="balanceTransfer.attributes.destination_id"></app-identicon>-->
-              <!--                {{ balanceTransfer.attributes.destination }}</a></td>-->
-              <!--              <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>-->
-              <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/block/{{ balanceTransfer.attributes.shard_num }}-{{ balanceTransfer.attributes.block_id }}">{{ balanceTransfer.attributes.block_id }}</a></td>
+
+              <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
+              <td>{{ balanceTransfer.attributes.datetime | date:'medium'}}</td>
+              <td class="is-hidden-mobile">#{{ balanceTransfer.attributes.shard_num }}</td>
               <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
-              <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/block/{{ balanceTransfer.attributes.shard_num }}-{{ balanceTransfer.attributes.block_id }}">{{ balanceTransfer.attributes.block_id }}</a></td>
-              <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
-              <!--                                  <td>-->
-              <!--                                    <i *ngIf="balanceTransfer.attributes.success" class="fa fa-check" style="color: forestgreen"></i>-->
-              <!--                                    <i *ngIf="balanceTransfer.attributes.error" class="fa fa-times" style="color: darkred"></i>-->
-              <!--                                  </td>-->
-              <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
+              <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.destination_id"></app-identicon> {{ balanceTransfer.attributes.destination }}</a></td>
+
               <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
 
             </tr>

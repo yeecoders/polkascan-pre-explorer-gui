@@ -6,9 +6,11 @@
         <section class="info-tiles">
           <div class="card events-card">
               <header class="card-header">
-                  <p class="card-header-title">
+                  <p class="card-header-title"  id= hash>
                       {{ 'Block-Detail.Block' | translate }} {{ block.attributes.hash }}
-                  </p>
+                    &nbsp;&nbsp;&nbsp;
+                    <button  class="button is-small is-primary"  (click)="Copy()">{{ 'AccountDetail.Copy' | translate }}</button>
+                </p>
                 <a [routerLink]="" fragment="details" class="card-header-icon" aria-label="more options">
                  <span class="icon"><i class="fa fa-cube fa-2x"></i></span>
                 </a>
@@ -54,22 +56,29 @@
                                   <td >{{block.attributes.count_extrinsics}}</td>
                               </tr>
 
-
-
-
-                              <tr>
-                                <td>{{ 'Block-Detail.Validators' | translate }}</td>
-                                <td>{{block.attributes.validators}}</td>
-                              </tr>
-                              <tr>
-                                <td>{{ 'Block-Detail.RewardedTo' | translate }}</td>
-                                <td>{{block.attributes.reward}}</td>
-                              </tr>
-                              <tr>
-                                <td>{{ 'Block-Detail.Fee' | translate }}</td>
-                                <td>{{ formatBalance(block.attributes.fee) | number:'1.0-15'}} {{ networkTokenSymbol }}</td>
-                              </tr>
 <!--                              <tr>-->
+<!--                                <td>{{ 'Block-Detail.Validators' | translate }}</td>-->
+<!--                                <td>{{block.attributes.validators}}</td>-->
+<!--                              </tr>-->
+
+                              <tr>
+                                <td>{{ 'Block-Detail.Coinbase' | translate }}</td>
+                                <td>{{block.attributes.coinbase}}</td>
+                              </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.Block Reward' | translate }}</td>
+                                <td>{{ formatBalance(block.attributes.block_reward) | number:'1.0-15'}} {{ networkTokenSymbol }}</td>
+                              </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.Fee Reward' | translate }}</td>
+                                <td>{{ formatBalance(block.attributes.fee_reward) | number:'1.0-15'}} {{ networkTokenSymbol }}</td>
+                              </tr>
+                              <tr>
+                                <td>{{ 'Block-Detail.Reward At Block' | translate }}</td>
+                                <td width="10%"><a routerLink="{{ networkURLPrefix }}/block/{{ block.attributes.shard_num }}-{{ block.attributes.reward_block_number }}">{{ block.attributes.reward_block_number }}</a></td>
+                              </tr>
+
+                              <!--                              <tr>-->
 <!--                                  <td>{{ 'Block-Detail.Total signed extrinsics' | translate }}</td>-->
 <!--                                  <td >{{ block.attributes.count_extrinsics_signed }}</td>-->
 <!--                              </tr>-->
@@ -109,10 +118,10 @@
 <!--                                  <td>{{ 'Block-Detail.Runtime version' | translate }}</td>-->
 <!--                                  <td><a routerLink="{{ networkURLPrefix }}/runtime/{{ block.attributes.spec_version_id }}">{{block.attributes.spec_version_id}}</a></td>-->
 <!--                              </tr>-->
-                              <tr *ngIf="blockTotal$ | async as blockTotal">
-                                <td>{{ 'Block-Detail.Block time' | translate }}</td>
-                                <td >{{blockTotal.attributes.blocktime }} {{ 'Block-Detail.seconds' | translate }}</td>
-                              </tr>
+<!--                              <tr *ngIf="blockTotal$ | async as blockTotal">-->
+<!--                                <td>{{ 'Block-Detail.Block time' | translate }}</td>-->
+<!--                                <td >{{blockTotal.attributes.blocktime }} {{ 'Block-Detail.seconds' | translate }}</td>-->
+<!--                              </tr>-->
 <!--                              <tr *ngIf="blockTotal$ | async as blockTotal">-->
 <!--                                <td>{{ 'Block-Detail.Session ID' | translate }}</td>-->
 <!--                                <td><a routerLink="{{ networkURLPrefix }}/session/session/{{ blockTotal.attributes.session_id }}">{{ blockTotal.attributes.session_id }}</a></td>-->
@@ -182,7 +191,6 @@
                                   <i *ngIf="extrinsic.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
                                   <i *ngIf="extrinsic.attributes.error" class="fa fa-times" style="color: darkred"></i>
                                 </td>
-                                <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/transaction/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}">{{ 'Block-Detail.Details' | translate }}</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -214,8 +222,7 @@
                                 <td>
                                   <i *ngIf="extrinsic.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
                                   <i *ngIf="extrinsic.attributes.error" class="fa fa-times" style="color: darkred"></i>
-                                </td>
-                                <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/inherent/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}">{{ 'Block-Detail.Details' | translate }}</a></td>
+
                             </tr>
                         </tbody>
                     </table>
@@ -242,7 +249,6 @@
                                 <td><a routerLink="{{ networkURLPrefix }}/event/{{ event.id }}">{{ event.id }}</a></td>
                                 <td>{{ event.attributes.module_id }}</td>
                                 <td>{{ event.attributes.event_id }}</td>
-                                <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/event/{{ event.id }}">{{ 'Block-Detail.Details' | translate }}</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -267,7 +273,6 @@
                               </td>
                               <td><a routerLink="{{ networkURLPrefix }}/log/{{ log.id }}">{{ log.id }}</a></td>
                               <td>{{ log.attributes.type }}</td>
-                              <td width="5%"><a class="button is-small is-primary" routerLink="{{ networkURLPrefix }}/log/{{ log.id }}">{{ 'Block-Detail.Details' | translate }}</a></td>
                           </tr>
                       </tbody>
                   </table>
