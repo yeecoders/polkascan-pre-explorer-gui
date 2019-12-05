@@ -67,5 +67,14 @@ export class ExtrinsicTableComponent implements OnInit {
 
     return name;
   }
+  public Copy() {
+    const range = document.createRange();
+    range.selectNode(document.getElementById('hash'));
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) { selection.removeAllRanges(); }
+    selection.addRange(range);
+    document.execCommand('copy');
+    alert('复制成功');
+  }
 
 }

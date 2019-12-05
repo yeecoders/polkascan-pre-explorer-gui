@@ -15,7 +15,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   public networkTokenDecimals: number;
   public accounts: DocumentCollection<Account>;
   currentPage = 1;
-
+  public networkTokenSymbol: string;
   private fragmentSubsription: Subscription;
 
   constructor(
@@ -28,6 +28,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.networkTokenDecimals = environment.networkTokenDecimals;
+    this.networkTokenSymbol = environment.networkTokenSymbol;
     this.fragmentSubsription = this.activatedRoute.fragment.subscribe(value => {
       if (+value > 0) {
         this.currentPage = +value;

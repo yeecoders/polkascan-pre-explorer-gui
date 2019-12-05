@@ -39,8 +39,8 @@
                         <div>
 
                           <span class="yeecoiconfont" >&#xe64b;</span>
-                          <p class="title" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.best_block| number: '1.'}}</p>
-                        <p class="subtitle">{{ 'DashBoard.Total Block' | translate }}</p>
+                          <p class="five-y" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.best_block| number: '1.'}}</p>
+                        <p class="five-t">{{ 'DashBoard.Total Block' | translate }}</p>
                           </div>
                       </a>
                     </article>
@@ -51,8 +51,8 @@
                         <div>
                           <span class="yeecoiconfont" >&#xe64f;</span>
 
-                          <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.total_signed_extrinsics | number: '1.'}}</p>
-                          <p class="subtitle">{{ 'DashBoard.Transactions' | translate }}</p>
+                          <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.total_signed_extrinsics | number: '1.'}}</p>
+                          <p class="five-t">{{ 'DashBoard.Transactions' | translate }}</p>
                         </div>
                       </a>
                     </article>
@@ -63,8 +63,8 @@
                         <div>
                           <span class="yeecoiconfont" >&#xe64d;</span>
 
-                          <p class="title" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.total_events | number: '1.'}}</p>
-                          <p class="subtitle">{{ 'DashBoard.Module Events' | translate }}</p>
+                          <p class="five-y" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.total_events | number: '1.'}}</p>
+                          <p class="five-t">{{ 'DashBoard.Module Events' | translate }}</p>
                         </div>
                       </a>
                     </article>
@@ -75,8 +75,8 @@
                         <div>
                           <span class="yeecoiconfont" >&#xe651;</span>
 
-                          <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.total_accounts }}</p>
-                          <p class="subtitle">{{ 'DashBoard.Active Accounts' | translate }}</p>
+                          <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.total_accounts }}</p>
+                          <p class="five-t">{{ 'DashBoard.Active Accounts' | translate }}</p>
                         </div>
                       </a>
                     </article>
@@ -85,10 +85,10 @@
                     <article class="tile is-child box">
 <!--                      <a routerLink="{{ networkURLPrefix }}/runtime">-->
                         <div>
-                          <span class="yeecoiconfont" >&#xe651;</span>
+                          <span class="yeecoiconfont" >&#xe654;</span>
 
-                          <p *ngIf="networkstats$ | async as networkstats" class="title">{{ networkstats.attributes.shard_count }}</p>
-                          <p class="subtitle">{{ 'DashBoard.Shards' | translate }}</p>
+                          <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.shard_count }}</p>
+                          <p class="five-t">{{ 'DashBoard.Shards' | translate }}</p>
                         </div>
 <!--                      </a>-->
                     </article>
@@ -170,7 +170,7 @@
                                     <tr *ngFor="let balanceTransfer of balanceTransfers.data; trackBy: balanceTransfers.trackBy">
                                         <td width="5%"><i class="fa fa-exchange-alt"></i></td>
                                         <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
-                                        <td>{{ balanceTransfer.attributes.datetime}}</td>
+                                        <td class="is-hidden-mobile"><span rel="tooltip" title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span></td>
                                         <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
                                     </tr>
                                 </tbody>

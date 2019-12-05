@@ -5,10 +5,13 @@
       <div class="card events-card">
         <header class="card-header" *ngIf="account && account.attributes && account.attributes.id">
           <div class="card-header-title">
-            <app-identicon [accountId]="account.attributes.id" size="64"></app-identicon>
-            <div id= address class="address-mobile-format">{{ account.attributes.address }}</div>
+<!--            <app-identicon [accountId]="account.attributes.id" size="64"></app-identicon>-->
+
+            <div class="address-mobile-format"> {{ 'AccountDetail.AccountDetail' | translate }} &nbsp;&nbsp;&nbsp; <span id="address">{{ account.attributes.address }}</span></div>
             &nbsp;&nbsp;&nbsp;
-            <td width="1%"><button  class="button is-small is-primary"  (click)="Copy()">{{ 'AccountDetail.Copy' | translate }}</button></td>
+            <img src="assets/ic_copy.png" width="24"   (click)="Copy()">
+
+
           </div>
           <a class="card-header-icon" aria-label="more options">
 <!--            <span class="icon"><i class="fa fa-id-card fa-2x"></i></span>-->
@@ -89,9 +92,7 @@
               <!--          <td><a routerLink="{{ networkURLPrefix }}/transaction/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}">{{ extrinsic.id }}</a>-->
               <!--              </td>-->
               <td><a routerLink="{{ networkURLPrefix }}/transaction/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}"><div class="hash-format">0x{{ extrinsic.attributes.extrinsic_hash }}</div></a></td>
-
-              <td>{{ extrinsic.attributes.datetime | date:'medium'}}</td>
-
+              <td class="is-hidden-mobile"><span rel="tooltip" title="{{ extrinsic.attributes.datetime | date:'medium'}}">{{ extrinsic.attributes.datetime | timeago }}</span></td>
               <td class="is-hidden-mobile">#{{ extrinsic.attributes.shard_num }}</td>
 
               <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ extrinsic.attributes.address }}" class="address-format"><app-identicon [accountId]="extrinsic.attributes.address_id"></app-identicon> {{ extrinsic.attributes.address }}</a></td>
@@ -129,7 +130,7 @@
               <td width="5%"><i class="fa fa-exchange-alt"></i></td>
 
               <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
-              <td>{{ balanceTransfer.attributes.datetime | date:'medium'}}</td>
+              <td class="is-hidden-mobile"><span rel="tooltip" title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span></td>
               <td class="is-hidden-mobile">#{{ balanceTransfer.attributes.shard_num }}</td>
               <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
               <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.destination_id"></app-identicon> {{ balanceTransfer.attributes.destination }}</a></td>

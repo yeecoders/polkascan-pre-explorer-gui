@@ -2,17 +2,20 @@
       <div *ngIf="extrinsic" class="card events-card">
         <header class="card-header">
             <div class="card-header-title" *ngIf="extrinsic.attributes.extrinsic_hash">
-              <div>{{ title || 'Extrinsic'}} <span class="mobile-hash-format">0x{{ extrinsic.attributes.extrinsic_hash }}</span></div>
+              <div>{{ title || 'Extrinsic'}} <span class="mobile-hash-format" id="hash">0x{{ extrinsic.attributes.extrinsic_hash }}</span></div>
+              &nbsp;&nbsp;
+              <img src="assets/ic_copy.png" width="24"   (click)="Copy()">
+
             </div>
           <div class="card-header-title" *ngIf="!extrinsic.attributes.extrinsic_hash">
                 {{ title || 'Extrinsic'}} #{{ extrinsic.id }}
             </div>
-            <a  class="card-header-icon" aria-label="more options">
-            <span class="icon">
-              <i *ngIf="extrinsic.attributes.signed" class="fa fa-file-signature fa-2x"></i>
-              <i *ngIf="extrinsic.attributes.unsigned" class="fa fa-file-alt fa-2x"></i>
-            </span>
-          </a>
+<!--            <a  class="card-header-icon" aria-label="more options">-->
+<!--            <span class="icon">-->
+<!--              <i *ngIf="extrinsic.attributes.signed" class="fa fa-file-signature fa-2x"></i>-->
+<!--              <i *ngIf="extrinsic.attributes.unsigned" class="fa fa-file-alt fa-2x"></i>-->
+<!--            </span>-->
+<!--          </a>-->
         </header>
         <div class="card-table">
             <div class="content">

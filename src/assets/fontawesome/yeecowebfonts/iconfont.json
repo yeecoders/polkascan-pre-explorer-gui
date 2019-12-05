@@ -144,6 +144,13 @@
       "font_class": "zu8",
       "unicode": "e653",
       "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "12176838",
+      "name": "ic_5",
+      "font_class": "ic_",
+      "unicode": "e654",
+      "unicode_decimal": 58964
     }
   ]
 }

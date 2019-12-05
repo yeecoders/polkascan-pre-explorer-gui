@@ -4,12 +4,17 @@
         <section class="info-tiles">
           <div class="card events-card">
               <header class="card-header">
-                  <p class="card-header-title">
-                      {{ 'BalanceTransfer.Balance transfer' | translate }} 0x{{ balanceTransfer.id }}
-                  </p>
-                  <a  class="card-header-icon" aria-label="more options">
-                 <span class="icon"><i class="fa fa-exchange-alt fa-2x"></i></span>
-                </a>
+
+
+                <p class="card-header-title">
+                  {{ 'BalanceTransfer.Balance transfer' | translate }} &nbsp;&nbsp;&nbsp; <span id="hash">0x{{ balanceTransfer.id }}</span>
+                  &nbsp;&nbsp;&nbsp;
+                  <img src="assets/ic_copy.png" width="24"   (click)="Copy()">
+                </p>
+
+<!--                  <a  class="card-header-icon" aria-label="more options">-->
+<!--                 <span class="icon"><i class="fa fa-exchange-alt fa-2x"></i></span>-->
+<!--                </a>-->
               </header>
               <div class="card-table" *ngIf="balanceTransfer">
                   <div class="content">

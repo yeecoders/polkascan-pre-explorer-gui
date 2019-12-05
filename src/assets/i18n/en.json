@@ -1,6 +1,7 @@
 {
 	"AccountDetail": {
-		"Account index": "Account Index",
+    "AccountDetail": "Account",
+    "Account index": "Account Index",
 		"Active": "Active",
 		"Amount": "Value",
 		"Block": "Block",

@@ -42,11 +42,11 @@
                           </div>
                         </div>
                       </div>
-                      <a [routerLink]="" fragment="list"  aria-label="more options">
-                        <span class="icon">
-                          <i class="fa fa-file-signature fa-2x" aria-hidden="true"></i>
-                        </span>
-                      </a>
+<!--                      <a [routerLink]="" fragment="list"  aria-label="more options">-->
+<!--                        <span class="icon">-->
+<!--                          <i class="fa fa-file-signature fa-2x" aria-hidden="true"></i>-->
+<!--                        </span>-->
+<!--                      </a>-->
                     </div>
 
                 </header>
@@ -79,13 +79,13 @@
                                       <i *ngIf="extrinsic.attributes.unsigned" class="fa fa-file-alt"></i>
                                     </td>
                                     <td><a routerLink="{{ networkURLPrefix }}/transaction/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}"><div class="hash-format">0x{{ extrinsic.attributes.extrinsic_hash }}</div></a></td>
-                                     <td>{{ extrinsic.attributes.datetime }}</td>
+                                    <td class="is-hidden-mobile"><span rel="tooltip" title="{{ extrinsic.attributes.datetime | date:'medium'}}">{{ extrinsic.attributes.datetime | timeago }}</span></td>
                                     <td>#{{ extrinsic.attributes.shard_num }}</td>
                                     <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ extrinsic.attributes.address }}" class="address-format"><app-identicon [accountId]="extrinsic.attributes.address_id"></app-identicon> {{ extrinsic.attributes.address }}</a></td>
 <!--
                                     <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/block/{{ extrinsic.attributes.block_id }}">{{ extrinsic.attributes.block_id }}</a></td>
 -->
-                                  <td>{{ extrinsic.attributes.module_id }}</td>
+                                    <td>{{ extrinsic.attributes.module_id }}</td>
                                     <td>{{ extrinsic.attributes.call_id }}</td>
 <!--                                    <td>-->
 <!--                                      <i *ngIf="extrinsic.attributes.success" class="fa fa-check" style="color: forestgreen"></i>-->

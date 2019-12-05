@@ -7,11 +7,11 @@
                     <p class="card-header-title">
                         {{ 'BalanceTransferList.Balance transfers' | translate }}
                     </p>
-                    <a [routerLink]="" fragment="list" class="card-header-icon" aria-label="more options">
-                      <span class="icon">
-                        <i class="fa fa-exchange-alt fa-2x" aria-hidden="true"></i>
-                      </span>
-                    </a>
+<!--                    <a [routerLink]="" fragment="list" class="card-header-icon" aria-label="more options">-->
+<!--                      <span class="icon">-->
+<!--                        <i class="fa fa-exchange-alt fa-2x" aria-hidden="true"></i>-->
+<!--                      </span>-->
+<!--                    </a>-->
                 </header>
                 <div class="card-table">
                     <div class="content">
@@ -35,7 +35,7 @@
                                   <td width="5%"><i class="fa fa-exchange-alt"></i></td>
 
                                   <td><a class="hash-format" routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}">0x{{ balanceTransfer.id }}</a></td>
-                                  <td>{{ balanceTransfer.attributes.datetime }}</td>
+                                  <td class="is-hidden-mobile"><span rel="tooltip" title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span></td>
                                   <td>#{{ balanceTransfer.attributes.shard_num }}</td>
                                   <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
                                   <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-format"><app-identicon [accountId]="balanceTransfer.attributes.destination_id"></app-identicon> {{ balanceTransfer.attributes.destination }}</a></td>

@@ -7,15 +7,15 @@
                     <p class="card-header-title">
                         {{ 'AccountList.Accounts' | translate }}
                     </p>
-                    <a [routerLink]="" fragment="list" class="card-header-icon" aria-label="more options">
-<!--                      <span class="icon">-->
-<!--                        <i class="fa fa-id-card fa-2x" aria-hidden="true"></i>-->
-<!--                      </span>-->
-                    </a>
+<!--                    <a [routerLink]="" fragment="list" class="card-header-icon" aria-label="more options">-->
+<!--&lt;!&ndash;                      <span class="icon">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <i class="fa fa-id-card fa-2x" aria-hidden="true"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                      </span>&ndash;&gt;-->
+<!--                    </a>-->
                 </header>
                 <div class="card-table">
                     <div class="content">
-                        <app-loading-box *ngIf="accounts.is_loading"></app-loading-box>
+<!--                        <app-loading-box *ngIf="accounts.is_loading"></app-loading-box>-->
                         <table class="table is-fullwidth is-striped" *ngIf="accounts.data.length > 0">
                              <thead>
                               <tr>
@@ -39,7 +39,7 @@
                                     </td>
                                     <td><a routerLink="/account/{{ account.id }}" class="address-mobile-format"><app-identicon [accountId]="account.attributes.id"></app-identicon> {{ account.attributes.address }}</a></td>
                                     <td>#{{ account.attributes.shard_num || 0}}</td>
-                                    <td>{{ formatBalance(account.attributes.balance) }} </td>
+                                    <td>{{ formatBalance(account.attributes.balance) }}  {{ networkTokenSymbol }} </td>
 
                                   <!--
                                                                       <td class="is-hidden-mobile"><a routerLink="/block/{{ account.attributes.updated_at_block }}">{{ account.attributes.updated_at_block }}</a></td>
