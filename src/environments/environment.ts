@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  jsonApiRootUrl: 'http://172.17.200.251:8001/',
+  jsonApiRootUrl: 'http://54.249.4.111:8000/',
   networkName: 'YeeCo',
   networkTokenSymbol: 'YEE',
   networkTokenDecimals: 8
