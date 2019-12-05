@@ -19,7 +19,7 @@
                         </tr>
                         <tr *ngIf="context != 'block'">
                           <td width="15%">{{ 'log-table.Block' | translate }}</td>
-                          <td><a routerLink="/block/{{ log.attributes.block_id }}">{{ log.attributes.block_id }}</a></td>
+                          <td><a routerLink="/block/{{ log.attributes.shard_num }}-{{ log.attributes.block_id }}">{{ log.attributes.block_id }}</a></td>
                         </tr>
                         <tr>
                           <td width="15%">{{ 'log-table.Log Index' | translate }}</td>

@@ -28,7 +28,7 @@
                                 <td>#{{ block.attributes.shard_num }}</td>                              </tr>
                               <tr>
                                 <td>{{ 'Block-Detail.Number' | translate }}</td>
-                                <td width="10%"><a routerLink="{{ networkURLPrefix }}/block/{{ block.attributes.bid }}">{{ block.attributes.bid }}</a></td>
+                                <td width="10%"><a routerLink="{{ networkURLPrefix }}/block/{{ block.attributes.shard_num }}-{{ block.attributes.bid }}">{{ block.attributes.bid }}</a></td>
                               </tr>
 
                               <tr>
@@ -63,7 +63,8 @@
 
                               <tr>
                                 <td>{{ 'Block-Detail.Coinbase' | translate }}</td>
-                                <td>{{block.attributes.coinbase}}</td>
+                                <td class="address-mobile-format"><a routerLink="{{ networkURLPrefix }}/account/{{ block.attributes.coinbase }}" > {{ block.attributes.coinbase }}</a></td>
+
                               </tr>
                               <tr>
                                 <td>{{ 'Block-Detail.Block Reward' | translate }}</td>

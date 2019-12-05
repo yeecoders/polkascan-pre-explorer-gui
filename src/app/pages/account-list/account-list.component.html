@@ -39,7 +39,7 @@
                                     </td>
                                     <td><a routerLink="/account/{{ account.id }}" class="address-mobile-format"><app-identicon [accountId]="account.attributes.id"></app-identicon> {{ account.attributes.address }}</a></td>
                                     <td>#{{ account.attributes.shard_num || 0}}</td>
-                                    <td>{{ formatBalance(account.attributes.free_balance) }} </td>
+                                    <td>{{ formatBalance(account.attributes.balance) }} </td>
 
                                   <!--
                                                                       <td class="is-hidden-mobile"><a routerLink="/block/{{ account.attributes.updated_at_block }}">{{ account.attributes.updated_at_block }}</a></td>
