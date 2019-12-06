@@ -1,5 +1,5 @@
-<div class="columns">
-    <div class="column is-12">
+<div class="columns" >
+    <div class="column is-12"  >
 <!--        <app-polkascan-header></app-polkascan-header>-->
         <section class="is-12" id="search">
             <div class="card">
@@ -31,14 +31,14 @@
             </div>
         </section>
 
-        <section class="info-tiles is-hidden-mobile">
-            <div class="tile is-ancestor has-text-centered">
-                <div class="tile is-parent is-2-mobile">
+        <section class="info-tiles is-hidden-mobile" class="box7">
+            <div class="tile is-ancestor has-text-centered" >
+                <div class="tile is-parent is-2-mobile" >
                     <article class="tile is-child box">
                       <a routerLink="{{ networkURLPrefix }}/block/">
                         <div>
 
-                          <span class="yeecoiconfont" >&#xe64b;</span>
+                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe64b;</span>
                           <p class="five-y" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.best_block| number: '1.'}}</p>
                         <p class="five-t">{{ 'DashBoard.Total Block' | translate }}</p>
                           </div>
@@ -49,7 +49,7 @@
                     <article class="tile is-child box">
                       <a routerLink="{{ networkURLPrefix }}/extrinsic">
                         <div>
-                          <span class="yeecoiconfont" >&#xe64f;</span>
+                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe64f;</span>
 
                           <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.total_signed_extrinsics | number: '1.'}}</p>
                           <p class="five-t">{{ 'DashBoard.Transactions' | translate }}</p>
@@ -61,7 +61,7 @@
                     <article class="tile is-child box">
                       <a routerLink="{{ networkURLPrefix }}/event">
                         <div>
-                          <span class="yeecoiconfont" >&#xe64d;</span>
+                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe64d;</span>
 
                           <p class="five-y" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.total_events | number: '1.'}}</p>
                           <p class="five-t">{{ 'DashBoard.Module Events' | translate }}</p>
@@ -73,7 +73,7 @@
                     <article class="tile is-child box">
                       <a routerLink="{{ networkURLPrefix }}/account">
                         <div>
-                          <span class="yeecoiconfont" >&#xe651;</span>
+                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe651;</span>
 
                           <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.total_accounts }}</p>
                           <p class="five-t">{{ 'DashBoard.Active Accounts' | translate }}</p>

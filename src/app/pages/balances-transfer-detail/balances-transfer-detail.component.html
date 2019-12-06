@@ -40,11 +40,11 @@
                               <td>#{{ balanceTransfer.attributes.shard_num }}</td>                            </tr>
                             <tr>
                               <td>{{ 'BalanceTransfer.Sender' | translate }}</td>
-                              <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-mobile-format"><app-identicon [accountId]="balanceTransfer.attributes.sender_id"></app-identicon> {{ balanceTransfer.attributes.sender }}</a></td>
+                              <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-mobile-format">{{ balanceTransfer.attributes.sender }}</a></td>
                             </tr>
                             <tr>
                               <td>{{ 'BalanceTransfer.Destination' | translate }}</td>
-                              <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-mobile-format"><app-identicon [accountId]="balanceTransfer.attributes.destination_id"></app-identicon> {{ balanceTransfer.attributes.destination }}</a></td>
+                              <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-mobile-format"> {{ balanceTransfer.attributes.destination }}</a></td>
                             </tr>
                             <tr>
                               <td>{{ 'BalanceTransfer.Value' | translate }}</td>

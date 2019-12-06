@@ -24,6 +24,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Extrinsic} from '../../classes/extrinsic.class';
 import {Location} from '@angular/common';
 import {ExtrinsicService} from '../../services/extrinsic.service';
+import {Observable} from 'rxjs';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-extrinsic-table',
@@ -31,7 +34,8 @@ import {ExtrinsicService} from '../../services/extrinsic.service';
   styleUrls: ['./extrinsic-table.component.scss']
 })
 export class ExtrinsicTableComponent implements OnInit {
-
+  public extrinsicRelay$: Observable<Extrinsic>;
+  public relayFlag: boolean;
   @Input() extrinsic: Extrinsic = null;
   @Input() extrinsicId: string = null;
   @Input() context: string = null;
@@ -41,6 +45,7 @@ export class ExtrinsicTableComponent implements OnInit {
   @Input() title: string;
 
   constructor(
+    private route: ActivatedRoute,
     private location: Location,
     private extrinsicService: ExtrinsicService
   ) { }
@@ -48,6 +53,15 @@ export class ExtrinsicTableComponent implements OnInit {
   ngOnInit() {
     if (this.extrinsicId) {
        this.extrinsicService.get(this.extrinsicId).subscribe(extrinsic => this.extrinsic = extrinsic);
+    }
+    if (this.extrinsic.id) {
+      const str = 'origin' + '-' + this.extrinsic.id;
+      const model = this.extrinsicService.get(str);
+      this.extrinsicRelay$ = this.route.paramMap.pipe(
+        switchMap((params: ParamMap) => {
+           return model;
+        })
+      );
     }
   }
 
@@ -59,6 +73,12 @@ export class ExtrinsicTableComponent implements OnInit {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }
 
+  public get_relayFlag(from: string, to: Array<string>) {
+    console.log(from);
+    const param = JSON.parse(JSON.stringify(to[0]));
+    console.log(param.value);
+    this.relayFlag = true;
+  }
   paramName(name: string) {
 
     if (name === 'dest') {

@@ -26,6 +26,9 @@ export class Extrinsic extends Resource {
   public attributes = {
     module_id: 'module_id',
     call_id: 'call_id',
-    extrinsic_hash: 'extrinsic_hash'
+    extrinsic_hash: 'extrinsic_hash',
+    origin_hash: 'origin_hash',
+    params: 'params',
+    address: 'address'
   };
 }
