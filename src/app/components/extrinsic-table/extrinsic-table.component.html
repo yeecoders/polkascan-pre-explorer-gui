@@ -30,7 +30,7 @@
         </tr>
         <tr>
           <td width="15%">{{ 'extrinsic-table.Time' | translate }}</td>
-          <td>{{ extrinsic.attributes.datetime }}</td>
+          <td>{{ extrinsic.attributes.datetime | date:'medium'}}</td>
         </tr>
         <tr *ngIf="context != 'block'">
           <td width="15%">{{ 'extrinsic-table.Block' | translate }}</td>
@@ -131,7 +131,8 @@
         </tr>
         <tr>
           <td width="15%">{{ 'extrinsic-table.Time' | translate }}</td>
-          <td>{{ extrinsic.attributes.datetime }}</td>
+          <td>{{ extrinsic.attributes.datetime | date:'medium'}}</td>
+<!--          <span ng-non-bindable>{{extrinsic.attributes.datetime | date:'medium'}}</span>:-->
         </tr>
         <tr *ngIf="context != 'block'">
           <td width="15%">{{ 'extrinsic-table.Block' | translate }}</td>

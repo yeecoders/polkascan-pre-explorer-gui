@@ -29,7 +29,7 @@
                             </tr>
                             <tr>
                               <td>{{ 'BalanceTransfer.Time' | translate }}</td>
-                              <td>{{ balanceTransfer.attributes.datetime }}</td>
+                              <td>{{ balanceTransfer.attributes.datetime | date:'medium' }}</td>
                             </tr>
                             <tr>
                               <td width="20%">{{ 'BalanceTransfer.Block' | translate }}</td>
