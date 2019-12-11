@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   jsonApiRootUrl: 'http://yeescan.org:8000/',
-  networkName: 'Kusama',
-  networkTokenSymbol: 'KSM',
-  networkTokenDecimals: 12
+  networkName: 'YeeCo',
+  networkTokenSymbol: 'YEE',
+  networkTokenDecimals: 8
 };
