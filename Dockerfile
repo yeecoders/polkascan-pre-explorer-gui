@@ -1,22 +1,51 @@
+### STAGE 1: Build ###
 
-# base image
-FROM node:11.12.0
+# We label our stage as ‘builder’
+FROM node:10-alpine as builder
 
-# set working directory
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+COPY package.json package-lock.json ./
 
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
+## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 
-# install and cache app dependencies
-COPY package.json /usr/src/app/package.json
-COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm install -g @angular/cli@7.3.6
-RUN npm install
+RUN npm ci && mkdir /ng-app && mv ./node_modules ./ng-app
 
-# add app
-COPY . /usr/src/app
+WORKDIR /ng-app
 
-# start app
-CMD ng serve --host 0.0.0.0 --disable-host-check
+COPY . .
+
+## Build the angular app in production mode and store the artifacts in dist folder
+ARG env=docker
+ENV ENV_CONFIG=$env
+
+ARG API_URL=//127.0.0.1:8080/api/v1/
+ENV API_URL=$API_URL
+
+ARG NETWORK_NAME=Dev
+ENV NETWORK_NAME=$NETWORK_NAME
+
+ARG NETWORK_TOKEN_SYMBOL=DOT
+ENV NETWORK_TOKEN_SYMBOL=$NETWORK_TOKEN_SYMBOL
+
+ARG NETWORK_TOKEN_DECIMALS=15
+ENV NETWORK_TOKEN_DECIMALS=$NETWORK_TOKEN_DECIMALS
+
+RUN npm run ng build -- --configuration=${ENV_CONFIG} --output-path=dist
+
+
+### STAGE 2: Setup ###
+
+FROM nginx:1.14.1-alpine
+
+## Remove default nginx configs
+RUN rm -rf /etc/nginx/conf.d/*
+
+## Copy our default nginx config
+COPY nginx/polkascan-prod.conf /etc/nginx/conf.d/
+
+## Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
+COPY --from=builder /ng-app/dist /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]

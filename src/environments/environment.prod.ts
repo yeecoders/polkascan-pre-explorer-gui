@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  jsonApiRootUrl: 'https://polkascan.io/kusama/api/v1/',
+  jsonApiRootUrl: 'http://yeescan.org:8000/',
   networkName: 'Kusama',
   networkTokenSymbol: 'KSM',
   networkTokenDecimals: 12
