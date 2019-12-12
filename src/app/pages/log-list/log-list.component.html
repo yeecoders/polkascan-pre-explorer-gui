@@ -32,7 +32,7 @@
                                     <td width="5%">
                                       <i class="fa fa-book"></i>
                                     </td>
-                                  <td><a routerLink="{{ networkURLPrefix }}/log/{{ log.id }}">{{ log.id }}</a></td>
+                                  <td><a routerLink="{{ networkURLPrefix }}/log/{{ log.attributes.shard_num }}-{{ log.attributes.block_id }}-{{ log.attributes.log_idx }}">{{ log.attributes.shard_num }}-{{ log.attributes.block_id }}-{{ log.attributes.log_idx }}</a></td>
                                   <td>#{{ log.attributes.shard_num }}</td>
                                     <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/block/{{ log.attributes.shard_num }}-{{ log.attributes.block_id }}">{{ log.attributes.block_id }}</a></td>
                                     <td>{{ log.attributes.type }}</td>

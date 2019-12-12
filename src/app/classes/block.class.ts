@@ -29,6 +29,7 @@ export class Block extends Resource {
 
   public attributes = {
     id: 'id',
+    bid: 'bid',
     hash: 'hash',
     parent_hash: 'parent_hash',
     state_root: 'state_root',

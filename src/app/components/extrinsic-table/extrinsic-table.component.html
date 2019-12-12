@@ -8,7 +8,7 @@
 
     </div>
     <div class="card-header-title" *ngIf="!extrinsic.attributes.extrinsic_hash">
-      {{ title || 'Extrinsic'}} #{{ extrinsic.id }}
+      {{ title || 'Extrinsic'}} #{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}-{{ extrinsic.attributes.extrinsic_idx }}
     </div>
     <!--            <a  class="card-header-icon" aria-label="more options">-->
     <!--            <span class="icon">-->
@@ -183,7 +183,7 @@
 
 <div *ngIf="extrinsicRelay$ | async as ext" >
 
-<div *ngIf="relayFlag   && ext.attributes.id == null" class="card dashboard-card">
+<div *ngIf="relayFlag   && ext.attributes.id == null &&  extrinsic.attributes.extrinsic_hash " class="card dashboard-card">
   <header class="card-header">
 
     <div class="card-header-title">

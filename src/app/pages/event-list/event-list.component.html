@@ -69,7 +69,7 @@
                                       <i class="fa fa-calendar-check"></i>
                                     </td>
 
-                                    <td><a routerLink="{{ networkURLPrefix }}/event/{{ event.id }}">{{ event.id }}</a></td>
+                                    <td><a routerLink="{{ networkURLPrefix }}/event/{{ event.attributes.shard_num }}-{{ event.attributes.block_id }}-{{ event.attributes.event_idx }}">{{ event.attributes.shard_num }}-{{ event.attributes.block_id }}-{{ event.attributes.event_idx }}</a></td>
                                     <td>#{{ event.attributes.shard_num }}</td>
                                     <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/block/{{ event.attributes.shard_num }}-{{ event.attributes.block_id }}">{{ event.attributes.block_id }}</a></td>
                                     <td>{{ event.attributes.module_id }}</td>

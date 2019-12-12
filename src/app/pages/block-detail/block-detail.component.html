@@ -217,7 +217,7 @@
                                   <i *ngIf="extrinsic.attributes.signed" class="fa fa-file-signature"></i>
                                   <i *ngIf="extrinsic.attributes.unsigned" class="fa fa-file-alt"></i>
                                 </td>
-                                <td><a routerLink="{{ networkURLPrefix }}/inherent/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}">{{ extrinsic.id }}</a></td>
+                                <td><a routerLink="{{ networkURLPrefix }}/inherent/{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}-{{ extrinsic.attributes.extrinsic_idx }}">{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}-{{ extrinsic.attributes.extrinsic_idx }}</a></td>
                                 <td>{{ extrinsic.attributes.module_id }}</td>
                                 <td>{{ extrinsic.attributes.call_id }}</td>
                                 <td>
@@ -247,7 +247,8 @@
                                 <td width="5%">
                                   <i class="fa fa-calendar-check"></i>
                                 </td>
-                                <td><a routerLink="{{ networkURLPrefix }}/event/{{ event.id }}">{{ event.id }}</a></td>
+                                <td><a routerLink="{{ networkURLPrefix }}/event/{{ event.attributes.shard_num }}-{{ event.attributes.block_id }}-{{ event.attributes.event_idx }}">{{ event.attributes.shard_num }}-{{ event.attributes.block_id }}-{{ event.attributes.event_idx }}
+                                </a></td>
                                 <td>{{ event.attributes.module_id }}</td>
                                 <td>{{ event.attributes.event_id }}</td>
                             </tr>
@@ -272,7 +273,8 @@
                               <td width="5%">
                                 <i class="fa fa-book"></i>
                               </td>
-                              <td><a routerLink="{{ networkURLPrefix }}/log/{{ log.id }}">{{ log.id }}</a></td>
+                              <td><a routerLink="{{ networkURLPrefix }}/log/{{ log.attributes.shard_num }}-{{ log.attributes.block_id }}-{{ log.attributes.log_idx }}">{{ log.attributes.shard_num }}-{{ log.attributes.block_id }}-{{ log.attributes.log_idx }}
+                              </a></td>
                               <td>{{ log.attributes.type }}</td>
                           </tr>
                       </tbody>

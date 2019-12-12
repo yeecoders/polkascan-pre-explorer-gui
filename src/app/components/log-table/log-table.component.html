@@ -1,7 +1,7 @@
     <div *ngIf="log" class="card events-card">
         <header class="card-header">
             <div class="card-header-title">
-               {{ 'log-table.Log' | translate }} #{{ log.id }}
+               {{ 'log-table.Log' | translate }} #{{ log.attributes.shard_num }}-{{ log.attributes.block_id }}-{{ log.attributes.log_idx }}
             </div>
 <!--            <a class="card-header-icon" aria-label="more options">-->
 <!--            <span class="icon">-->

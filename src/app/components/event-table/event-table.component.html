@@ -2,7 +2,7 @@
       <div *ngIf="event" class="card events-card">
         <header class="card-header">
             <div class="card-header-title">
-               {{ 'event-table.Event' | translate }} #{{ event.id }}
+               {{ 'event-table.Event' | translate }} #{{ event.attributes.shard_num }}-{{ event.attributes.block_id }}-{{ event.attributes.event_idx }}
             </div>
 <!--            <a  class="card-header-icon" aria-label="more options">-->
 <!--            <span class="icon">-->

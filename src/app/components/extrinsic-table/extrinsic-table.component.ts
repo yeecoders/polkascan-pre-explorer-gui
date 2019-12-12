@@ -48,18 +48,19 @@ export class ExtrinsicTableComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private extrinsicService: ExtrinsicService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     if (this.extrinsicId) {
-       this.extrinsicService.get(this.extrinsicId).subscribe(extrinsic => this.extrinsic = extrinsic);
+      this.extrinsicService.get(this.extrinsicId).subscribe(extrinsic => this.extrinsic = extrinsic);
     }
     if (this.extrinsic.id) {
       const str = 'origin' + '-' + this.extrinsic.id;
       const model = this.extrinsicService.get(str);
       this.extrinsicRelay$ = this.route.paramMap.pipe(
         switchMap((params: ParamMap) => {
-           return model;
+          return model;
         })
       );
     }
@@ -77,8 +78,23 @@ export class ExtrinsicTableComponent implements OnInit {
     console.log(from);
     const param = JSON.parse(JSON.stringify(to[0]));
     console.log(param.value);
-    this.relayFlag = true;
+    const mask = 0x03
+    // tslint:disable-next-line:no-bitwise
+    // @ts-ignore
+    // tslint:disable-next-line:no-bitwise
+    const shardNum1 = mask & from[30];
+    // tslint:disable-next-line:no-bitwise
+    const shardNum2 = mask & param.value[30];
+    console.log('---------');
+    console.log(shardNum1);
+    console.log(shardNum2);
+    if (shardNum1 !== shardNum2) {
+      this.relayFlag = true;
+    } else {
+      this.relayFlag = false;
+    }
   }
+
   paramName(name: string) {
 
     if (name === 'dest') {
@@ -87,11 +103,14 @@ export class ExtrinsicTableComponent implements OnInit {
 
     return name;
   }
+
   public Copy() {
     const range = document.createRange();
     range.selectNode(document.getElementById('hash'));
     const selection = window.getSelection();
-    if (selection.rangeCount > 0) { selection.removeAllRanges(); }
+    if (selection.rangeCount > 0) {
+      selection.removeAllRanges();
+    }
     selection.addRange(range);
     document.execCommand('copy');
     alert('复制成功');
