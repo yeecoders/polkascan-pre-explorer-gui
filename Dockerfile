@@ -42,6 +42,13 @@ RUN rm -rf /etc/nginx/conf.d/*
 ## Copy our default nginx config
 COPY nginx/polkascan-prod.conf /etc/nginx/conf.d/
 
+RUN mkdir  /etc/nginx/conf.d/cert
+
+COPY nginx/3229330_pocnet.yeescan.org.key /etc/nginx/conf.d/
+
+COPY nginx/3229330_pocnet.yeescan.org.pem /etc/nginx/conf.d/
+
+
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
