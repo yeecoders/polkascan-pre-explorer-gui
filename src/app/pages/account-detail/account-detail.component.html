@@ -7,7 +7,7 @@
           <div class="card-header-title">
 <!--            <app-identicon [accountId]="account.attributes.id" size="64"></app-identicon>-->
 
-            <div class="address-mobile-format"> {{ 'AccountDetail.AccountDetail' | translate }} &nbsp;&nbsp;&nbsp; <span id="address">{{ account.attributes.address }}</span></div>
+            <div class="address-mobile-format"> {{ 'AccountDetail.AccountDetail' | translate }} &nbsp;&nbsp;&nbsp; <span id="address">{{bech32_encode(account.attributes.id)}}</span></div>
             &nbsp;&nbsp;&nbsp;
             <img src="assets/ic_copy.png" width="24"   (click)="Copy()">
 

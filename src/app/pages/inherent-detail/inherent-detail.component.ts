@@ -56,4 +56,12 @@ export class InherentDetailComponent implements OnInit {
       })
     );
   }
+  paramName(name: string) {
+
+    if (name === 'dest') {
+      name = 'Destination';
+    }
+
+    return name;
+  }
 }

@@ -1,13 +1,72 @@
-<div class="columns">
-  <div class="column is-12">
-<!--      <app-polkascan-header></app-polkascan-header>-->
-       <section class="info-tiles">
-        <app-extrinsic-table
-          [extrinsic]="extrinsic$ | async"
-          [networkTokenDecimals]="networkTokenDecimals"
-          [networkTokenSymbol]="networkTokenSymbol"
-          title="Inherent"
-        ></app-extrinsic-table>
-       </section>
+
+<div class="column is-12">
+  <div *ngIf="extrinsic$ | async as Inherent">
+    <section class="info-tiles">
+      <div class="card events-card">
+        <header class="card-header">
+          <p class="card-header-title">
+            {{ 'Inherent' | translate }} &nbsp;&nbsp;&nbsp; <span
+            id="hash"> #{{ Inherent.attributes.shard_num }}-{{ Inherent.attributes.block_id }}-{{ Inherent.attributes.extrinsic_idx }}</span>
+          </p>
+
+        </header>
+        <div class="card-table" *ngIf="Inherent">
+          <div class="content">
+            <table class="table is-fullwidth is-striped">
+              <tbody>
+              <tr>
+                <td width="20%">{{ 'extrinsic-table.Block' | translate }}</td>
+                <td><a
+                  routerLink="{{ networkURLPrefix }}/block/{{ Inherent.attributes.shard_num }}-{{ Inherent.attributes.block_id }}">{{ Inherent.attributes.block_id }}</a>
+                </td>
+              </tr>
+              <tr>
+                <td>{{ 'BalanceTransfer.ShardNum' | translate }}</td>
+                <td>#{{ Inherent.attributes.shard_num }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'extrinsic-table.Index' | translate }}</td>
+                <td>{{ Inherent.attributes.extrinsic_idx }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'extrinsic-table.Module' | translate }}</td>
+                <td>{{ Inherent.attributes.module_id }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'extrinsic-table.Call' | translate }}</td>
+                <td>{{ Inherent.attributes.call_id }}</td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-table" *ngIf="Inherent.attributes.params">
+          <div class="content">
+            <table class="table is-fullwidth is-striped">
+              <thead>
+              <tr>
+                <th colspan="2" style="color: #8F99A3; font-weight: 400; font-size: 16px">{{ 'extrinsic-table.Parameters' | translate }}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let param of Inherent.attributes.params">
+                <td width="15%">{{ paramName(param.name) | titlecase}}</td>
+                <td>
+                  <app-render-type
+                    [item]="param"
+                    [networkTokenDecimals]="networkTokenDecimals"
+                    [networkTokenSymbol]="networkTokenSymbol"
+                  ></app-render-type>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </div>
 </div>

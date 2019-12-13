@@ -5,6 +5,7 @@ import {AccountService} from '../../services/account.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import bech32 from 'bech32';
 
 @Component({
   selector: 'app-account-list',
@@ -39,10 +40,37 @@ export class AccountListComponent implements OnInit, OnDestroy {
     });
   }
 
+ public bech32_encode(hex: string) {
+    if (hex) {
+      let bts = [];
+      for (let bytes = [], c = 0; c < hex.length; c += 2) {
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+        bts = bytes;
+      }
+      const str = bech32.encode('tyee', bech32.toWords(bts));
+      console.log('---');
+      console.log(str);
+      return str;
+    }
+  }
+
+  bech32_decode() {
+    const str = 'yee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsqesk8y';
+    const prefix = bech32.decode(str).prefix;
+    const words = bech32.decode(str).words;
+    const bb = bech32.fromWords(bech32.decode(str).words);
+    let result = '';
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < words.length; i++) {
+      result += String.fromCharCode(parseInt(words[i], 2));
+    }
+    console.log(result);
+  }
+
   getItems(page: number): void {
 
     const params = {
-      page: { number: page, size: 25 },
+      page: {number: page, size: 25},
       remotefilter: {},
     };
 

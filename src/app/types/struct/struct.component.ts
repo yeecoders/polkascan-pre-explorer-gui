@@ -22,6 +22,7 @@
  */
 
 import {Component, Input, OnInit} from '@angular/core';
+import bech32 from 'bech32';
 
 @Component({
   selector: 'app-struct',
@@ -39,8 +40,24 @@ export class StructComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  public bech32_encode(hex: string) {
+    if (hex) {
+      let bts = [];
+      for (let bytes = [], c = 0; c < hex.length; c += 2) {
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+        bts = bytes;
+      }
+      const str = bech32.encode('tyee', bech32.toWords(bts));
+      console.log('---');
+      console.log(str);
+      return str;
+    }
+  }
   checkType(obj) {
+    if (obj.coinbase && obj.coinbase.includes('0x')) {
+      obj.coinbase = this.bech32_encode(obj.coinbase);
+      console.log(obj.coinbase);
+    }
     return typeof obj;
   }
 }

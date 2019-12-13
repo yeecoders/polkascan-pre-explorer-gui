@@ -11,6 +11,7 @@ import {AccountService} from '../../services/account.service';
 import {switchMap} from 'rxjs/operators';
 import {BalanceTransfer} from '../../classes/balancetransfer.class';
 import {AccountIndexService} from '../../services/account-index.service';
+import bech32 from 'bech32';
 
 @Component({
   selector: 'app-account-detail',
@@ -71,7 +72,19 @@ export class AccountDetailComponent implements OnInit {
 
     });
   }
-
+  public bech32_encode(hex: string) {
+    if (hex) {
+      let bts = [];
+      for (let bytes = [], c = 0; c < hex.length; c += 2) {
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+        bts = bytes;
+      }
+      const str = bech32.encode('tyee', bech32.toWords(bts));
+      console.log('---');
+      console.log(str);
+      return str;
+    }
+  }
   public formatBalance(balance: number) {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }

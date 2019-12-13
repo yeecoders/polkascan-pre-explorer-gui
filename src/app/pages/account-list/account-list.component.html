@@ -37,7 +37,7 @@
                                     <td width="5%">
                                       <i class="fa fa-id-card"></i>
                                     </td>
-                                    <td><a routerLink="/account/{{ account.id }}" class="address-mobile-format"> {{ account.attributes.address }}</a></td>
+                                    <td><a routerLink="/account/{{bech32_encode(account.attributes.id)}}" class="address-mobile-format">{{bech32_encode(account.attributes.id)}}</a></td>
                                     <td>#{{ account.attributes.shard_num || 0}}</td>
                                     <td>{{ formatBalance(account.attributes.balance) }}  {{ networkTokenSymbol }} </td>
 

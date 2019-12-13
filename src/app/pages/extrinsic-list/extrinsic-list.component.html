@@ -37,6 +37,7 @@
                               <tr>
                                 <th></th>
                                 <th>{{ 'Extrinsic-list.Extrinsic ID' | translate }}</th>
+                                <th>{{ 'Extrinsic-list.ShardNum' | translate }}</th>
                                 <th class="is-hidden-mobile">{{ 'Extrinsic-list.Block' | translate }}</th>
                                 <th>{{ 'Extrinsic-list.Module' | translate }}</th>
                                 <th>{{ 'Extrinsic-list.Call' | translate }}</th>
@@ -52,6 +53,7 @@
                                       <i *ngIf="extrinsic.attributes.unsigned" class="fa fa-file-alt"></i>
                                     </td>
                                     <td><a routerLink="{{ networkURLPrefix }}/extrinsic/{{ extrinsic.attributes.extrinsic_hash ? '0x' + extrinsic.attributes.extrinsic_hash : extrinsic.id }}">{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}-{{ extrinsic.attributes.extrinsic_idx }}</a></td>
+                                    <td>{{ extrinsic.attributes.shard_num }}</td>
                                     <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/block/{{extrinsic.attributes.shard_num }}-{{extrinsic.attributes.block_id}}">{{ extrinsic.attributes.block_id }}</a></td>
                                     <td>{{ extrinsic.attributes.module_id }}</td>
                                     <td>{{ extrinsic.attributes.call_id }}</td>
