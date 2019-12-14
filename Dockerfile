@@ -42,7 +42,7 @@ RUN rm -rf /etc/nginx/conf.d/*
 ## Copy our default nginx config
 COPY nginx/polkascan-prod.conf /etc/nginx/conf.d/
 
-RUN mkdir  /etc/nginx/conf.d/cert
+RUN mkdir  /etc/nginx/cert
 
 COPY nginx/3229330_pocnet.yeescan.org.key /etc/nginx/conf.d/cert
 
