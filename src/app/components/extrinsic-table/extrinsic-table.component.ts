@@ -27,7 +27,7 @@ import {ExtrinsicService} from '../../services/extrinsic.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
-
+import bech32 from 'bech32';
 @Component({
   selector: 'app-extrinsic-table',
   templateUrl: './extrinsic-table.component.html',
@@ -82,9 +82,9 @@ export class ExtrinsicTableComponent implements OnInit {
     // tslint:disable-next-line:no-bitwise
     // @ts-ignore
     // tslint:disable-next-line:no-bitwise
-    const shardNum1 = mask & from[30];
+    const shardNum1 = mask &  new Uint8Array(bech32.fromWords(bech32.decode(from).words))[31];
     // tslint:disable-next-line:no-bitwise
-    const shardNum2 = mask & param.value[30];
+    const shardNum2 = mask & new Uint8Array(bech32.fromWords(bech32.decode(param.value).words))[31];
     console.log('---------');
     console.log(shardNum1);
     console.log(shardNum2);

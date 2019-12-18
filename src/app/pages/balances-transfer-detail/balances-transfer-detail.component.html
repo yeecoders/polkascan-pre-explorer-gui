@@ -74,12 +74,12 @@
     <div *ngIf="extrinsicRelay$ | async as ext" >
 
       <div *ngIf="relayFlag  && ext.attributes.extrinsic_hash == null &&  balanceTransfer.attributes.extrinsic_hash " class="card dashboard-card">
-        <header class="card-header">
+<!--        <header class="card-header">-->
 
-          <div class="card-header-title">
-            <div>{{ 'RelayTransfer'}} </div>
-          </div>
-        </header>
+<!--          <div class="card-header-title">-->
+<!--            <div>{{ 'RelayTransfer'}} </div>-->
+<!--          </div>-->
+<!--        </header>-->
         <div class="card-table"><div *ngIf="extrinsicRelay$ | async as extrinsic" class="card events-card">
           <!--                <header class="card-header" *ngIf="extrinsic && extrinsic.attributes && extrinsic.attributes.id">-->
           <header class="card-header" *ngIf="extrinsic && extrinsic.attributes && extrinsic.attributes.id">

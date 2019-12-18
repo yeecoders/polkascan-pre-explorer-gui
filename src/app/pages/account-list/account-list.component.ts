@@ -53,6 +53,22 @@ export class AccountListComponent implements OnInit, OnDestroy {
       return str;
     }
   }
+  public getshardnum(id: string) {
+    if (id) {
+      let bts = [];
+      for (let bytes = [], c = 0; c < id.length; c += 2) {
+        bytes.push(parseInt(id.substr(c, 2), 16));
+        bts = bytes;
+      }
+      const str = bech32.encode('tyee', bech32.toWords(bts));
+      console.log('---');
+      console.log(str);
+      const mask = 0x03
+      // tslint:disable-next-line:no-bitwise
+      const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];
+      return shardNum;
+    }
+  }
 
   bech32_decode() {
     const str = 'yee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsqesk8y';

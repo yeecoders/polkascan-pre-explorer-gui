@@ -30,7 +30,7 @@
                           <td>{{ log.attributes.type }}</td>
                         </tr>
                         <tr *ngIf="log.attributes.data">
-                          <td width="15%">{{ 'log-table.Data' | translate }}</td>
+                          <td width="15%"> {{ 'log-table.Data' | translate }}  {{log.attributes.data.typeshow}} </td>
                           <td>
                             <app-struct
                               [struct]="log.attributes.data.value"

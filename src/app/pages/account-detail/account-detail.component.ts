@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DocumentCollection} from 'ngx-jsonapi';
 import {Extrinsic} from '../../classes/extrinsic.class';
 import {BalanceTransferService} from '../../services/balance-transfer.service';
@@ -35,7 +35,8 @@ export class AccountDetailComponent implements OnInit {
     private accountService: AccountService,
     private accountIndexService: AccountIndexService,
     private activatedRoute: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.currentTab = 'transfers';
@@ -72,6 +73,7 @@ export class AccountDetailComponent implements OnInit {
 
     });
   }
+
   public bech32_encode(hex: string) {
     if (hex) {
       let bts = [];
@@ -85,6 +87,24 @@ export class AccountDetailComponent implements OnInit {
       return str;
     }
   }
+
+  public getshardnum(id: string) {
+    if (id) {
+      let bts = [];
+      for (let bytes = [], c = 0; c < id.length; c += 2) {
+        bytes.push(parseInt(id.substr(c, 2), 16));
+        bts = bytes;
+      }
+      const str = bech32.encode('tyee', bech32.toWords(bts));
+      console.log('---');
+      console.log(str);
+      const mask = 0x03
+      // tslint:disable-next-line:no-bitwise
+      const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];
+      return shardNum;
+    }
+  }
+
   public formatBalance(balance: number) {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }
@@ -93,7 +113,9 @@ export class AccountDetailComponent implements OnInit {
     const range = document.createRange();
     range.selectNode(document.getElementById('address'));
     const selection = window.getSelection();
-    if (selection.rangeCount > 0) { selection.removeAllRanges(); }
+    if (selection.rangeCount > 0) {
+      selection.removeAllRanges();
+    }
     selection.addRange(range);
     document.execCommand('copy');
     alert('复制成功');

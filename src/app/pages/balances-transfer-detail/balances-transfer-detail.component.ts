@@ -7,6 +7,7 @@ import {BalanceTransferService} from '../../services/balance-transfer.service';
 import {environment} from '../../../environments/environment';
 import {ExtrinsicService} from '../../services/extrinsic.service';
 import {Extrinsic} from '../../classes/extrinsic.class';
+import bech32 from 'bech32';
 
 @Component({
   selector: 'app-balances-transfer-detail',
@@ -61,11 +62,11 @@ export class BalancesTransferDetailComponent implements OnInit {
       // tslint:disable-next-line:no-bitwise
       // @ts-ignore
       // tslint:disable-next-line:no-bitwise
-      const shardNum1 = mask & from[30];
+      const shardNum1 = mask & new Uint8Array(bech32.fromWords(bech32.decode(from).words))[31];
       // tslint:disable-next-line:no-bitwise
       // @ts-ignore
       // tslint:disable-next-line:no-bitwise
-      const shardNum2 = mask & to[30];
+      const shardNum2 = mask & new Uint8Array(bech32.fromWords(bech32.decode(to).words))[31];
       console.log('---------');
       console.log(shardNum1);
       console.log(shardNum2);
