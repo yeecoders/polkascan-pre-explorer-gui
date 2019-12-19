@@ -76,6 +76,10 @@ export class AccountDetailComponent implements OnInit {
 
   public bech32_encode(hex: string) {
     if (hex) {
+      if (hex.indexOf('0x') === 0) {
+        hex = hex.substr(2);
+        console.log('has head 0x!');
+      }
       let bts = [];
       for (let bytes = [], c = 0; c < hex.length; c += 2) {
         bytes.push(parseInt(hex.substr(c, 2), 16));

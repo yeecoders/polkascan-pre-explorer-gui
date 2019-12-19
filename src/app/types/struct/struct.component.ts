@@ -36,12 +36,18 @@ export class StructComponent implements OnInit {
   @Input() networkTokenDecimals = 0;
   @Input() networkTokenSymbol: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
+
   public bech32_encode(hex: string) {
     if (hex) {
+      if (hex.indexOf('0x') === 0) {
+        hex = hex.substr(2);
+        console.log('has head 0x!');
+      }
       let bts = [];
       for (let bytes = [], c = 0; c < hex.length; c += 2) {
         bytes.push(parseInt(hex.substr(c, 2), 16));
@@ -53,6 +59,7 @@ export class StructComponent implements OnInit {
       return str;
     }
   }
+
   checkType(obj) {
     if (obj.coinbase && obj.coinbase.includes('0x')) {
       obj.coinbase = this.bech32_encode(obj.coinbase);
