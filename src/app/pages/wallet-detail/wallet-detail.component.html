@@ -1,0 +1,93 @@
+<div class="columns">
+
+  <div class="card events-card">
+    <header class="card-header">
+      <div class="card-header-title">
+        <div class="address-mobile-format"> {{ 'AccountDetail.AccountDetail' | translate }} &nbsp;&nbsp;&nbsp; <span id="address">tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh</span></div>
+        &nbsp;&nbsp;&nbsp;
+        <img src="assets/ic_copy.png" width="24"   (click)="Copy()">
+      </div>
+      <a class="card-header-icon" aria-label="more options">
+      </a>
+    </header>
+
+<!--    <div class="card events-card"><h3 style="color: rgb(194, 54, 49);"><span>0 YEE</span></h3>-->
+<!--      <span>balance</span><span class="ml-2">-->
+<!--        <div class="d-inline-block"></div>-->
+<!--      </span></div>-->
+    <table class="table is-fullwidth is-striped">
+      <tbody>
+      <tr>
+        <td>{{ 'AccountDetail.ShardNum' | translate }}</td>
+        <td>#3</td>
+      </tr>
+      <tr>
+        <td>{{ 'AccountDetail.Free Balance' | translate }}</td>
+        <td>{{ formatBalance(2355552323) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
+      </tr>
+      <tr>
+        <td>{{ 'AccountDetail.Nonce' | translate }}</td>
+        <td>{{ 0}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  <div class="column is-12">
+    <section class="creat center transfer">
+      <div class="name">
+        Transfer
+      </div>
+      <div class=" information">
+        <p class="wtitle">
+          <span class="innertitle">
+            From address
+          </span>
+        </p>
+        <input class="input is-large is-loading" type="text" [(ngModel)]="model.sendAddress">
+        <p class="production">Your wallet address</p>
+      </div>
+      <div class=" information">
+        <p class="wtitle">
+          <span class="innertitle">
+            Private Key
+          </span>
+        </p>
+        <input class="input is-large is-loading" type="text" [(ngModel)]="model.sendPrivateKey">
+
+        <p class="production">Your wallet private key</p>
+      </div>
+      <div class=" information">
+        <p class="wtitle">
+          <span class="innertitle">
+            To Address
+          </span>
+        </p>
+        <input class="input is-large is-loading" type="text" [(ngModel)]="model.dest">
+
+        <p class="production">The address which your will transfer to</p>
+      </div>
+      <div class=" information">
+        <p class="wtitle">
+          <span class="innertitle">
+            Amount
+          </span>
+        </p>
+        <input class="input is-large is-loading" type="text" [(ngModel)]="model.amount">
+
+        <p class="production">Amount that your want it transfer (in co)</p>
+      </div>
+<!--        <div *ngIf="relayFlag  && ext.attributes.extrinsic_hash == null &&  balanceTransfer.attributes.extrinsic_hash " class="card dashboard-card">-->
+<!--          <p class="balance ">-->
+<!--                    <span class="result" v-if="showResult" :class="{success:success}">-->
+<!--                      {{result}}-->
+<!--                    </span>-->
+<!--          </p>-->
+<!--        </div>-->
+      <button type="submit" class="ceratedone"  (click)="transfer()" >Transfer</button>
+
+    </section>
+
+  </div>
+</div>
+</div>

@@ -41,6 +41,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NgxJsonapiModule } from 'ngx-jsonapi';
 
+import {WalletDetailComponent} from './pages/wallet-detail/wallet-detail.component';
 import { BlockListComponent } from './pages/block-list/block-list.component';
 import { BlockDetailComponent } from './pages/block-detail/block-detail.component';
 import { MessagesComponent } from './components/messages/messages.component';
@@ -111,6 +112,7 @@ export class MyClock extends TimeagoClock {
 @NgModule({
   declarations: [
     AppComponent,
+    WalletDetailComponent,
     BlockListComponent,
     BlockDetailComponent,
     MessagesComponent,

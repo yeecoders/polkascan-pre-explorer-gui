@@ -311,6 +311,9 @@
 
   },
 	"NavBar": {
+    "Import Wallet": "Import Wallet",
+    "Create Wallet": "Create Wallet",
+    "Wallet": "Wallet",
     "Home": "Home",
     "Accounts": "Accounts",
 		"Analytics": "Analytics",

@@ -72,6 +72,21 @@
 <!--                      </ul>-->
 <!--                    </div>-->
 <!--                  </div>-->
+
+                <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
+                  <a class="navbar-link">
+                    {{ 'NavBar.Wallet' | translate }}
+                  </a>
+                  <div class="navbar-dropdown" (click)="toggleSubmenus()">
+                    <a class="navbar-item" routerLink="/account">
+                      {{ 'NavBar.Import Wallet' | translate }}
+                    </a>
+                    <a class="navbar-item" routerLink="/account">
+                      {{ 'NavBar.Create Wallet' | translate }}
+                    </a>
+
+                  </div>
+                </div>
               </div>
           </div>
         </div>

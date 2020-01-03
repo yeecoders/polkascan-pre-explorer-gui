@@ -17,24 +17,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Polkascan. If not, see <http://www.gnu.org/licenses/>.
  *
- * custom-webpack.config.js
- *
+ * block-list.component.spec.ts
  */
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-const webpack = require('webpack');
+import { WalletDetailComponent } from './wallet-detail.component';
 
-module.exports = {
-  resolve: {
-    extensions: ['.ts', '.js']
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      $ENV: {
-        API_URL: JSON.stringify(process.env.API_URL),
-        NETWORK_NAME: JSON.stringify(process.env.NETWORK_NAME),
-        NETWORK_TOKEN_SYMBOL: JSON.stringify(process.env.NETWORK_TOKEN_SYMBOL),
-        NETWORK_TOKEN_DECIMALS: JSON.stringify(process.env.NETWORK_TOKEN_DECIMALS)
-      }
+describe('WalletDetailComponent', () => {
+  let component: WalletDetailComponent;
+  let fixture: ComponentFixture<WalletDetailComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ WalletDetailComponent ]
     })
-  ]
-};
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(WalletDetailComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

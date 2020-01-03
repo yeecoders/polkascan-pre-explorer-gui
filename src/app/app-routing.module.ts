@@ -22,6 +22,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { WalletDetailComponent } from './pages/wallet-detail/wallet-detail.component';
 import { BlockListComponent } from './pages/block-list/block-list.component';
 import { BlockDetailComponent } from './pages/block-detail/block-detail.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
@@ -68,6 +69,7 @@ import {AnalyticsSearchComponent} from './pages/analytics-search/analytics-searc
 
 const routes: Routes = [
   { path: '', component: DashboardComponent},
+  { path: 'wallet', component: WalletDetailComponent },
   { path: 'block', component: BlockListComponent },
   { path: 'block/:id', component: BlockDetailComponent },
   { path: 'transaction', component: TransactionListComponent},
