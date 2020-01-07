@@ -92,13 +92,11 @@ export class WalletDetailComponent implements OnInit {
     console.log(senderPublic);
     const secret = this.hexToBytes(this.model.sendPrivateKey);
     console.log(secret);
-    const mnemonic = generateMnemonic();
-    console.log(mnemonic);
     this.generateSrKeyPair();
-    // console.log(encode(1333));
   }
 
   ngOnInit() {
+    this.generateSrKeyPair();
     this.currentTab = 'transfers';
     this.activatedRoute.fragment.subscribe(value => {
       if (value === 'transactions' || value === 'transfers') {
@@ -161,8 +159,9 @@ export class WalletDetailComponent implements OnInit {
     // api.rpcCall('author_submitExtrinsic', [extrinsic]);
   }
 
-  generateSrKeyPair() {
+  public generateSrKeyPair() {
     const mnemonic = generateMnemonic();
+    console.log(mnemonic);
     // let seed = srKeypairFromUri("//Alice")
     const seed = srKeypairFromUri(mnemonic);
     console.log(seed);

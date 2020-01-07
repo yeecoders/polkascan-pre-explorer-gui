@@ -4,5 +4,9 @@ declare module "blakejs" {
 
   export function blake2b(input: string | Uint8Array, key?: Uint8Array | undefined, outlen?: number): Uint8Array;
 }
-export declare function srKeypairFromUri(url: string): string;
 
+declare module "oo7-substrate" {
+
+  export  function srKeypairFromUri(url: string): any;
+
+}
