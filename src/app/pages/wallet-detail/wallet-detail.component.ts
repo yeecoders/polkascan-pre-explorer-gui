@@ -42,6 +42,7 @@ import {ResultOut} from './result.class';
 // import {sign, verify} from '@polkadot/wasm-schnorrkel';
 import {srKeypairFromUri} from 'oo7-substrate';
 import {generateMnemonic} from 'bip39';
+
 @Component({
   selector: 'app-wallet-detail',
   templateUrl: './wallet-detail.component.html',
@@ -92,11 +93,15 @@ export class WalletDetailComponent implements OnInit {
     console.log(senderPublic);
     const secret = this.hexToBytes(this.model.sendPrivateKey);
     console.log(secret);
-    this.generateSrKeyPair();
+    this.generateSrKeyPair_test();
   }
 
   ngOnInit() {
     this.generateSrKeyPair();
+    const pair = this.generateSrKeyPair();
+    const word = new Uint8Array(pair.slice(64, 96));
+    const str = bech32.encode('tyee', bech32.toWords(word));
+    console.log(str);
     this.currentTab = 'transfers';
     this.activatedRoute.fragment.subscribe(value => {
       if (value === 'transactions' || value === 'transfers') {
@@ -159,14 +164,33 @@ export class WalletDetailComponent implements OnInit {
     // api.rpcCall('author_submitExtrinsic', [extrinsic]);
   }
 
-  public generateSrKeyPair() {
+  generateSrKeyPair_test() {
     const mnemonic = generateMnemonic();
     console.log(mnemonic);
     // let seed = srKeypairFromUri("//Alice")
-    const seed = srKeypairFromUri(mnemonic);
+    const seed = window['srKeypairFromUri'](mnemonic);
     console.log(seed);
     return seed;
   }
+
+  async generateSrKeyPair() {
+    const mnemonic = generateMnemonic();
+    console.log(mnemonic);
+    // let seed = srKeypairFromUri("//Alice")
+    const seedPromise = new Promise((res, rej) => {
+      window.setTimeout(() => {
+        console.log(srKeypairFromUri)
+        // tslint:disable-next-line:no-shadowed-variable
+        // tslint:disable-next-line:no-shadowed-variable
+        const seed = window['srKeypairFromUri'](mnemonic);
+        console.log(seed);
+        return res(seed);
+      }, 1000);
+    })
+    const seed = await seedPromise;
+    return seed;
+  }
+
   //
   // srKeypairToPublic(pair) {
   //   return new Uint8Array(pair.slice(64, 96));
