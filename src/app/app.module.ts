@@ -19,6 +19,7 @@
  *
  * app.module.ts
  */
+import { LocalStorage } from './pages/wallet-detail/local.storage';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
@@ -192,7 +193,7 @@ export class MyClock extends TimeagoClock {
       clock: { provide: TimeagoClock, useClass: MyClock },
     })
   ],
-  providers: [],
+  providers: [LocalStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

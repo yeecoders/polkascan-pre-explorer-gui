@@ -8,5 +8,9 @@ declare module "blakejs" {
 declare module "oo7-substrate" {
 
   export  function srKeypairFromUri(url: string): any;
+  // @ts-ignore
+  export  let calls = {};
+
+   export  function encode(value: any[], type: any): any;
 
 }

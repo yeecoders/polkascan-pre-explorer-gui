@@ -70,6 +70,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
       const mask = 0x03
       // tslint:disable-next-line:no-bitwise
       const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];
+      console.log(shardNum);
       return shardNum;
     }
   }
