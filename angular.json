@@ -33,7 +33,7 @@
               "node_modules/bulma/css/bulma.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["src/assets/runtime.js"],
             "es5BrowserSupport": true
           },
           "configurations": {

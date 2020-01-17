@@ -501,3 +501,19 @@ aaa {
   border: none;
   cursor: pointer;
 }
+.address {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 15px;
+  width: 600px;
+  background: #f7f7f8;
+  border: 1px solid #e4e4e4;
+}
+
+  .privatekeytext {
+    width: 380px;
+    word-wrap: break-word;
+    word-break: normal;
+}

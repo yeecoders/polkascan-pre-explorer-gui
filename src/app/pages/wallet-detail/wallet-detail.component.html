@@ -3,7 +3,7 @@
   <div class="card events-card">
     <header class="card-header">
       <div class="card-header-title">
-        <div class="address-mobile-format"> {{ 'AccountDetail.AccountDetail' | translate }} &nbsp;&nbsp;&nbsp; <span id="address">tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh</span></div>
+        <div class="address-mobile-format"> {{ 'AccountDetail.AccountDetail' | translate }} &nbsp;&nbsp;&nbsp; <span id="address">{{address}}</span></div>
         &nbsp;&nbsp;&nbsp;
         <img src="assets/ic_copy.png" width="24"   (click)="Copy()">
       </div>
@@ -19,21 +19,46 @@
       <tbody>
       <tr>
         <td>{{ 'AccountDetail.ShardNum' | translate }}</td>
-        <td>#3</td>
+        <td>{{shardnum}}</td>
       </tr>
       <tr>
         <td>{{ 'AccountDetail.Free Balance' | translate }}</td>
-        <td>{{ formatBalance(2355552323) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
+        <td>{{ formatBalance(balance) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
       </tr>
       <tr>
         <td>{{ 'AccountDetail.Nonce' | translate }}</td>
-        <td>{{ 0}}</td>
+        <td>{{ nonce}}</td>
       </tr>
       </tbody>
     </table>
 
 
   <div class="column is-12">
+    <section class="creat center">
+      <div class="name">
+        Create Wallet
+      </div>
+      <p class="production"> Create the wallet address </p>
+      <button class="ceratedone" (click)="createAccount()">Create</button>
+      <div class="information">
+        <p class="wtitle">
+          Address
+        </p>
+        <p class="address">
+          <span>{{address}}</span>
+        </p>
+      </div>
+      <div class="information">
+        <p class="wtitle">
+          Private Key
+        </p>
+        <p class="address privatekey">
+          <span class="privatekeytext">{{privateKey}}</span>
+
+        </p>
+      </div>
+      <div>This page will not store your private key, please back up it by yourself for further use.</div>
+    </section>
     <section class="creat center transfer">
       <div class="name">
         Transfer
@@ -50,12 +75,12 @@
       <div class=" information">
         <p class="wtitle">
           <span class="innertitle">
-            Private Key
+            Password for Private Key
           </span>
         </p>
         <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendPrivateKey">
 
-        <p class="production">Your wallet private key</p>
+        <p class="production">Your wallet Password for Private Key</p>
       </div>
       <div class=" information">
         <p class="wtitle">
@@ -85,9 +110,33 @@
 <!--          </p>-->
 <!--        </div>-->
       <button type="submit" class="ceratedone"  (click)="transfer()" >Transfer</button>
+    </section>
+    <section class="creat center transfer">
+      <div class="name">
+        Import accout
+      </div>
+      <div class=" information">
+        <p class="wtitle">
+          <span class="innertitle">
+            Import address
+          </span>
+        </p>
+        <input class="inputw is-large is-loading" type="text" [(ngModel)]="immodel.sendAddress">
+        <p class="production">Your wallet address</p>
+      </div>
+      <div class=" information">
+        <p class="wtitle">
+          <span class="innertitle">
+           Import Private Key
+          </span>
+        </p>
+        <input class="inputw is-large is-loading" type="text" [(ngModel)]="immodel.sendPrivateKey">
+
+        <p class="production">Your wallet private key</p>
+      </div>
+      <button type="submit" class="ceratedone"  (click)="import()" >Import</button>
 
     </section>
-
   </div>
 </div>
 </div>
