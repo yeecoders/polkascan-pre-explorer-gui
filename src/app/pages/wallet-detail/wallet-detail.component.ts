@@ -51,7 +51,7 @@ import { HttpHeaders } from '@angular/common/http';
 import * as camel from 'change-case';
 import { TransformBond } from 'oo7';
 import {initRuntime} from 'src/assets/runtime.js';
-// declare function initRuntime(callback: any);
+
 @Component({
   selector: 'app-wallet-detail',
   templateUrl: './wallet-detail.component.html',
@@ -213,12 +213,21 @@ export class WalletDetailComponent implements OnInit {
     const phase = eraNumber % period;
     const era = new TransactionEra(period, phase);
     console.log(era);
+    const call = new Uint8Array(3);
 
-
-    const e = encode([1, era, '0x92efd1f895cfab6ce8e428157b97e072445459f28109a4131af4d54f9f5af6b8'], [
-      'Compact<Index>', 'TransactionEra', 'Hash'
+    const e = encode([1, call, era, '0x92efd1f895cfab6ce8e428157b97e072445459f28109a4131af4d54f9f5af6b8'], [
+      'Compact<Index>', 'Call', 'TransactionEra', 'Hash'
     ]);
     console.log(e);
+    // tslint:disable-next-line:max-line-length
+    const a = this.bech32_decode('tyee12fdz0fgjne0j8tnlffvhfhnp7dhq74s6t50963rzqqdxaujfzdusvzkfux');
+    // tslint:disable-next-line:max-line-length
+    const b =    hexToBytes('0x7093235ec2fc85eeb4c778293979ca3885d410d6afcbd883213dc9063f277e5841513c8f8cd511dde34a79a1a1e6d317671f0d8011ce9dea19f6c1ca9ddf689d');
+    // tslint:disable-next-line:max-line-length
+    console.log(a);
+    console.log(b);
+    const signature = sign(a, b, e);
+    console.log(signature);
     //
     // this.runInBalancesTransferCall('tyee1r3ur0wf3y5a5aveeecangcwmw3wwfjje86gd9ve4smchmkhdzavqvj4dsq', '3333' , (call) => {
     //   console.log(call);
