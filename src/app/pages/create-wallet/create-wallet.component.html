@@ -1,0 +1,39 @@
+<div class="columns">
+  <div class="card events-card">
+    <div class="column is-12">
+
+      <section class="creat center">
+        <div class="name">
+          Create Wallet
+        </div>
+        <div class=" information">
+          <p class="wtitle">
+            PassWord
+          </p>
+          <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.passWord">
+
+          <p class="production">Your wallet PassWord of private key</p>
+        </div>
+        <p class="production"> Create the wallet address </p>
+        <button class="ceratedone" (click)="createAccount()">Create</button>
+        <div class="information">
+          <p class="wtitle">
+            Address
+          </p>
+          <p class="address">
+            <span>{{address}}</span>
+          </p>
+        </div>
+        <div class="information">
+          <p class="wtitle">
+            Private Key
+          </p>
+          <p class="address privatekey">
+            <span class="privatekeytext">{{privateKey}}</span>
+          </p>
+          <div>Please back up private key by yourself for further use.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

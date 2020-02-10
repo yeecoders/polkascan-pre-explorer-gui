@@ -40,7 +40,6 @@ import {
   encode, decode, calls, runtime, chain, system, runtimeUp, pretty,
   addressBook, secretStore, metadata, nodeService, bytesToHex, AccountId, hexToBytes, TransactionEra, StorageBond
 } from 'oo7-substrate';
-import {sign, verify} from '@polkadot/wasm-schnorrkel';
 import {srKeypairFromUri} from 'oo7-substrate';
 import {generateMnemonic} from 'bip39';
 import {LocalStorage} from './local.storage';
@@ -83,7 +82,7 @@ export class WalletDetailComponent implements OnInit {
     private accountService: AccountService,
     private accountIndexService: AccountIndexService,
     private httpClient: HttpClient,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
   }
 
@@ -92,102 +91,10 @@ export class WalletDetailComponent implements OnInit {
   public resout = new ResultOut('', false, false);
   public keySize = 256;
   public iterations = 100;
-  public message = 'Hello World---';
   public password = '111Password';
   public calls = {};
   public runtime = {};
   public onRuntimeInit = [];
-  get(): void {
-    this.ls.remove('logincache');
-    this.cache = this.ls.getObject('logincache');
-  }
-
-  set(): void {
-    this.ls.setObject('logincache', '{"address":"EMYYerk8fASGu4jYrcyqv2K7Y4wLPzs4ka1pxQQgrcv3axR"}');
-  }
-
-  encrypt(msg, pass) {
-    // var salt = CryptoJS.lib.WordArray.random(128/8);
-    const salt = 'yee';
-
-    console.log('salt--' + salt.toString());
-
-    const key = crypto.PBKDF2(pass, salt, {
-      keySize: this.keySize / 32,
-      iterations: this.iterations
-    });
-    console.log('key--' + key.toString());
-
-    // var iv = CryptoJS.lib.WordArray.random(128 / 8);
-    console.log('key--' + key.toString());
-
-    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
-    console.log('iv--' + iv);
-
-    const encrypted = crypto.AES.encrypt(msg, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
-      iv,
-      padding: crypto.pad.Pkcs7,
-      mode: crypto.mode.CTR
-
-    });
-    // salt, iv will be hex 32 in length
-    // append them to the ciphertext for use  in decryption
-    const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
-    console.log('iv--' + iv.toString());
-    console.log('encrypted--' + encrypted.toString());
-    console.log('transitmessage--' + transitmessage.toString());
-
-    return transitmessage;
-  }
-
-  decrypt(transitmessage, pass) {
-    // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
-    const salt = 'yee';
-    const iv = crypto.enc.Hex.parse(transitmessage.substr(3, 32));
-    console.log('iv--' + iv.toString());
-    const encrypted = transitmessage.substring(35);
-    console.log('encrypted--' + encrypted.toString());
-
-    const key = crypto.PBKDF2(pass, salt, {
-      keySize: this.keySize / 32,
-      iterations: this.iterations
-    });
-
-    const decrypted = crypto.AES.decrypt(encrypted, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
-      iv,
-      padding: crypto.pad.Pkcs7,
-      mode: crypto.mode.CTR
-
-    });
-    return decrypted;
-  }
-
-  transfer() {
-    if (this.model.sendAddress === '' || this.model.sendPrivateKey === '' || this.model.dest === '' || this.model.amount === '') {
-      this.resout.result = 'Please fill all';
-      this.resout.showResult = true;
-      console.log(this.resout);
-      return;
-    }
-    // @ts-ignore
-    if (this.model.amount < 1000) {
-      this.resout.result = 'The amount should not be less than 1000';
-      this.resout.showResult = true;
-      console.log(this.resout);
-      return;
-    }
-    console.log(this.model);
-    const descPublic = this.bech32_decode(this.model.dest);
-    const senderPublic = this.bech32_decode(this.model.sendAddress);
-    console.log(descPublic);
-    console.log(senderPublic);
-    const sendShardNum = this.getshardnum(this.model.sendAddress);
-    const destShardNum = this.getshardnum(this.model.dest);
-    console.log(sendShardNum);
-    console.log(destShardNum);
-    const secret = hexToBytes(this.model.sendPrivateKey);
-    console.log(secret);
-  }
   runInBalancesTransferCall(dest, value, cb) {
     const callBond = calls.balances.transfer(dest, value);
     callBond.tie((call, i) => {
@@ -197,7 +104,14 @@ export class WalletDetailComponent implements OnInit {
     });
   }
   ngOnInit() {
-    initRuntime();
+    this.activatedRoute.params.subscribe(val => {
+      this.address = val.id;
+      console.log('params.get(\'getaddress\'): ',  this.address);
+      this.nonce = this.getNonce( this.address);
+      this.balance = this.getBalance( this.address);
+      this.shardnum = this.getshardnum( this.address);
+    });
+    // initRuntime();
     // tslint:disable-next-line:no-eval
     const height = eval('0xb069');
     console.log(height);
@@ -226,8 +140,8 @@ export class WalletDetailComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     console.log(a);
     console.log(b);
-    const signature = sign(a, b, e);
-    console.log(signature);
+    // const signature = sign(a, b, e);
+    // console.log(signature);
     //
     // this.runInBalancesTransferCall('tyee1r3ur0wf3y5a5aveeecangcwmw3wwfjje86gd9ve4smchmkhdzavqvj4dsq', '3333' , (call) => {
     //   console.log(call);
@@ -249,152 +163,62 @@ export class WalletDetailComponent implements OnInit {
       console.log(res.result);
     });
     // tslint:disable-next-line:max-line-length
-    // this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getBalance', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-    //   console.log(res.result);
-    //   this.balance = res.result;
-    // });
+    this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getBalance', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      console.log(res.result);
+      this.balance = res.result;
+    });
    // tslint:disable-next-line:max-line-length
     this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'author_submitExtrinsic', params: ['0x290281ff927b69286c0137e2ff66c6e561f721d2e6a2e9b92402d2eed7aebdca99005c701e702c4970676ff5a42c6e2619ab0c33e6802b3b1ce0971a114ce5ee88ffd55aca5e7c204f27a6497552d4176d31d94edb93211e2a0ed78b7176979b8ad12b060cd5020400ff1c7837b931253b4eb339ce3b3461db745ce4ca593e90d2b33586f17ddaed17581534'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
       console.log(res.error);
     });
     console.log(this.balance);
-    // tslint:disable-next-line:max-line-length
-    // const msg = '0x40f4049d697bea181baa8d47a1ea12864ea6eab4b68d5ade365f297fea67b77bb653ef235bbaad305e789a463d2e61a95310aa39650396ab0f9b02ac3f1a163d';
-    // const encrypted = this.encrypt(msg, this.password);
-    // const decrypted = this.decrypt(encrypted, this.password);
-    // console.log('encrypted---' + encrypted);
-    // console.log('' + decrypted.toString(crypto.enc.Utf8));
-    this.set();
-    this.get();
-    console.log(this.cache);
-    // this.createAccount();
-    this.currentTab = 'transfers';
-    this.activatedRoute.fragment.subscribe(value => {
-      if (value === 'transactions' || value === 'transfers') {
-        this.currentTab = value;
-      }
-    });
-
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
+  }
 
-    this.account$ = this.activatedRoute.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        return this.accountService.get(params.get('id'), {include: ['indices']});
-      })
-    );
-
-    this.activatedRoute.params.subscribe(val => {
-
-      this.balanceTransferService.all({
-        remotefilter: {address: val.id},
-        page: {number: 0}
-      }).subscribe(balanceTransfers => (this.balanceTransfers = balanceTransfers));
-
-      const params = {
-        page: {number: 0, size: 25},
-        remotefilter: {address: val.id},
-      };
-
-      this.extrinsicService.all(params).subscribe(extrinsics => {
-        this.extrinsics = extrinsics;
-      });
+  encrypt(msg, pass) {
+    const salt = 'yee';
+    const key = crypto.PBKDF2(pass, salt, {
+      keySize: this.keySize / 32,
+      iterations: this.iterations
+    });
+    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
+    const encrypted = crypto.AES.encrypt(msg, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
+      iv,
+      padding: crypto.pad.Pkcs7,
+      mode: crypto.mode.CTR
 
     });
+    // salt, iv will be hex 32 in length
+    // append them to the ciphertext for use  in decryption
+    const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
+    return transitmessage;
   }
-
-  composeTransaction(senderPublic: any, secret: Uint8Array) {
-    console.log(secret);
-
-    // let height = eval('33');
-    // let longevity = 64;
-    // let l = Math.min(15, Math.max(1, Math.ceil(Math.log2(longevity)) - 1));
-    // let period = 2 << l;
-    // let factor = Math.max(1, period >> 12);
-    // let Q = (n, d) => Math.floor(n / d) * d;
-    // let eraNumber = Q(height, factor);
-    // let phase = eraNumber % period;
-    // let era = new TransactionEra(period, phase)
-    // let signedData = encode(encode({
-    //   _type: 'Transaction',
-    //   version: 0x81,
-    //   sender: senderPublic,
-    //   signature,
-    //   index,
-    //   era,
-    //   call
-    // }), 'Vec<u8>');
-    // let extrinsic = '0x' + bytesToHex(signedData);
-    // console.log("extrinsic:", extrinsic);
-    //
-    // api.rpcCall('author_submitExtrinsic', [extrinsic]);
-  }
-
-  createAccount() {
-    this.generateSrKeyPair().then((res: Uint8Array) => {
-      const word = new Uint8Array(res.slice(64, 96));
-      console.log(word);
-      this.address = bech32.encode('tyee', bech32.toWords(word));
-      console.log(this.address);
-      const descPublic = this.bech32_decode(this.address);
-      console.log(descPublic);
-      const rawPrivateKey = new Uint8Array(res.slice(0, 64));
-      console.log(rawPrivateKey);
-      this.privateKey = '0x' + bytesToHex(rawPrivateKey);
-      console.log(this.privateKey);
-      this.ls.setObject(this.address, this.encrypt(this.privateKey, this.password));
-      this.nonce = this.getNonce(this.address);
-      this.balance = this.getBalance(this.address);
-      this.shardnum = this.getshardnum(this.address);
-    });
-  }
-
-  storeAccountByaes() {
-    const encrypted = this.encrypt(this.message, this.password);
-  }
-
-  async generateSrKeyPair() {
-    const mnemonic = generateMnemonic();
-    console.log(mnemonic);
-    // let seed = srKeypairFromUri("//Alice")
-    const seedPromise = new Promise((res, rej) => {
-      window.setTimeout(() => {
-        console.log(srKeypairFromUri);
-        // tslint:disable-next-line:no-shadowed-variable
-        // tslint:disable-next-line:no-shadowed-variable
-        const seed = window['srKeypairFromUri'](mnemonic);
-        return res(seed);
-      }, 1000);
-    });
-    const seed = await seedPromise;
-    return seed;
-  }
-
-  //
-  // srKeypairToPublic(pair) {
-  //   return new Uint8Array(pair.slice(64, 96));
-  // }
-  //
-  // srKeypairToSecret(pair) {
-  //   return new Uint8Array(pair.slice(0, 64));
-  // }
-
-  public bech32_encode(hex: string) {
-    if (hex) {
-      if (hex.indexOf('0x') === 0) {
-        hex = hex.substr(2);
-        console.log('has head 0x!');
-      }
-      let bts = [];
-      for (let bytes = [], c = 0; c < hex.length; c += 2) {
-        bytes.push(parseInt(hex.substr(c, 2), 16));
-        bts = bytes;
-      }
-      const str = bech32.encode('tyee', bech32.toWords(bts));
-      console.log('---');
-      console.log(str);
-      return str;
+  transfer() {
+    if (this.model.sendAddress === '' || this.model.sendPrivateKey === '' || this.model.dest === '' || this.model.amount === '') {
+      this.resout.result = 'Please fill all';
+      this.resout.showResult = true;
+      console.log(this.resout);
+      return;
     }
+    // @ts-ignore
+    if (this.model.amount < 1000) {
+      this.resout.result = 'The amount should not be less than 1000';
+      this.resout.showResult = true;
+      console.log(this.resout);
+      return;
+    }
+    console.log(this.model);
+    const descPublic = this.bech32_decode(this.model.dest);
+    const senderPublic = this.bech32_decode(this.model.sendAddress);
+    console.log(descPublic);
+    console.log(senderPublic);
+    const sendShardNum = this.getshardnum(this.model.sendAddress);
+    const destShardNum = this.getshardnum(this.model.dest);
+    console.log(sendShardNum);
+    console.log(destShardNum);
+    const secret = hexToBytes(this.model.sendPrivateKey);
+    console.log(secret);
   }
 
   public getBalance(str: string) {
@@ -405,10 +229,10 @@ export class WalletDetailComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getBalance', params: [str], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
       console.log(res.result);
-      this.balance = res.result;
+      // tslint:disable-next-line:no-eval
+      this.balance = eval(res.result);
     });
-    // tslint:disable-next-line:no-eval
-    return eval(this.balance);
+    return this.balance;
   }
   public getNonce(str: string) {
     if (str === '' || str === undefined ) {
@@ -418,10 +242,10 @@ export class WalletDetailComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getNonce', params: [str], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
       console.log(res.result);
-      this.nonce = res.result;
+      // tslint:disable-next-line:no-eval
+      this.nonce = eval(res.result);
     });
-    // tslint:disable-next-line:no-eval
-    return eval(this.nonce);
+    return this.nonce;
   }
   public getshardnum(str: string) {
     if (str === '' || str === undefined ) {
@@ -450,26 +274,10 @@ export class WalletDetailComponent implements OnInit {
     const prefix = bech32.decode(str).prefix;
     const words = bech32.decode(str).words;
     const bb = bech32.fromWords(bech32.decode(str).words);
-    // let result = '';
-    // // tslint:disable-next-line:prefer-for-of
-    // for (let i = 0; i < words.length; i++) {
-    //   result += String.fromCharCode(parseInt(words[i], 2));
-    // }
-    // console.log(result);
     return bb;
   }
-
-  hexToBytes(str: string) {
-    const a = [];
-    for (let i = str.startsWith('0x') ? 2 : 0, len = str.length; i < len; i += 2) {
-      a.push(parseInt(str.substr(i, 2), 16));
-    }
-
-    return new Uint8Array(a);
-  }
-
   public formatBalance(balance: string) {
-    return Number(balance) / Math.pow(10, this.networkTokenDecimals);
+    return Number(2424240) / Math.pow(10, this.networkTokenDecimals);
   }
 
   public Copy() {
@@ -483,5 +291,12 @@ export class WalletDetailComponent implements OnInit {
     document.execCommand('copy');
     alert('复制成功');
   }
+  get(): void {
+    this.ls.remove('logincache');
+    this.cache = this.ls.getObject('logincache');
+  }
 
+  set(): void {
+    this.ls.setObject('logincache', '{"address":"EMYYerk8fASGu4jYrcyqv2K7Y4wLPzs4ka1pxQQgrcv3axR"}');
+  }
 }

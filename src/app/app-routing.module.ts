@@ -22,6 +22,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {ImportWalletComponent} from './pages/import-wallet/import-wallet.component';
 import { WalletDetailComponent } from './pages/wallet-detail/wallet-detail.component';
 import { BlockListComponent } from './pages/block-list/block-list.component';
 import { BlockDetailComponent } from './pages/block-detail/block-detail.component';
@@ -66,10 +67,13 @@ import {TransactionDetailComponent} from './pages/transaction-detail/transaction
 import {InherentListComponent} from './pages/inherent-list/inherent-list.component';
 import {InherentDetailComponent} from './pages/inherent-detail/inherent-detail.component';
 import {AnalyticsSearchComponent} from './pages/analytics-search/analytics-search.component';
+import {CreateWalletComponent} from './pages/create-wallet/create-wallet.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent},
-  { path: 'wallet', component: WalletDetailComponent },
+  { path: 'create-wallet', component: CreateWalletComponent },
+  { path: 'import-wallet', component: ImportWalletComponent },
+  { path: 'wallet/:id', component: WalletDetailComponent },
   { path: 'block', component: BlockListComponent },
   { path: 'block/:id', component: BlockDetailComponent },
   { path: 'transaction', component: TransactionListComponent},

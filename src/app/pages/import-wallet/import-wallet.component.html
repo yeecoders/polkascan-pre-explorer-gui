@@ -1,0 +1,44 @@
+<div class="columns">
+  <div class="card events-card">
+    <div class="column is-12">
+
+      <section class="creat center transfer">
+        <div class="name">
+          Import accout
+        </div>
+        <div class=" information">
+          <p class="wtitle">
+          <span class="innertitle">
+            Import address
+          </span>
+          </p>
+          <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendAddress">
+          <p class="production">Your wallet address</p>
+        </div>
+        <div class=" information">
+          <p class="wtitle">
+          <span class="innertitle">
+           Import Private Key
+          </span>
+          </p>
+          <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendPrivateKey">
+
+          <p class="production">Your wallet private key</p>
+        </div>
+
+        <div class=" information">
+          <p class="wtitle">
+          <span class="innertitle">
+           Import PassWord
+          </span>
+          </p>
+          <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.passWord">
+
+          <p class="production">Your wallet PassWord of private key</p>
+        </div>
+        <button type="submit" class="ceratedone"  (click)="import()" >Import</button>
+
+      </section>
+    </div>
+  </div>
+</div>

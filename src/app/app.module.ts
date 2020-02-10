@@ -103,7 +103,8 @@ import { StructComponent } from './types/struct/struct.component';
 import { RenderTypeComponent } from './components/render-type/render-type.component';
 import { ReferendumInfoComponent } from './types/referendum-info/referendum-info.component';
 import { AnalyticsSearchComponent } from './pages/analytics-search/analytics-search.component';
-
+import {ImportWalletComponent} from './pages/import-wallet/import-wallet.component';
+import {CreateWalletComponent} from './pages/create-wallet/create-wallet.component';
 export class MyClock extends TimeagoClock {
   tick(then: number): Observable<number> {
     return interval(1000);
@@ -113,6 +114,8 @@ export class MyClock extends TimeagoClock {
 @NgModule({
   declarations: [
     AppComponent,
+    CreateWalletComponent,
+    ImportWalletComponent,
     WalletDetailComponent,
     BlockListComponent,
     BlockDetailComponent,
