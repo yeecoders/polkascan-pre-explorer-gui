@@ -34,6 +34,7 @@ import {AccountIndexService} from '../../services/account-index.service';
 import bech32 from 'bech32';
 import * as crypto from 'crypto-js';
 import {Transfer} from './transfer.class';
+import {SignedData} from './signedData.class';
 import {ResultOut} from './result.class';
 import {Jsonrpc} from './jsonrpc.class';
 import {
@@ -50,6 +51,7 @@ import { HttpHeaders } from '@angular/common/http';
 import * as camel from 'change-case';
 import { TransformBond } from 'oo7';
 import {initRuntime} from 'src/assets/runtime.js';
+import {sign} from "@polkadot/wasm-schnorrkel";
 
 @Component({
   selector: 'app-wallet-detail',
@@ -106,6 +108,8 @@ export class WalletDetailComponent implements OnInit {
     });
   }
   ngOnInit() {
+    const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
+    console.log('call--bytes:', new Uint8Array(Buffer.from(hex, 'hex')));
     this.address = this.ls.getObject('wallet_address');
     console.log('this.address: ', this.address);
     this.nonce = this.getNonce( this.address);
@@ -164,9 +168,11 @@ export class WalletDetailComponent implements OnInit {
     console.log('destShardNum', destShardNum);
     const secret = hexToBytes(this.model.sendPrivateKey);
     console.log('secret:', secret);
+    const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
+    console.log('call--bytes:', new Uint8Array(Buffer.from(hex, 'hex')));
     // tslint:disable-next-line:no-eval
-    const height = eval('0xb069');
-    // console.log(height);
+    const height = this.getHeight(sendShardNum);
+    console.log('height:', height);
     const longevity = 64;
     const l = Math.min(15, Math.max(1, Math.ceil(Math.log2(longevity)) - 1));
     // tslint:disable-next-line:no-bitwise
@@ -175,11 +181,15 @@ export class WalletDetailComponent implements OnInit {
     const factor = Math.max(1, period >> 12);
     const Q = (n, d) => Math.floor(n / d) * d;
     const eraNumber = Q(height, factor);
+    console.log('eraNumber:', eraNumber);
     const phase = eraNumber % period;
     const era = new TransactionEra(period, phase);
     // console.log(era);
-    const call = new Uint8Array(3);
-    const e = encode([1, call, era, '0x92efd1f895cfab6ce8e428157b97e072445459f28109a4131af4d54f9f5af6b8'], [
+    const call = new Uint8Array(Buffer.from(hex, 'hex'));
+    const index = this.getNonce(this.model.sendAddress);
+    console.log('index:', index);
+    const eraHash =  this.getBestHash(sendShardNum, eraNumber);
+    const e = encode([index, call, era, '0x92efd1f895cfab6ce8e428157b97e072445459f28109a4131af4d54f9f5af6b8'], [
       'Compact<Index>', 'Call', 'TransactionEra', 'Hash'
     ]);
     console.log('e:', e);
@@ -190,8 +200,25 @@ export class WalletDetailComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     // console.log(a);
     // console.log(b);
-    // const signature = sign(a, b, e);
-    // console.log(signature);
+    const address = '0x' + Buffer.from(senderPublic).toString('hex');
+    console.log('address:', address);
+    const signature = sign(senderPublic, secret, e);
+    console.log('signature:', signature);
+    const signmodel = new SignedData(0x81, address, signature, index, era, call);
+    console.log('signmodel:', encode(signmodel, 'Transaction'));
+    const signedDataex = encode(encode({
+      version: 0x81,
+      sender: address,
+      signature,
+      index,
+      era,
+      call
+    }, 'Transaction'), 'Vec<u8>');
+    console.log('signedDataex:', signedDataex);
+    const signedData = encode(encode(signmodel, 'Transaction'), 'Vec<u8>');
+    console.log('signedData:', signedData);
+    const extrinsic = '0x' + bytesToHex(signedData);
+    console.log('extrinsic:', extrinsic);
     //
     // this.runInBalancesTransferCall('tyee1r3ur0wf3y5a5aveeecangcwmw3wwfjje86gd9ve4smchmkhdzavqvj4dsq', '3333' , (call) => {
     //   console.log(call);
@@ -204,19 +231,21 @@ export class WalletDetailComponent implements OnInit {
     // const params = new HttpParams().set('_page', '1').set('_limit',  '1');
 
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [1], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      // console.log(res.result);
-      // console.log(hexToBytes(res.result.toString()));
-    });
+    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [1], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+    //   // console.log(res.result);
+    //   // console.log(hexToBytes(res.result.toString()));
+    // });
+    // // tslint:disable-next-line:max-line-length
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getNonce', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      // console.log(res.result);
-    });
+    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getNonce', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+    //   // console.log(res.result);
+    // });
+    // // tslint:disable-next-line:max-line-length
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getBalance', params: ['tyee1t2kk9rmkx4rgxtyspc40ugpvf3rr5658mtqjxt6p7xqpgsu6l94s2w6cpp'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      // console.log(res.result);
-      this.balance = res.result;
-    });
+    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getBalance', params: ['tyee1t2kk9rmkx4rgxtyspc40ugpvf3rr5658mtqjxt6p7xqpgsu6l94s2w6cpp'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+    //   // console.log(res.result);
+    //   this.balance = res.result;
+    // });
     // tslint:disable-next-line:max-line-length
     this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'author_submitExtrinsic', params: ['0x290281ff927b69286c0137e2ff66c6e561f721d2e6a2e9b92402d2eed7aebdca99005c701e702c4970676ff5a42c6e2619ab0c33e6802b3b1ce0971a114ce5ee88ffd55aca5e7c204f27a6497552d4176d31d94edb93211e2a0ed78b7176979b8ad12b060cd5020400ff1c7837b931253b4eb339ce3b3461db745ce4ca593e90d2b33586f17ddaed17581534'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
       // console.log(res.error);
@@ -261,6 +290,30 @@ export class WalletDetailComponent implements OnInit {
       this.balance = eval(res.result);
     });
     return this.balance;
+  }
+  public getBestHash(shard: number, h: number) {
+    if (shard === null || shard === undefined || h === null || h === undefined) {
+      return;
+    }
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHead', params: [shard, h], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      console.log('chain_getHead: ', hexToBytes(res.result));
+      // tslint:disable-next-line:no-eval
+      return  hexToBytes(res.result);
+    });
+  }
+  public getHeight(shard: number) {
+    if (shard === null || shard === undefined ) {
+      return;
+    }
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [shard], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      console.log('chain_getHeader: ', eval(res.result.number));
+      // tslint:disable-next-line:no-eval
+      return eval(res.result.number);
+    });
   }
   public getNonce(str: string) {
     if (str === '' || str === undefined ) {
