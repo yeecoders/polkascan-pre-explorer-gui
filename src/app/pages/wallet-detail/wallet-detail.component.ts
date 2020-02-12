@@ -138,7 +138,7 @@ export class WalletDetailComponent implements OnInit {
     const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
     return transitmessage;
   }
-  transfer() {
+  async transfer() {
     const decryptstr = this.decrypt(this.ls.getObject('wallet_private_key_enc') , this.model.password);
     console.log('decryptstr:', decryptstr);
     // tslint:disable-next-line:max-line-length
@@ -171,7 +171,7 @@ export class WalletDetailComponent implements OnInit {
     const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
     console.log('call--bytes:', new Uint8Array(Buffer.from(hex, 'hex')));
     // tslint:disable-next-line:no-eval
-    const height = this.getHeight(sendShardNum);
+    const height = await this.getHeight(sendShardNum);
     console.log('height:', height);
     const longevity = 64;
     const l = Math.min(15, Math.max(1, Math.ceil(Math.log2(longevity)) - 1));
@@ -188,7 +188,7 @@ export class WalletDetailComponent implements OnInit {
     const call = new Uint8Array(Buffer.from(hex, 'hex'));
     const index = this.getNonce(this.model.sendAddress);
     console.log('index:', index);
-    const eraHash =  this.getBestHash(sendShardNum, eraNumber);
+    const eraHash = await this.getBestHash(sendShardNum, eraNumber);
     const e = encode([index, call, era, '0x92efd1f895cfab6ce8e428157b97e072445459f28109a4131af4d54f9f5af6b8'], [
       'Compact<Index>', 'Call', 'TransactionEra', 'Hash'
     ]);
@@ -297,23 +297,36 @@ export class WalletDetailComponent implements OnInit {
     }
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHead', params: [shard, h], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+    const data = this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHead', params: [shard, h], id: 0}, {headers}).toPromise().then((res: Jsonrpc) => {
       console.log('chain_getHead: ', hexToBytes(res.result));
       // tslint:disable-next-line:no-eval
       return  hexToBytes(res.result);
     });
+    return data;
   }
   public getHeight(shard: number) {
-    if (shard === null || shard === undefined ) {
+    if (shard === null || shard === undefined) {
       return;
     }
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [shard], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [shard], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+    //   console.log('chain_getHeader: ', eval(res.result.number));
+    //   // tslint:disable-next-line:no-eval
+    //   return eval(res.result.number);
+    // });
+    // tslint:disable-next-line:max-line-length
+    const data = this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {
+      jsonrpc: '2.0',
+      method: 'chain_getHeader',
+      params: [shard],
+      id: 0
+    }, {headers}).toPromise().then((res: Jsonrpc) => {
       console.log('chain_getHeader: ', eval(res.result.number));
       // tslint:disable-next-line:no-eval
       return eval(res.result.number);
     });
+    return data;
   }
   public getNonce(str: string) {
     if (str === '' || str === undefined ) {
