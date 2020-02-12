@@ -87,6 +87,7 @@ export class CreateWalletComponent implements OnInit {
     return bb;
   }
   createAccount() {
+    this.resout.result = '';
     console.log(this.model);
     if ( this.model.passWord === '' ) {
       this.resout.result = 'Please fill passWord';
@@ -105,11 +106,12 @@ export class CreateWalletComponent implements OnInit {
       console.log(rawPrivateKey);
       this.privateKey = '0x' + bytesToHex(rawPrivateKey);
       console.log(this.privateKey);
-      this.ls.setObject(this.address, this.encrypt(this.privateKey, this.model.passWord));
+      this.ls.setObject('wallet_address', this.address);
+      this.ls.setObject('wallet_private_key_enc', this.encrypt(this.privateKey, this.model.passWord));
       setTimeout(() => {
-          this.router.navigate([this.networkURLPrefix, 'wallet', this.address]);
+          this.router.navigate([this.networkURLPrefix, 'wallet']);
         },
-        5000);
+        2000);
     });
   }
   public encrypt(msg, pass) {

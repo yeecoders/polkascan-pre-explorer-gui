@@ -23,7 +23,7 @@ import {DocumentCollection} from 'ngx-jsonapi';
 import {Extrinsic} from '../../classes/extrinsic.class';
 import {BalanceTransferService} from '../../services/balance-transfer.service';
 import {ExtrinsicService} from '../../services/extrinsic.service';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import {Account} from '../../classes/account.class';
@@ -74,6 +74,7 @@ export class WalletDetailComponent implements OnInit {
   public shardnum: number;
   public subex: string;
   public address: string;
+  public transferRes: string;
   public privateKey: string;
   constructor(
     private ls: LocalStorage,
@@ -83,12 +84,13 @@ export class WalletDetailComponent implements OnInit {
     private accountIndexService: AccountIndexService,
     private httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
-  public model = new Transfer('', '', '', '');
-  public immodel = new Transfer('', '', '', '');
   public resout = new ResultOut('', false, false);
+  public model = new Transfer('', '', '', '', '');
+  public immodel = new Transfer('', '', '', '', '');
   public keySize = 256;
   public iterations = 100;
   public password = '111Password';
@@ -104,74 +106,12 @@ export class WalletDetailComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.activatedRoute.params.subscribe(val => {
-      this.address = val.id;
-      console.log('params.get(\'getaddress\'): ',  this.address);
-      this.nonce = this.getNonce( this.address);
-      this.balance = this.getBalance( this.address);
-      this.shardnum = this.getshardnum( this.address);
-    });
+    this.address = this.ls.getObject('wallet_address');
+    console.log('this.address: ', this.address);
+    this.nonce = this.getNonce( this.address);
+    this.balance = this.getBalance( this.address);
+    this.shardnum = this.getshardnum( this.address);
     // initRuntime();
-    // tslint:disable-next-line:no-eval
-    const height = eval('0xb069');
-    console.log(height);
-    //
-    const longevity = 64;
-    const l = Math.min(15, Math.max(1, Math.ceil(Math.log2(longevity)) - 1));
-    // tslint:disable-next-line:no-bitwise
-    const period = 2 << l;
-    // tslint:disable-next-line:no-bitwise
-    const factor = Math.max(1, period >> 12);
-    const Q = (n, d) => Math.floor(n / d) * d;
-    const eraNumber = Q(height, factor);
-    const phase = eraNumber % period;
-    const era = new TransactionEra(period, phase);
-    console.log(era);
-    const call = new Uint8Array(3);
-
-    const e = encode([1, call, era, '0x92efd1f895cfab6ce8e428157b97e072445459f28109a4131af4d54f9f5af6b8'], [
-      'Compact<Index>', 'Call', 'TransactionEra', 'Hash'
-    ]);
-    console.log(e);
-    // tslint:disable-next-line:max-line-length
-    const a = this.bech32_decode('tyee12fdz0fgjne0j8tnlffvhfhnp7dhq74s6t50963rzqqdxaujfzdusvzkfux');
-    // tslint:disable-next-line:max-line-length
-    const b =    hexToBytes('0x7093235ec2fc85eeb4c778293979ca3885d410d6afcbd883213dc9063f277e5841513c8f8cd511dde34a79a1a1e6d317671f0d8011ce9dea19f6c1ca9ddf689d');
-    // tslint:disable-next-line:max-line-length
-    console.log(a);
-    console.log(b);
-    // const signature = sign(a, b, e);
-    // console.log(signature);
-    //
-    // this.runInBalancesTransferCall('tyee1r3ur0wf3y5a5aveeecangcwmw3wwfjje86gd9ve4smchmkhdzavqvj4dsq', '3333' , (call) => {
-    //   console.log(call);
-    //   }
-    // );
-    // this.httpClient.get('https://pocnet.yeescan.org/api/v1/extrinsic').subscribe(data => {
-    //   console.log(data);
-    // });
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    // const params = new HttpParams().set('_page', '1').set('_limit',  '1');
-
-    // tslint:disable-next-line:max-line-length
-    this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [1], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      console.log(res.result);
-      console.log(hexToBytes(res.result.toString()));
-    });
-    // tslint:disable-next-line:max-line-length
-    this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getNonce', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      console.log(res.result);
-    });
-    // tslint:disable-next-line:max-line-length
-    this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getBalance', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      console.log(res.result);
-      this.balance = res.result;
-    });
-   // tslint:disable-next-line:max-line-length
-    this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'author_submitExtrinsic', params: ['0x290281ff927b69286c0137e2ff66c6e561f721d2e6a2e9b92402d2eed7aebdca99005c701e702c4970676ff5a42c6e2619ab0c33e6802b3b1ce0971a114ce5ee88ffd55aca5e7c204f27a6497552d4176d31d94edb93211e2a0ed78b7176979b8ad12b060cd5020400ff1c7837b931253b4eb339ce3b3461db745ce4ca593e90d2b33586f17ddaed17581534'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      console.log(res.error);
-    });
-    console.log(this.balance);
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
   }
@@ -195,40 +135,128 @@ export class WalletDetailComponent implements OnInit {
     return transitmessage;
   }
   transfer() {
-    if (this.model.sendAddress === '' || this.model.sendPrivateKey === '' || this.model.dest === '' || this.model.amount === '') {
-      this.resout.result = 'Please fill all';
+    const decryptstr = this.decrypt(this.ls.getObject('wallet_private_key_enc') , this.model.password);
+    console.log('decryptstr:', decryptstr);
+    // tslint:disable-next-line:max-line-length
+    this.model.sendPrivateKey = '0x1025ba3a87d28cfe9569628d97622995e5d132bc5d3362f8083f3846dfe3754e044e3483a9187a2262e21ff11160461d2c3dfb051e0f7df36b92a4462c057f6b';
+    this.model.sendAddress = 'tyee1aggp26vqppujx0926sas0g53zsg63yzqzsuutsx4t75v5mjkhgvs2g4r4v';
+    if (this.model.password === '' || this.model.dest === '' || this.model.amount === '') {
+      this.resout.result = 'Please fill all input';
       this.resout.showResult = true;
-      console.log(this.resout);
+      // console.log(this.resout);
       return;
     }
     // @ts-ignore
     if (this.model.amount < 1000) {
       this.resout.result = 'The amount should not be less than 1000';
       this.resout.showResult = true;
-      console.log(this.resout);
+      console.log('resout:', this.resout);
       return;
     }
-    console.log(this.model);
+    console.log('this.model:' , this.model);
     const descPublic = this.bech32_decode(this.model.dest);
     const senderPublic = this.bech32_decode(this.model.sendAddress);
-    console.log(descPublic);
-    console.log(senderPublic);
+    console.log('descPublic:', descPublic);
+    console.log('senderPublic:', senderPublic);
     const sendShardNum = this.getshardnum(this.model.sendAddress);
     const destShardNum = this.getshardnum(this.model.dest);
-    console.log(sendShardNum);
-    console.log(destShardNum);
+    console.log('sendShardNum', sendShardNum);
+    console.log('destShardNum', destShardNum);
     const secret = hexToBytes(this.model.sendPrivateKey);
-    console.log(secret);
-  }
+    console.log('secret:', secret);
+    // tslint:disable-next-line:no-eval
+    const height = eval('0xb069');
+    // console.log(height);
+    const longevity = 64;
+    const l = Math.min(15, Math.max(1, Math.ceil(Math.log2(longevity)) - 1));
+    // tslint:disable-next-line:no-bitwise
+    const period = 2 << l;
+    // tslint:disable-next-line:no-bitwise
+    const factor = Math.max(1, period >> 12);
+    const Q = (n, d) => Math.floor(n / d) * d;
+    const eraNumber = Q(height, factor);
+    const phase = eraNumber % period;
+    const era = new TransactionEra(period, phase);
+    // console.log(era);
+    const call = new Uint8Array(3);
+    const e = encode([1, call, era, '0x92efd1f895cfab6ce8e428157b97e072445459f28109a4131af4d54f9f5af6b8'], [
+      'Compact<Index>', 'Call', 'TransactionEra', 'Hash'
+    ]);
+    console.log('e:', e);
+    // tslint:disable-next-line:max-line-length
+    const a = this.bech32_decode('tyee12fdz0fgjne0j8tnlffvhfhnp7dhq74s6t50963rzqqdxaujfzdusvzkfux');
+    // tslint:disable-next-line:max-line-length
+    const b =    hexToBytes('0x7093235ec2fc85eeb4c778293979ca3885d410d6afcbd883213dc9063f277e5841513c8f8cd511dde34a79a1a1e6d317671f0d8011ce9dea19f6c1ca9ddf689d');
+    // tslint:disable-next-line:max-line-length
+    // console.log(a);
+    // console.log(b);
+    // const signature = sign(a, b, e);
+    // console.log(signature);
+    //
+    // this.runInBalancesTransferCall('tyee1r3ur0wf3y5a5aveeecangcwmw3wwfjje86gd9ve4smchmkhdzavqvj4dsq', '3333' , (call) => {
+    //   console.log(call);
+    //   }
+    // );
+    // this.httpClient.get('https://pocnet.yeescan.org/api/v1/extrinsic').subscribe(data => {
+    //   console.log(data);
+    // });
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // const params = new HttpParams().set('_page', '1').set('_limit',  '1');
 
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [1], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      // console.log(res.result);
+      // console.log(hexToBytes(res.result.toString()));
+    });
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getNonce', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      // console.log(res.result);
+    });
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getBalance', params: ['tyee1t2kk9rmkx4rgxtyspc40ugpvf3rr5658mtqjxt6p7xqpgsu6l94s2w6cpp'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      // console.log(res.result);
+      this.balance = res.result;
+    });
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'author_submitExtrinsic', params: ['0x290281ff927b69286c0137e2ff66c6e561f721d2e6a2e9b92402d2eed7aebdca99005c701e702c4970676ff5a42c6e2619ab0c33e6802b3b1ce0971a114ce5ee88ffd55aca5e7c204f27a6497552d4176d31d94edb93211e2a0ed78b7176979b8ad12b060cd5020400ff1c7837b931253b4eb339ce3b3461db745ce4ca593e90d2b33586f17ddaed17581534'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      // console.log(res.error);
+    });
+    this.transferRes = 'transfer success';
+    // setTimeout(() => {
+    //     this.router.navigate(['', '/']);
+    //   },
+    //   4000);
+  }
+  public decrypt(transitmessage, pass) {
+    // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
+    const salt = 'yee';
+    const iv = crypto.enc.Hex.parse(transitmessage.substr(3, 32));
+    // console.log('iv--' + iv.toString());
+    const encrypted = transitmessage.substring(35);
+    // console.log('encrypted--' + encrypted.toString());
+
+    const key = crypto.PBKDF2(pass, salt, {
+      keySize: this.keySize / 32,
+      iterations: this.iterations
+    });
+
+    const decrypted = crypto.AES.decrypt(encrypted, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
+      iv,
+      padding: crypto.pad.Pkcs7,
+      mode: crypto.mode.CTR
+
+    });
+   // console.log('decrypted--' + decrypted.toString());
+    return decrypted;
+  }
   public getBalance(str: string) {
     if (str === '' || str === undefined ) {
       return;
     }
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getBalance', params: [str], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      console.log(res.result);
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getBalance', params: [str], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      console.log('getBalance: ', res.result);
       // tslint:disable-next-line:no-eval
       this.balance = eval(res.result);
     });
@@ -240,8 +268,8 @@ export class WalletDetailComponent implements OnInit {
     }
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post('http://3.1.169.4:9933/', {jsonrpc: '2.0' , method: 'state_getNonce', params: [str], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      console.log(res.result);
+    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getNonce', params: [str], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
+      console.log('getNonce: ', res.result);
       // tslint:disable-next-line:no-eval
       this.nonce = eval(res.result);
     });
@@ -257,18 +285,18 @@ export class WalletDetailComponent implements OnInit {
     return shardNum;
   }
 
-  public import() {
-    console.log(this.immodel);
-    if (this.immodel.sendAddress === '' || this.immodel.sendPrivateKey === '' ) {
-      this.resout.result = 'Please fill all';
-      this.resout.showResult = true;
-      console.log(this.resout);
-      return;
-    }
-    this.address = this.immodel.sendAddress;
-    this.ls.setObject(this.immodel.sendAddress, this.encrypt(this.immodel.sendPrivateKey, this.password));
-
-  }
+  // public import() {
+  //   console.log(this.immodel);
+  //   if (this.immodel.sendAddress === '' || this.immodel.sendPrivateKey === '' ) {
+  //     this.resout.result = 'Please fill all';
+  //     this.resout.showResult = true;
+  //     console.log(this.resout);
+  //     return;
+  //   }
+  //   this.address = this.immodel.sendAddress;
+  //   this.ls.setObject(this.immodel.sendAddress, this.encrypt(this.immodel.sendPrivateKey, this.password));
+  //
+  // }
   bech32_decode(str: string) {
     // const str = 'yee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsqesk8y';
     const prefix = bech32.decode(str).prefix;

@@ -73,7 +73,7 @@ const routes: Routes = [
   { path: '', component: DashboardComponent},
   { path: 'create-wallet', component: CreateWalletComponent },
   { path: 'import-wallet', component: ImportWalletComponent },
-  { path: 'wallet/:id', component: WalletDetailComponent },
+  { path: 'wallet', component: WalletDetailComponent },
   { path: 'block', component: BlockListComponent },
   { path: 'block/:id', component: BlockDetailComponent },
   { path: 'transaction', component: TransactionListComponent},

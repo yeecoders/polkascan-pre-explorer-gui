@@ -15,25 +15,56 @@
 <!--      <span>balance</span><span class="ml-2">-->
 <!--        <div class="d-inline-block"></div>-->
 <!--      </span></div>-->
-    <table class="table is-fullwidth is-striped">
-      <tbody>
-      <tr>
-        <td>{{ 'AccountDetail.ShardNum' | translate }}</td>
-        <td>{{shardnum}}</td>
-      </tr>
-      <tr>
-        <td>{{ 'AccountDetail.Free Balance' | translate }}</td>
-        <td>{{ balance }} {{ networkTokenSymbol }}</td>
-      </tr>
-      <tr>
-        <td>{{ 'AccountDetail.Nonce' | translate }}</td>
-        <td>{{ nonce}}</td>
-      </tr>
-      </tbody>
-    </table>
+<!--    <table class="table is-fullwidth is-striped">-->
+<!--      <tbody>-->
+<!--      <tr>-->
+<!--        <td>{{ 'AccountDetail.ShardNum' | translate }}</td>-->
+<!--        <td>{{shardnum}}</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>{{ 'AccountDetail.Free Balance' | translate }}</td>-->
+<!--        <td>{{ balance }} {{ networkTokenSymbol }}</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>{{ 'AccountDetail.Nonce' | translate }}</td>-->
+<!--        <td>{{ nonce}}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
 
 
   <div class="column is-12">
+    <section class="info-tiles">
+      <div class="tile is-ancestor has-text-centered">
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+                        <span class="icon">
+                            <i class="fa fa-cube fa-2x"></i>
+                        </span>
+            <p class="title" >{{ balance ||0}} {{ networkTokenSymbol }}</p>
+            <p class="subtitle">{{ 'Balance' | translate }}</p>
+          </article>
+        </div>
+        <div class="tile is-parent is-2-tablet">
+          <article class="tile is-child box">
+                        <span class="icon">
+                            <i class="fa fa-cubes fa-2x"></i>
+                        </span>
+            <p class="title">{{shardnum}}</p>
+            <p class="subtitle">{{ 'ShardNum' | translate }}</p>
+          </article>
+        </div>
+        <div class="tile is-parent is-2-tablet">
+          <article class="tile is-child box">
+                        <span class="icon">
+                            <i class="fa fa-percentage fa-2x"></i>
+                        </span>
+            <p class="title" >{{ nonce ||0}}</p>
+            <p class="subtitle">{{ 'Nonce' | translate }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
 <!--    <section class="creat center">-->
 <!--      <div class="name">-->
 <!--        Create Wallet-->
@@ -61,26 +92,26 @@
 <!--    </section>-->
     <section class="creat center transfer">
       <div class="name">
-        Transfer
+        Transfer <span style="color: #FF0000; "> {{resout.result}}</span>
       </div>
+<!--      <div class=" information">-->
+<!--        <p class="wtitle">-->
+<!--          <span class="innertitle">-->
+<!--            From address-->
+<!--          </span>-->
+<!--        </p>-->
+<!--        <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendAddress">-->
+<!--        <p class="production">Your wallet address</p>-->
+<!--      </div>-->
       <div class=" information">
         <p class="wtitle">
           <span class="innertitle">
-            From address
+            Password of Private Key
           </span>
         </p>
-        <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendAddress">
-        <p class="production">Your wallet address</p>
-      </div>
-      <div class=" information">
-        <p class="wtitle">
-          <span class="innertitle">
-            Password for Private Key
-          </span>
-        </p>
-        <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendPrivateKey">
+        <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.password">
 
-        <p class="production">Your wallet Password for Private Key</p>
+        <p class="production">Your wallet Password of Private Key</p>
       </div>
       <div class=" information">
         <p class="wtitle">
@@ -110,6 +141,7 @@
 <!--          </p>-->
 <!--        </div>-->
       <button type="submit" class="ceratedone"  (click)="transfer()" >Transfer</button>
+      <span style="color: #008000; "> {{transferRes }}</span>
     </section>
 <!--    <section class="creat center transfer">-->
 <!--      <div class="name">-->

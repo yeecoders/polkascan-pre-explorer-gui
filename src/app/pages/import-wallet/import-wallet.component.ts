@@ -56,16 +56,22 @@ export class ImportWalletComponent implements OnInit {
     this.networkURLPrefix = '';
   }
   public import() {
+    this.resout.result = '';
     console.log(this.model);
-    if (this.model.sendAddress === '' || this.model.sendPrivateKey === '' || this.model.passWord === '' ) {
-      this.resout.result = 'Please fill all';
+    if ( this.model.sendPrivateKey === '' || this.model.passWord === '' ) {
+      this.resout.result = 'Please fill all input';
       this.resout.showResult = true;
       console.log(this.resout);
       return;
     }
     // this.model.sendAddress = u8aToHex(toPublic(hexToBytes(this.model.sendPrivateKey)));
-    this.ls.setObject(this.model.sendAddress, this.encrypt(this.model.sendPrivateKey, this.model.passWord));
-    this.router.navigate([this.networkURLPrefix, 'wallet', this.model.sendAddress]);
+    this.model.sendAddress = 'tyee1aggp26vqppujx0926sas0g53zsg63yzqzsuutsx4t75v5mjkhgvs2g4r4v';
+    // tslint:disable-next-line:max-line-length
+    this.model.sendPrivateKey = '0x1025ba3a87d28cfe9569628d97622995e5d132bc5d3362f8083f3846dfe3754e044e3483a9187a2262e21ff11160461d2c3dfb051e0f7df36b92a4462c057f6b';
+    this.ls.setObject('wallet_address', this.model.sendAddress);
+    this.ls.setObject('wallet_private_key_enc', this.encrypt(this.model.sendPrivateKey, this.model.passWord));
+    this.router.navigate([this.networkURLPrefix, 'wallet']);
+
   }
   // get(): void {
   //   this.ls.remove('logincache');

@@ -10,12 +10,12 @@
           <p class="wtitle">
             PassWord
           </p>
-          <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.passWord">
-
-          <p class="production">Your wallet PassWord of private key</p>
+          <input class="inputw is-large is-loading" type="password" [(ngModel)]="model.passWord"><span style="color: #FF0000; "> {{resout.result}}</span>
+          <p class="production">Your wallet PassWord </p>
         </div>
-        <p class="production"> Create the wallet address </p>
         <button class="ceratedone" (click)="createAccount()">Create</button>
+        <p class="production"> Create your wallet  </p>
+        <div *ngIf="address">
         <div class="information">
           <p class="wtitle">
             Address
@@ -32,6 +32,7 @@
             <span class="privatekeytext">{{privateKey}}</span>
           </p>
           <div>Please back up private key by yourself for further use.</div>
+        </div>
         </div>
       </section>
     </div>

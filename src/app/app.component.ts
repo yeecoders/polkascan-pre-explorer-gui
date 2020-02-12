@@ -24,6 +24,7 @@ import { Component } from '@angular/core';
 import {environment} from '../environments/environment';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import {LocalStorage} from '../app/pages/wallet-detail/local.storage';
 
 @Component({
   selector: 'app-root',
@@ -32,14 +33,14 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   title = 'Polkascan';
-
+  public cache: string;
   public environment = environment;
   public showNavigation = false;
   public showSubmenus = true;
   public langs = ['en', 'de', 'fr', 'it', 'es', 'zh', 'ja', 'ko', 'ru', 'uk'];
   public selectedLanguage = 'en';
 
-  constructor(private router: Router, private translate: TranslateService) {
+  constructor(private router: Router, private translate: TranslateService, private ls: LocalStorage) {
     router.events.subscribe((val) => {
         this.showNavigation = false;
     });
@@ -49,7 +50,11 @@ export class AppComponent {
     // this.selectedLanguage = translate.getBrowserLang().match(/en|de|fr|it|es|zh|ja|ko|ru|uk/) ? translate.getBrowserLang() : 'en';
     translate.use(this.selectedLanguage);
   }
-
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnInit() {
+    this.cache = this.ls.getObject('wallet_address');
+    console.log('this.cache: ', this.cache);
+  }
   toggleNavigation() {
     this.showNavigation = !this.showNavigation;
   }
