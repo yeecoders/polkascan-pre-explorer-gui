@@ -59,25 +59,16 @@ import {sign} from "@polkadot/wasm-schnorrkel";
   styleUrls: ['./wallet-detail.component.scss']
 })
 export class WalletDetailComponent implements OnInit {
-  // public trs: Transfer;
-
-  public balanceTransfers: DocumentCollection<BalanceTransfer>;
   public extrinsics: DocumentCollection<Extrinsic>;
-  public account$: Observable<Account>;
-  public submitted = false;
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
-  public currentTab: string;
   public cache: string;
-  public jsonrpc: Jsonrpc;
   public nonce: string;
   public header: string;
   public balance: string;
   public shardnum: number;
-  public subex: string;
   public address: string;
   public transferRes: string;
-  public privateKey: string;
   constructor(
     private ls: LocalStorage,
     private balanceTransferService: BalanceTransferService,
@@ -85,8 +76,6 @@ export class WalletDetailComponent implements OnInit {
     private accountService: AccountService,
     private accountIndexService: AccountIndexService,
     private httpClient: HttpClient,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
   ) {
   }
 
@@ -118,25 +107,6 @@ export class WalletDetailComponent implements OnInit {
     // initRuntime();
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
-  }
-
-  encrypt(msg, pass) {
-    const salt = 'yee';
-    const key = crypto.PBKDF2(pass, salt, {
-      keySize: this.keySize / 32,
-      iterations: this.iterations
-    });
-    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
-    const encrypted = crypto.AES.encrypt(msg, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
-      iv,
-      padding: crypto.pad.Pkcs7,
-      mode: crypto.mode.CTR
-
-    });
-    // salt, iv will be hex 32 in length
-    // append them to the ciphertext for use  in decryption
-    const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
-    return transitmessage;
   }
   async transfer() {
     const decryptstr = this.decrypt(this.ls.getObject('wallet_private_key_enc') , this.model.password);
@@ -224,33 +194,23 @@ export class WalletDetailComponent implements OnInit {
     //   console.log(call);
     //   }
     // );
-    // this.httpClient.get('https://pocnet.yeescan.org/api/v1/extrinsic').subscribe(data => {
-    //   console.log(data);
-    // });
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // const params = new HttpParams().set('_page', '1').set('_limit',  '1');
-
     // tslint:disable-next-line:max-line-length
-    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [1], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-    //   // console.log(res.result);
-    //   // console.log(hexToBytes(res.result.toString()));
-    // });
-    // // tslint:disable-next-line:max-line-length
-    // tslint:disable-next-line:max-line-length
-    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getNonce', params: ['tyee1jfakj2rvqym79lmxcmjkraep6tn296deyspd9mkh467u4xgqt3cqkv6lyl'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-    //   // console.log(res.result);
-    // });
-    // // tslint:disable-next-line:max-line-length
-    // tslint:disable-next-line:max-line-length
-    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'state_getBalance', params: ['tyee1t2kk9rmkx4rgxtyspc40ugpvf3rr5658mtqjxt6p7xqpgsu6l94s2w6cpp'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-    //   // console.log(res.result);
-    //   this.balance = res.result;
-    // });
-    // tslint:disable-next-line:max-line-length
-    this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'author_submitExtrinsic', params: ['0x290281ff927b69286c0137e2ff66c6e561f721d2e6a2e9b92402d2eed7aebdca99005c701e702c4970676ff5a42c6e2619ab0c33e6802b3b1ce0971a114ce5ee88ffd55aca5e7c204f27a6497552d4176d31d94edb93211e2a0ed78b7176979b8ad12b060cd5020400ff1c7837b931253b4eb339ce3b3461db745ce4ca593e90d2b33586f17ddaed17581534'], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-      // console.log(res.error);
+    const data =     this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'author_submitExtrinsic', params: [extrinsic], id: 0}, {headers})
+      .toPromise().then((res: Jsonrpc) => {
+        // tslint:disable-next-line:no-eval
+      if (res.result === undefined ) {
+        console.log('author_submitExtrinsic: ',  res.error);
+        this.transferRes =  res.error.message;
+        return  res.error;
+      } else {
+        console.log('author_submitExtrinsic: ', res.result );
+        this.transferRes =  res.result;
+        return  res.result;
+      }
     });
-    this.transferRes = 'transfer success';
+    // this.transferRes = 'transfer success';
     // setTimeout(() => {
     //     this.router.navigate(['', '/']);
     //   },
@@ -310,12 +270,6 @@ export class WalletDetailComponent implements OnInit {
     }
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // tslint:disable-next-line:max-line-length
-    // this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {jsonrpc: '2.0' , method: 'chain_getHeader', params: [shard], id: 0}, {headers}).subscribe((res: Jsonrpc) => {
-    //   console.log('chain_getHeader: ', eval(res.result.number));
-    //   // tslint:disable-next-line:no-eval
-    //   return eval(res.result.number);
-    // });
-    // tslint:disable-next-line:max-line-length
     const data = this.httpClient.post('https://pocnet.yeescan.org/switch/api/', {
       jsonrpc: '2.0',
       method: 'chain_getHeader',
@@ -351,18 +305,6 @@ export class WalletDetailComponent implements OnInit {
     return shardNum;
   }
 
-  // public import() {
-  //   console.log(this.immodel);
-  //   if (this.immodel.sendAddress === '' || this.immodel.sendPrivateKey === '' ) {
-  //     this.resout.result = 'Please fill all';
-  //     this.resout.showResult = true;
-  //     console.log(this.resout);
-  //     return;
-  //   }
-  //   this.address = this.immodel.sendAddress;
-  //   this.ls.setObject(this.immodel.sendAddress, this.encrypt(this.immodel.sendPrivateKey, this.password));
-  //
-  // }
   bech32_decode(str: string) {
     // const str = 'yee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsqesk8y';
     const prefix = bech32.decode(str).prefix;
