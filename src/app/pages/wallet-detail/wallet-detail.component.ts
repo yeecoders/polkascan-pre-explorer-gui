@@ -112,8 +112,8 @@ export class WalletDetailComponent implements OnInit {
     const decryptstr = this.decrypt(this.ls.getObject('wallet_private_key_enc') , this.model.password);
     console.log('decryptstr:', decryptstr);
     // tslint:disable-next-line:max-line-length
-    this.model.sendPrivateKey = '0x1025ba3a87d28cfe9569628d97622995e5d132bc5d3362f8083f3846dfe3754e044e3483a9187a2262e21ff11160461d2c3dfb051e0f7df36b92a4462c057f6b';
-    this.model.sendAddress = 'tyee1aggp26vqppujx0926sas0g53zsg63yzqzsuutsx4t75v5mjkhgvs2g4r4v';
+    this.model.sendPrivateKey = '0xa079ef650520662d08f270c4bc088f0c61abd0224f58243f6d1e6827c3ab234a7a1a0a3b89bbb02f2b10e357fd2a5ddb5050bc528c875a6990874f9dc6496772';
+    this.model.sendAddress = 'tyee12n2pjuwa5hukpnxjt49q5fal7m5h2ddtxxlju0yepzxty2e2fads5g57yd';
     if (this.model.password === '' || this.model.dest === '' || this.model.amount === '') {
       this.resout.result = 'Please fill all input';
       this.resout.showResult = true;
