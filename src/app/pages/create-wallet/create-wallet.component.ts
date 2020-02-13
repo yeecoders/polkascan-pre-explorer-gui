@@ -108,11 +108,14 @@ export class CreateWalletComponent implements OnInit {
       console.log(this.privateKey);
       this.ls.setObject('wallet_address', this.address);
       this.ls.setObject('wallet_private_key_enc', this.encrypt(this.privateKey, this.model.passWord));
-      setTimeout(() => {
-          this.router.navigate([this.networkURLPrefix, 'wallet']);
-        },
-        2000);
     });
+  }
+  public accessWallet() {
+    this.router.navigate([this.networkURLPrefix, 'wallet']);
+    // setTimeout(() => {
+    //     this.router.navigate([this.networkURLPrefix, 'wallet']);
+    //   },
+    //   2000);
   }
   public encrypt(msg, pass) {
     // var salt = CryptoJS.lib.WordArray.random(128/8);

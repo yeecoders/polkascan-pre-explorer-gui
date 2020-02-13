@@ -65,7 +65,11 @@ export class AppComponent {
     setTimeout(() => { this.showSubmenus = true; }, 300);
 
   }
-
+  logout() {
+    console.log('logout-----');
+    this.ls.remove('wallet_address');
+    this.ls.remove('wallet_private_key_enc');
+  }
   langsTitle(selectedLang: string) {
     switch (selectedLang) {
       case 'de':

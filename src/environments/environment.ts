@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  jsonApiRootUrl: 'http://yeescan.org:8000/',
+  jsonApiRootUrl: 'https://pocnet.yeescan.org/api/v1/',
   networkName: 'YeeCo',
   networkTokenSymbol: 'YEE',
   networkTokenDecimals: 8
