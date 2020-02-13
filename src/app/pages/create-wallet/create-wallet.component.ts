@@ -108,8 +108,10 @@ export class CreateWalletComponent implements OnInit {
       console.log(this.privateKey);
       this.ls.setObject('wallet_address', this.address);
       this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'));
-      console.log(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64')); // 编码
-      console.log(new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'), 'base64').toString()); // 解码
+      // console.log('encrypted.toString()--', this.encrypt(this.privateKey, this.model.passWord));
+      console.log('base64-encode--', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64')); // 编码
+      // tslint:disable-next-line:max-line-length
+      console.log('base64-decode--', new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'), 'base64').toString()); // 解码
     });
   }
   public accessWallet() {
@@ -150,7 +152,7 @@ export class CreateWalletComponent implements OnInit {
     console.log('encrypted--' + encrypted.toString());
     console.log('transitmessage--' + transitmessage.toString());
     // this.decrypt(transitmessage, pass);
-    return transitmessage;
+    return encrypted.toString();
   }
 
   public decrypt(transitmessage, pass) {

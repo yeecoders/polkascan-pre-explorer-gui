@@ -113,7 +113,7 @@ export class ImportWalletComponent implements OnInit {
     console.log('encrypted--' + encrypted.toString());
     console.log('transitmessage--' + transitmessage.toString());
     // this.decrypt(transitmessage, pass);
-    return transitmessage;
+    return encrypted.toString();
   }
 
   public decrypt(transitmessage, pass) {

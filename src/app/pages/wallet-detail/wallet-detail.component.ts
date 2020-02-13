@@ -220,17 +220,15 @@ export class WalletDetailComponent implements OnInit {
     // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
     transitmessage = new Buffer(transitmessage, 'base64').toString();
     const salt = 'yee';
-    const iv = crypto.enc.Hex.parse(transitmessage.substr(3, 32));
-    // console.log('iv--' + iv.toString());
-    const encrypted = transitmessage.substring(35);
-    // console.log('encrypted--' + encrypted.toString());
-
     const key = crypto.PBKDF2(pass, salt, {
       keySize: this.keySize / 32,
       iterations: this.iterations
     });
-
-    const decrypted = crypto.AES.decrypt(encrypted, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
+    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
+    console.log('iv--' + iv);
+    // console.log('iv--' + iv.toString());
+    console.log('encrypted--' + transitmessage);
+    const decrypted = crypto.AES.decrypt(transitmessage, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
       iv,
       padding: crypto.pad.Pkcs7,
       mode: crypto.mode.CTR
