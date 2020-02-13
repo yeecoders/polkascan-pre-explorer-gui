@@ -105,13 +105,16 @@ export class CreateWalletComponent implements OnInit {
       const rawPrivateKey = new Uint8Array(res.slice(0, 64));
       console.log(rawPrivateKey);
       this.privateKey = '0x' + bytesToHex(rawPrivateKey);
-      console.log(this.privateKey);
+      console.log('privateKey--', this.privateKey);
       this.ls.setObject('wallet_address', this.address);
-      this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'));
-      // console.log('encrypted.toString()--', this.encrypt(this.privateKey, this.model.passWord));
-      console.log('base64-encode--', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64')); // 编码
       // tslint:disable-next-line:max-line-length
-      console.log('base64-decode--', new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'), 'base64').toString()); // 解码
+      this.encrypt(this.privateKey, this.model.passWord);
+      this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'));
+      // // console.log('encrypted.toString()--', this.encrypt(this.privateKey, this.model.passWord));
+      // console.log('base64-encode--', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64')); // 编码
+      // // tslint:disable-next-line:max-line-length
+      // tslint:disable-next-line:max-line-length
+      // console.log('base64-decode--', new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'), 'base64').toString()); // 解码
     });
   }
   public accessWallet() {
@@ -131,11 +134,6 @@ export class CreateWalletComponent implements OnInit {
       keySize: this.keySize / 32,
       iterations: this.iterations
     });
-    console.log('key--' + key.toString());
-
-    // var iv = CryptoJS.lib.WordArray.random(128 / 8);
-    console.log('key--' + key.toString());
-
     const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
     console.log('iv--' + iv);
 
@@ -145,36 +143,46 @@ export class CreateWalletComponent implements OnInit {
       mode: crypto.mode.CTR
 
     });
+    console.log('encrypted-test-' + encrypted.toString());
     // salt, iv will be hex 32 in length
     // append them to the ciphertext for use  in decryption
-    const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
-    console.log('iv--' + iv.toString());
-    console.log('encrypted--' + encrypted.toString());
-    console.log('transitmessage--' + transitmessage.toString());
-    // this.decrypt(transitmessage, pass);
+    // const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
+    // console.log('iv--' + iv.toString());
+    // console.log('encrypted--' + encrypted.toString());
+    // console.log('transitmessage--' + transitmessage.toString());
+    this.decrypt( new Buffer(encrypted.toString()).toString('base64'), pass);
     return encrypted.toString();
   }
 
   public decrypt(transitmessage, pass) {
     // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
+    transitmessage = new Buffer(transitmessage, 'base64').toString();
     const salt = 'yee';
-    const iv = crypto.enc.Hex.parse(transitmessage.substr(3, 32));
-    console.log('iv--' + iv.toString());
-    const encrypted = transitmessage.substring(35);
-    console.log('encrypted--' + encrypted.toString());
-
     const key = crypto.PBKDF2(pass, salt, {
       keySize: this.keySize / 32,
       iterations: this.iterations
     });
-
-    const decrypted = crypto.AES.decrypt(encrypted, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
+    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
+    const decrypted = crypto.AES.decrypt(transitmessage, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
       iv,
       padding: crypto.pad.Pkcs7,
       mode: crypto.mode.CTR
 
     });
-    console.log('decrypted--' + decrypted.toString());
+    console.log('decrypted-test-' + decrypted.toString());
+
+    console.log(' decrypted.toString(CryptoJS.enc.Utf8) --' + decrypted.toString(crypto.enc.Utf8) );
     return decrypted;
+  }
+  public Copy(str: string) {
+    const range = document.createRange();
+    range.selectNode(document.getElementById(str));
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      selection.removeAllRanges();
+    }
+    selection.addRange(range);
+    document.execCommand('copy');
+    alert('复制成功');
   }
 }

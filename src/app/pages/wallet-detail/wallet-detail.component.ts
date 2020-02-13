@@ -51,7 +51,7 @@ import { HttpHeaders } from '@angular/common/http';
 import * as camel from 'change-case';
 import { TransformBond } from 'oo7';
 import {initRuntime} from 'src/assets/runtime.js';
-import {sign} from "@polkadot/wasm-schnorrkel";
+import {sign} from '@polkadot/wasm-schnorrkel';
 
 @Component({
   selector: 'app-wallet-detail',
@@ -138,8 +138,7 @@ export class WalletDetailComponent implements OnInit {
     console.log('destShardNum', destShardNum);
     const secret = hexToBytes(this.model.sendPrivateKey);
     console.log('secret:', secret);
-    const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
-    console.log('call--bytes:', new Uint8Array(Buffer.from(hex, 'hex')));
+    // const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
     // tslint:disable-next-line:no-eval
     const height = await this.getHeight(sendShardNum);
     console.log('height:', height);
@@ -155,7 +154,8 @@ export class WalletDetailComponent implements OnInit {
     const phase = eraNumber % period;
     const era = new TransactionEra(period, phase);
     // console.log(era);
-    const call = new Uint8Array(Buffer.from(hex, 'hex'));
+    const call = this.getInBalancesTransferCall(descPublic);
+    console.log('call:', call);
     const index = this.getNonce(this.model.sendAddress);
     console.log('index:', index);
     const eraHash = await this.getBestHash(sendShardNum, eraNumber);
@@ -215,6 +215,10 @@ export class WalletDetailComponent implements OnInit {
     //     this.router.navigate(['', '/']);
     //   },
     //   4000);
+  }
+  public getInBalancesTransferCall(dest: any) {
+    const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
+    return new Uint8Array(Buffer.from(hex, 'hex'));
   }
   public decrypt(transitmessage, pass) {
     // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
