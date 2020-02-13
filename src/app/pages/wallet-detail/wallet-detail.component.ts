@@ -218,6 +218,7 @@ export class WalletDetailComponent implements OnInit {
   }
   public decrypt(transitmessage, pass) {
     // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
+    transitmessage = new Buffer(transitmessage, 'base64').toString();
     const salt = 'yee';
     const iv = crypto.enc.Hex.parse(transitmessage.substr(3, 32));
     // console.log('iv--' + iv.toString());

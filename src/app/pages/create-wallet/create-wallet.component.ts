@@ -107,7 +107,9 @@ export class CreateWalletComponent implements OnInit {
       this.privateKey = '0x' + bytesToHex(rawPrivateKey);
       console.log(this.privateKey);
       this.ls.setObject('wallet_address', this.address);
-      this.ls.setObject('wallet_private_key_enc', this.encrypt(this.privateKey, this.model.passWord));
+      this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'));
+      console.log(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64')); // 编码
+      console.log(new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'), 'base64').toString()); // 解码
     });
   }
   public accessWallet() {

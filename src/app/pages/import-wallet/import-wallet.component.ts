@@ -69,7 +69,8 @@ export class ImportWalletComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     this.model.sendPrivateKey = '0x1025ba3a87d28cfe9569628d97622995e5d132bc5d3362f8083f3846dfe3754e044e3483a9187a2262e21ff11160461d2c3dfb051e0f7df36b92a4462c057f6b';
     this.ls.setObject('wallet_address', this.model.sendAddress);
-    this.ls.setObject('wallet_private_key_enc', this.encrypt(this.model.sendPrivateKey, this.model.passWord));
+    // tslint:disable-next-line:max-line-length
+    this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.model.sendPrivateKey, this.model.passWord)).toString('base64'));
     this.router.navigate([this.networkURLPrefix, 'wallet']);
 
   }
