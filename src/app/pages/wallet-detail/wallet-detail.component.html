@@ -5,7 +5,7 @@
       <div class="card-header-title">
         <div class="address-mobile-format"> {{ 'AccountDetail.AccountDetail' | translate }} &nbsp;&nbsp;&nbsp; <span id="address">{{address}}</span></div>
         &nbsp;&nbsp;&nbsp;
-        <img src="assets/ic_copy.png" width="24"   (click)="Copy()">
+        <img src="assets/ic_copy.png" width="24"   (click)="copy()">
       </div>
       <a class="card-header-icon" aria-label="more options">
       </a>
@@ -41,7 +41,7 @@
                         <span class="icon">
                             <i class="fa fa-cube fa-2x"></i>
                         </span>
-            <p class="title" >{{ balance ||0}} {{ networkTokenSymbol }}</p>
+            <p class="title" >{{ formatBalance(balance) ||0}} {{ networkTokenSymbol }}</p>
             <p class="subtitle">{{ 'Balance' | translate }}</p>
           </article>
         </div>
@@ -106,17 +106,17 @@
       <div class=" information">
         <p class="wtitle">
           <span class="innertitle">
-            Password of Private Key
+            Password of private key
           </span>
         </p>
         <input class="inputw is-large is-loading" type="password" [(ngModel)]="model.password">
 
-        <p class="production">Your wallet Password of Private Key</p>
+        <p class="production">Your wallet password of private key</p>
       </div>
       <div class=" information">
         <p class="wtitle">
           <span class="innertitle">
-            To Address
+            To address
           </span>
         </p>
         <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.dest">
@@ -131,7 +131,7 @@
         </p>
         <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.amount">
 
-        <p class="production">Amount that your want it transfer (in co)</p>
+        <p class="production">Amount that your want it transfer (in YEE)</p>
       </div>
 <!--        <div *ngIf="relayFlag  && ext.attributes.extrinsic_hash == null &&  balanceTransfer.attributes.extrinsic_hash " class="card dashboard-card">-->
 <!--          <p class="balance ">-->

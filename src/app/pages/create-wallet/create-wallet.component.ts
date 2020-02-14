@@ -33,7 +33,9 @@ import {
   encode, decode, calls, runtime, chain, system, runtimeUp, pretty,
   addressBook, secretStore, metadata, nodeService, bytesToHex, AccountId, hexToBytes, TransactionEra, StorageBond
 } from 'oo7-substrate';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Router } from '@angular/router';
+import * as schnorrkel from '@yeecoders/schnorrkel-js';
+
 @Component({
   selector: 'app-create-wallet',
   templateUrl: './create-wallet.component.html',
@@ -51,45 +53,15 @@ export class CreateWalletComponent implements OnInit {
     ) { }
   public model = new AccoutModelClass('', '', '');
   public resout = new ResultOut('', false, false);
-  public keySize = 256;
-  public iterations = 100;
-  public message = 'Hello World---';
+
   ngOnInit() {
     this.networkURLPrefix = '';
   }
-  async generateSrKeyPair() {
-    const mnemonic = generateMnemonic();
-    console.log(mnemonic);
-    // let seed = srKeypairFromUri("//Alice")
-    const seedPromise = new Promise((res, rej) => {
-      window.setTimeout(() => {
-        console.log(srKeypairFromUri);
-        // tslint:disable-next-line:no-shadowed-variable
-        // tslint:disable-next-line:no-shadowed-variable
-        const seed = window['srKeypairFromUri'](mnemonic);
-        return res(seed);
-      }, 1000);
-    });
-    const seed = await seedPromise;
-    return seed;
-  }
-  bech32_decode(str: string) {
-    // const str = 'yee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsqesk8y';
-    const prefix = bech32.decode(str).prefix;
-    const words = bech32.decode(str).words;
-    const bb = bech32.fromWords(bech32.decode(str).words);
-    // let result = '';
-    // // tslint:disable-next-line:prefer-for-of
-    // for (let i = 0; i < words.length; i++) {
-    //   result += String.fromCharCode(parseInt(words[i], 2));
-    // }
-    // console.log(result);
-    return bb;
-  }
+
   createAccount() {
     this.resout.result = '';
-    console.log(this.model);
-    if ( this.model.passWord === '' ) {
+    // console.log(this.model);
+    if ( this.model.password === '' ) {
       this.resout.result = 'Please fill password';
       this.resout.showResult = true;
       console.log(this.resout);
@@ -97,88 +69,106 @@ export class CreateWalletComponent implements OnInit {
     }
 
 
+    schnorrkel.waitReady().then((ready) => {
+      console.log("schnorrkel ready: " + ready);
+      if (ready){
+
+        const mnemonic = generateMnemonic();
+        const srKeypairFromUri = window['srKeypairFromUri'];
+
+        // console.log(mnemonic);
+
+        const keypair = srKeypairFromUri(mnemonic);
+
+        const publicKey = keypair.slice(64, 96);
+        const privateKey = keypair.slice(0, 64);
+
+        const address = bech32.encode('tyee', bech32.toWords(publicKey));
+        console.log("address: " + address);
+
+        const privateKeyHex = bytesToHex(privateKey);
+        let enc = this.encrypt(privateKeyHex, this.model.password);
+
+        this.ls.setObject('wallet_address', address);
+        this.ls.setObject('wallet_private_key_enc', enc);
 
 
-    // this.generateSrKeyPair().then((res: Uint8Array) => {
-    //   const word = new Uint8Array(res.slice(64, 96));
-    //   console.log(word);
-    //   this.address = bech32.encode('tyee', bech32.toWords(word));
-    //   console.log(this.address);
-    //   const descPublic = this.bech32_decode(this.address);
-    //   console.log(descPublic);
-    //   const rawPrivateKey = new Uint8Array(res.slice(0, 64));
-    //   console.log(rawPrivateKey);
-    //   this.privateKey = '0x' + bytesToHex(rawPrivateKey);
-    //   console.log('privateKey--', this.privateKey);
-    //   this.ls.setObject('wallet_address', this.address);
-    //   // tslint:disable-next-line:max-line-length
-    //   this.encrypt(this.privateKey, this.model.password);
-    //   this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.privateKey, this.model.password)).toString('base64'));
-    //   // // console.log('encrypted.toString()--', this.encrypt(this.privateKey, this.model.password));
-    //   // console.log('base64-encode--', new Buffer(this.encrypt(this.privateKey, this.model.password)).toString('base64')); // 编码
-    //   // // tslint:disable-next-line:max-line-length
-    //   // tslint:disable-next-line:max-line-length
-    //   // console.log('base64-decode--', new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.password)).toString('base64'), 'base64').toString()); // 解码
-    // });
+        this.privateKey = "0x" + privateKeyHex;
+        this.address = address;
+      }
+    });
+
   }
   public accessWallet() {
     this.router.navigate([this.networkURLPrefix, 'wallet']);
-    // setTimeout(() => {
-    //     this.router.navigate([this.networkURLPrefix, 'wallet']);
-    //   },
-    //   2000);
   }
-  public encrypt(msg, pass) {
-    // var salt = CryptoJS.lib.WordArray.random(128/8);
-    const salt = 'yee';
 
-    console.log('salt--' + salt.toString());
+  // plainTextHex: hex without leading '0x'
+  // password: utf8 string
+  // return: hex
+  public encrypt(plainTextHex, password) {
 
-    const key = crypto.PBKDF2(pass, salt, {
-      keySize: this.keySize / 32,
-      iterations: this.iterations
-    });
-    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
-    console.log('iv--' + iv);
+    const key = this.getKey(password);
+    const keyHex = key[0];
+    const ivHex = key[1];
 
-    const encrypted = crypto.AES.encrypt(msg, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
-      iv,
-      padding: crypto.pad.Pkcs7,
+    const encrypted = crypto.AES.encrypt(crypto.enc.Hex.parse(plainTextHex), crypto.enc.Hex.parse(keyHex), {
+      iv: crypto.enc.Hex.parse(ivHex),
+      padding: crypto.pad.NoPadding,
       mode: crypto.mode.CTR
-
     });
-    console.log('encrypted-test-' + encrypted.toString());
-    // salt, iv will be hex 32 in length
-    // append them to the ciphertext for use  in decryption
-    // const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
-    // console.log('iv--' + iv.toString());
-    // console.log('encrypted--' + encrypted.toString());
-    // console.log('transitmessage--' + transitmessage.toString());
-    this.decrypt( new Buffer(encrypted.toString()).toString('base64'), pass);
-    return encrypted.toString();
+
+    return encrypted.ciphertext.toString();
   }
 
-  public decrypt(transitmessage, pass) {
-    // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
-    transitmessage = new Buffer(transitmessage, 'base64').toString();
-    const salt = 'yee';
-    const key = crypto.PBKDF2(pass, salt, {
-      keySize: this.keySize / 32,
-      iterations: this.iterations
-    });
-    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
-    const decrypted = crypto.AES.decrypt(transitmessage, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
-      iv,
-      padding: crypto.pad.Pkcs7,
+  // cypherTextHex: hex without leading '0x'
+  // password: utf8 string
+  // return: hex
+  public decript(cypherTextHex, password) {
+
+    const key = this.getKey(password);
+    const keyHex = key[0];
+    const ivHex = key[1];
+
+    const cypherText = crypto.enc.Hex.parse(cypherTextHex);
+    const cypherTextBase64 = crypto.enc.Base64.stringify(cypherText);
+
+    let decrypted = crypto.AES.decrypt(cypherTextBase64, crypto.enc.Hex.parse(keyHex), {
+      iv: crypto.enc.Hex.parse(ivHex),
+      padding: crypto.pad.NoPadding,
       mode: crypto.mode.CTR
-
     });
-    console.log('decrypted-test-' + decrypted.toString());
 
-    console.log(' decrypted.toString(CryptoJS.enc.Utf8) --' + decrypted.toString(crypto.enc.Utf8) );
-    return decrypted;
+    return decrypted.toString(crypto.enc.Hex);
+
   }
-  public Copy(str: string) {
+
+  // password: utf8 string
+  // return [keyHex, ivHex]
+  public getKey(password){
+
+    const salt = 'yee';
+    const keySize = 256;
+    const iterations = 100;
+    const rawKeyHex = crypto.PBKDF2(crypto.enc.Utf8.parse(password), salt, {
+      keySize: keySize / 32 * 2,
+      iterations: iterations
+    }).toString();
+    // console.log("raw key:" + rawKeyHex);
+
+    const rawKey = hexToBytes(rawKeyHex);
+
+    const keyHex = bytesToHex(rawKey.slice(0, 32));
+    const ivHex = bytesToHex(rawKey.slice(32, 64));
+
+    // console.log("key:" + keyHex);
+    // console.log("iv:" + ivHex);
+
+    return [keyHex, ivHex];
+
+  }
+
+  public copy(str: string) {
     const range = document.createRange();
     range.selectNode(document.getElementById(str));
     const selection = window.getSelection();

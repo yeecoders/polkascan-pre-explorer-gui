@@ -97,14 +97,17 @@ export class WalletDetailComponent implements OnInit {
     });
   }
   ngOnInit() {
-    const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
-    console.log('call--bytes:', new Uint8Array(Buffer.from(hex, 'hex')));
+    // const hex = '0400ffa0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59a10f';
+    // console.log('call--bytes:', new Uint8Array(Buffer.from(hex, 'hex')));
+
+
     this.address = this.ls.getObject('wallet_address');
-    console.log('this.address: ', this.address);
+    console.log('address: ', this.address);
+
     this.nonce = this.getNonce( this.address);
     this.balance = this.getBalance( this.address);
     this.shardnum = this.getshardnum( this.address);
-    // initRuntime();
+
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
   }
@@ -316,10 +319,10 @@ export class WalletDetailComponent implements OnInit {
     return bb;
   }
   public formatBalance(balance: string) {
-    return Number(2424240) / Math.pow(10, this.networkTokenDecimals);
+    return Number(balance) / Math.pow(10, this.networkTokenDecimals);
   }
 
-  public Copy() {
+  public copy() {
     const range = document.createRange();
     range.selectNode(document.getElementById('address'));
     const selection = window.getSelection();
@@ -333,9 +336,5 @@ export class WalletDetailComponent implements OnInit {
   get(): void {
     this.ls.remove('logincache');
     this.cache = this.ls.getObject('logincache');
-  }
-
-  set(): void {
-    this.ls.setObject('logincache', '{"address":"EMYYerk8fASGu4jYrcyqv2K7Y4wLPzs4ka1pxQQgrcv3axR"}');
   }
 }

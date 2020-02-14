@@ -54,8 +54,6 @@ export class ImportWalletComponent implements OnInit {
 
   public model = new AccoutModelClass('', '', '');
   public resout = new ResultOut('', false, false);
-  public keySize = 256;
-  public iterations = 100;
 
   ngOnInit() {
     this.networkURLPrefix = '';
@@ -147,9 +145,10 @@ export class ImportWalletComponent implements OnInit {
 
     const salt = 'yee';
     const keySize = 256;
+    const iterations = 100;
     const rawKeyHex = crypto.PBKDF2(crypto.enc.Utf8.parse(password), salt, {
       keySize: keySize / 32 * 2,
-      iterations: this.iterations
+      iterations: iterations
     }).toString();
     // console.log("raw key:" + rawKeyHex);
 

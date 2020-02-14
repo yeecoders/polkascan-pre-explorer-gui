@@ -8,10 +8,10 @@
         </div>
         <div class=" information">
           <p class="wtitle">
-            Set Password
+            Set password
           </p>
-          <input class="inputw is-large is-loading" type="password" [(ngModel)]="model.passWord"><span style="color: #FF0000; "> {{resout.result}}</span>
-          <p class="production">Your wallet Password </p>
+          <input class="inputw is-large is-loading" type="password" [(ngModel)]="model.password"><span style="color: #FF0000; "> {{resout.result}}</span>
+          <p class="production">Your wallet password </p>
         </div>
         <button class="ceratedone" (click)="createAccount()">Create</button>
         <p class="production"> Create your wallet  </p>
@@ -22,7 +22,7 @@
           </p>
           <p class="address">
             <span  id="address">{{address}}</span>
-            <img src="assets/ic_copy.png" width="24"   (click)="Copy('address')">
+            <img src="assets/ic_copy.png" width="24"   (click)="copy('address')">
           </p>
         </div>
         <div class="information">
@@ -31,7 +31,7 @@
           </p>
           <p class="address privatekey">
             <span id="privateKey" class="privatekeytext">{{privateKey}}</span>
-            <img src="assets/ic_copy.png" width="24"   (click)="Copy('privateKey')">
+            <img src="assets/ic_copy.png" width="24"   (click)="copy('privateKey')">
           </p>
           <div>Do not lose it! YeeCo cannot help you recover a lost key.</div>
           <div>Do not share it! Your funds may be stolen if you use this file a malicious site.</div>

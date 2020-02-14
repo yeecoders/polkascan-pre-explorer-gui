@@ -1,7 +1,7 @@
 export class AccoutModelClass {
   constructor(
     public sendAddress: string,
-    public passWord: string,
+    public password: string,
     public sendPrivateKey: string,
   ) {  }
 }

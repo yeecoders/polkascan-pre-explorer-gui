@@ -66,7 +66,7 @@ export class AppComponent {
 
   }
   logout() {
-    console.log('logout-----');
+    console.log('logout');
     this.ls.remove('wallet_address');
     this.ls.remove('wallet_private_key_enc');
   }
