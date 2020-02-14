@@ -3,5 +3,6 @@ export const environment = {
   jsonApiRootUrl: 'https://pocnet.yeescan.org/api/v1/',
   networkName: 'YeeCo',
   networkTokenSymbol: 'YEE',
-  networkTokenDecimals: 8
+  networkTokenDecimals: 8,
+  switchRootUrl: 'https://pocnet.yeescan.org/switch/api',
 };

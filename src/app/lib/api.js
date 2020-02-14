@@ -5,15 +5,17 @@ import {
 import {sign, verify} from '@polkadot/wasm-schnorrkel';
 import bech32 from 'bech32';
 import * as crypto from 'crypto-js';
+import axios from 'axios';
 
 const api = {
   hrp: "tyee",
   salt: "yee",
   keySize: 256,
   iterations: 100,
+  switchRootUrl: '',
 
   request(method, path, params) {
-    let url = conf.apiBase + path
+    let url = api.switchRootUrl + path
     params = params || {}
 
     if (method === 'get') {
@@ -63,6 +65,15 @@ const api = {
   },
 
   utils: {
+
+    isIntNum(val) {
+      var regPos = /^\d+$/; // 非负整数
+      if (regPos.test(val)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
 
     bech32Encode(bytes) {
       return bech32.encode(api.hrp, bech32.toWords(bytes))
@@ -137,6 +148,7 @@ const api = {
     },
 
     getShardNum(addressPublic) {
+      //TODO this is verfy temporary implementation
       let last = addressPublic[31]
       let mask = 0x03
       let shardNum = mask & last
