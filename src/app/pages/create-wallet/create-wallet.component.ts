@@ -90,8 +90,8 @@ export class CreateWalletComponent implements OnInit {
         const privateKeyHex = bytesToHex(privateKey);
         let enc = api.default.utils.encrypt(privateKeyHex, this.model.password);
 
-        this.ls.setObject('wallet_address', address);
-        this.ls.setObject('wallet_private_key_enc', enc);
+        this.ls.set('wallet_address', address);
+        this.ls.set('wallet_private_key_enc', enc);
 
 
         this.privateKey = "0x" + privateKeyHex;

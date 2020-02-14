@@ -61,7 +61,7 @@ const api = {
     }
   },
   rpcCall(method, params) {
-    return api.request('post', '/', {'jsonrpc': '2.0', 'id': api.id++, 'method': method, 'params': params})
+    return api.request('post', '', {'jsonrpc': '2.0', 'id': api.id++, 'method': method, 'params': params})
   },
 
   utils: {
@@ -103,8 +103,7 @@ const api = {
     // cypherTextHex: hex without leading '0x'
     // password: utf8 string
     // return: hex
-    decript(cypherTextHex, password) {
-
+    decrypt(cypherTextHex, password) {
       const key = api.utils.getKey(password);
       const keyHex = key[0];
       const ivHex = key[1];
@@ -155,12 +154,13 @@ const api = {
       return shardNum
     },
     runInBalancesTransferCall(dest, value, calls, cb) {
-      let callBond = calls.balances.transfer(dest, value)
-      callBond.tie((call, i) => {
-        console.log('call: ', call)
-        cb(call)
-        callBond.untie()
-      })
+
+      // calls.balances.transfer tie doesnot work, so build manually
+      const callHex = "0400FF" + bytesToHex(dest) + bytesToHex(encode(value, 'Compact<u128>'))
+      const call = hexToBytes(callHex)
+      console.log('call: ', call)
+      cb(call)
+
     },
     composeTransaction(senderPublic, secret, call) {
 

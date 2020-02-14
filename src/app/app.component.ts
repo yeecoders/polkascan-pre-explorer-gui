@@ -33,7 +33,7 @@ import {LocalStorage} from '../app/pages/wallet-detail/local.storage';
 })
 export class AppComponent {
   title = 'Polkascan';
-  public cache: string;
+  public address: string;
   public environment = environment;
   public showNavigation = false;
   public showSubmenus = true;
@@ -43,6 +43,8 @@ export class AppComponent {
   constructor(private router: Router, private translate: TranslateService, private ls: LocalStorage) {
     router.events.subscribe((val) => {
         this.showNavigation = false;
+        this.address = this.ls.get('wallet_address');
+        console.log('address: ', this.address);
     });
     translate.addLangs(this.langs);
     translate.setDefaultLang('en');
@@ -52,8 +54,10 @@ export class AppComponent {
   }
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
-    this.cache = this.ls.getObject('wallet_address');
-    console.log('this.cache: ', this.cache);
+    this.address = this.ls.get('wallet_address');
+    console.log('address: ', this.address);
+    console.log('app init');
+
   }
   toggleNavigation() {
     this.showNavigation = !this.showNavigation;
@@ -69,6 +73,7 @@ export class AppComponent {
     console.log('logout');
     this.ls.remove('wallet_address');
     this.ls.remove('wallet_private_key_enc');
+    this.address = null;
   }
   langsTitle(selectedLang: string) {
     switch (selectedLang) {

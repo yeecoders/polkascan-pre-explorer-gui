@@ -88,8 +88,8 @@ export class ImportWalletComponent implements OnInit {
         privateKeyHex = bytesToHex(hexToBytes(privateKeyHex));//remove leading '0x'
         let enc = api.default.utils.encrypt(privateKeyHex, this.model.password);
 
-        this.ls.setObject('wallet_address', address);
-        this.ls.setObject('wallet_private_key_enc', enc);
+        this.ls.set('wallet_address', address);
+        this.ls.set('wallet_private_key_enc', enc);
 
         this.router.navigate([this.networkURLPrefix, 'wallet']);
 

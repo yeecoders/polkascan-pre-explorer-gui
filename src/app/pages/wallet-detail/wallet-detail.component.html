@@ -141,7 +141,10 @@
 <!--          </p>-->
 <!--        </div>-->
       <button type="submit" class="ceratedone"  (click)="transfer()" >Transfer</button>
-      <span style="color: #008000; "> {{transferRes }}</span>
+      <div *ngIf="transferSuccess" style="color: #008000; ">
+        Transfer successfully <a [href]="'/transaction/' + txHash">View transaction</a>
+
+      </div>
     </section>
 <!--    <section class="creat center transfer">-->
 <!--      <div class="name">-->

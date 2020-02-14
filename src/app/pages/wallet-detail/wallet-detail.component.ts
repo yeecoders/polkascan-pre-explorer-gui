@@ -66,7 +66,8 @@ export class WalletDetailComponent implements OnInit {
   public balance: string;
   public shardnum: number;
   public address: string;
-  public transferRes: string;
+  public transferSuccess: boolean;
+  public txHash: string;
 
   constructor(
     private ls: LocalStorage,
@@ -81,20 +82,10 @@ export class WalletDetailComponent implements OnInit {
   public resout = new ResultOut('', false, false);
   public model = new Transfer('', '', '', '', '');
   public calls = {};
-  public onRuntimeInit = [];
-
-  runInBalancesTransferCall(dest, value, cb) {
-    const callBond = calls.balances.transfer(dest, value);
-    callBond.tie((call, i) => {
-      console.log('call: ', call);
-      cb(call);
-      callBond.untie();
-    });
-  }
 
   ngOnInit() {
 
-    this.address = this.ls.getObject('wallet_address');
+    this.address = this.ls.get('wallet_address');
     console.log('address: ', this.address);
 
     this.nonce = this.getNonce(this.address);
@@ -106,7 +97,11 @@ export class WalletDetailComponent implements OnInit {
 
     chainRuntime.initRuntime();
     this.calls = chainRuntime.default.calls;
+    window['calls'] = this.calls;
 
+    this.transferSuccess = false;
+
+    // TODO remove
     this.model.dest = 'tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh';
   }
 
@@ -143,9 +138,10 @@ export class WalletDetailComponent implements OnInit {
     const senderPublic = api.default.utils.bech32Decode(this.address);
     console.log('senderPublic:', senderPublic);
 
-    const enc = this.ls.getObject('wallet_private_key_enc');
-    const senderPrivateKey = hexToBytes(api.default.utils.decript(enc, this.model.password));
-    // console.log('senderPrivateKey:', senderPrivateKey);
+    const enc = this.ls.get('wallet_private_key_enc');
+    console.log('enc:', enc);
+    const senderPrivateKey = hexToBytes(api.default.utils.decrypt(enc, this.model.password));
+    console.log('senderPrivateKey:', senderPrivateKey);
 
 
     api.default.switchRootUrl = environment.switchRootUrl;
@@ -154,8 +150,9 @@ export class WalletDetailComponent implements OnInit {
       amountInCo,
       this.calls,
       (call) => {
-        api.default.utils.composeTransaction(senderPublic, senderPrivateKey, call).then(() => {
-          this.transferRes = 'Transfer successfully';
+        api.default.utils.composeTransaction(senderPublic, senderPrivateKey, call).then((res) => {
+          this.txHash = res.data.result;
+          this.transferSuccess = true;
         }).catch((res) => {
           console.log(res);
           this.resout.result = 'Something is wrong';
@@ -215,7 +212,7 @@ export class WalletDetailComponent implements OnInit {
   }
 
   public fromBalance(balance: string) {
-    return Number(balance) * Math.pow(10, this.networkTokenDecimals);
+    return Math.floor(Number(balance) * Math.pow(10, this.networkTokenDecimals));
   }
 
   public copy() {
@@ -232,6 +229,6 @@ export class WalletDetailComponent implements OnInit {
 
   get(): void {
     this.ls.remove('logincache');
-    this.cache = this.ls.getObject('logincache');
+    this.cache = this.ls.get('logincache');
   }
 }
