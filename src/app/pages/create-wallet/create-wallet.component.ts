@@ -90,32 +90,36 @@ export class CreateWalletComponent implements OnInit {
     this.resout.result = '';
     console.log(this.model);
     if ( this.model.passWord === '' ) {
-      this.resout.result = 'Please fill passWord';
+      this.resout.result = 'Please fill password';
       this.resout.showResult = true;
       console.log(this.resout);
       return;
     }
-    this.generateSrKeyPair().then((res: Uint8Array) => {
-      const word = new Uint8Array(res.slice(64, 96));
-      console.log(word);
-      this.address = bech32.encode('tyee', bech32.toWords(word));
-      console.log(this.address);
-      const descPublic = this.bech32_decode(this.address);
-      console.log(descPublic);
-      const rawPrivateKey = new Uint8Array(res.slice(0, 64));
-      console.log(rawPrivateKey);
-      this.privateKey = '0x' + bytesToHex(rawPrivateKey);
-      console.log('privateKey--', this.privateKey);
-      this.ls.setObject('wallet_address', this.address);
-      // tslint:disable-next-line:max-line-length
-      this.encrypt(this.privateKey, this.model.passWord);
-      this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'));
-      // // console.log('encrypted.toString()--', this.encrypt(this.privateKey, this.model.passWord));
-      // console.log('base64-encode--', new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64')); // 编码
-      // // tslint:disable-next-line:max-line-length
-      // tslint:disable-next-line:max-line-length
-      // console.log('base64-decode--', new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.passWord)).toString('base64'), 'base64').toString()); // 解码
-    });
+
+
+
+
+    // this.generateSrKeyPair().then((res: Uint8Array) => {
+    //   const word = new Uint8Array(res.slice(64, 96));
+    //   console.log(word);
+    //   this.address = bech32.encode('tyee', bech32.toWords(word));
+    //   console.log(this.address);
+    //   const descPublic = this.bech32_decode(this.address);
+    //   console.log(descPublic);
+    //   const rawPrivateKey = new Uint8Array(res.slice(0, 64));
+    //   console.log(rawPrivateKey);
+    //   this.privateKey = '0x' + bytesToHex(rawPrivateKey);
+    //   console.log('privateKey--', this.privateKey);
+    //   this.ls.setObject('wallet_address', this.address);
+    //   // tslint:disable-next-line:max-line-length
+    //   this.encrypt(this.privateKey, this.model.password);
+    //   this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.privateKey, this.model.password)).toString('base64'));
+    //   // // console.log('encrypted.toString()--', this.encrypt(this.privateKey, this.model.password));
+    //   // console.log('base64-encode--', new Buffer(this.encrypt(this.privateKey, this.model.password)).toString('base64')); // 编码
+    //   // // tslint:disable-next-line:max-line-length
+    //   // tslint:disable-next-line:max-line-length
+    //   // console.log('base64-decode--', new Buffer(new Buffer(this.encrypt(this.privateKey, this.model.password)).toString('base64'), 'base64').toString()); // 解码
+    // });
   }
   public accessWallet() {
     this.router.navigate([this.networkURLPrefix, 'wallet']);

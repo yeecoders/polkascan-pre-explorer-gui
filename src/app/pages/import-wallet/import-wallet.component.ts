@@ -63,8 +63,8 @@ export class ImportWalletComponent implements OnInit {
 
   public import() {
     this.resout.result = '';
-    console.log(this.model);
-    if (this.model.sendPrivateKey === '' || this.model.passWord === '') {
+    // console.log(this.model);
+    if (this.model.sendPrivateKey === '' || this.model.password === '') {
       this.resout.result = 'Please fill all input';
       this.resout.showResult = true;
       console.log(this.resout);
@@ -89,10 +89,12 @@ export class ImportWalletComponent implements OnInit {
         console.log("address: " + address);
 
         privateKeyHex = bytesToHex(hexToBytes(privateKeyHex));//remove leading '0x'
-        let enc = this.encrypt(privateKeyHex, this.model.passWord);
+        let enc = this.encrypt(privateKeyHex, this.model.password);
 
         this.ls.setObject('wallet_address', address);
         this.ls.setObject('wallet_private_key_enc', enc);
+
+        this.router.navigate([this.networkURLPrefix, 'wallet']);
 
       }
     });
