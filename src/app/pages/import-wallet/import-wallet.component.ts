@@ -20,19 +20,21 @@
  * settings.component.ts
  */
 
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {AccoutModelClass} from './accout-model.class';
 import {ResultOut} from './result.class';
 import * as crypto from 'crypto-js';
 import {LocalStorage} from '../wallet-detail/local.storage';
 import {ActivatedRoute, Router} from '@angular/router';
-// import {
-//   encode, decode, calls, runtime, chain, system, runtimeUp, pretty,
-//   addressBook, secretStore, metadata, nodeService, bytesToHex, AccountId, hexToBytes, TransactionEra, StorageBond
-// } from 'oo7-substrate';
-// // import {u8aToHex} from '@polkadot/util';
-// // import {toPublic} from '../pkg/index';
+import {
+  calls, runtime, chain, system, runtimeUp, pretty,
+  addressBook, secretStore, metadata, nodeService, bytesToHex, hexToBytes, AccountId
+} from 'oo7-substrate';
+
+import * as schnorrkel from '@yeecoders/schnorrkel-js';
+import bech32 from 'bech32';
+
 @Component({
   selector: 'app-import-wallet',
   templateUrl: './import-wallet.component.html',
@@ -47,95 +49,117 @@ export class ImportWalletComponent implements OnInit {
     private ls: LocalStorage,
     private router: Router,
     private route: ActivatedRoute,
-    ) { }
+  ) {
+  }
+
   public model = new AccoutModelClass('', '', '');
   public resout = new ResultOut('', false, false);
   public keySize = 256;
   public iterations = 100;
+
   ngOnInit() {
     this.networkURLPrefix = '';
   }
+
   public import() {
     this.resout.result = '';
     console.log(this.model);
-    if ( this.model.sendPrivateKey === '' || this.model.passWord === '' ) {
+    if (this.model.sendPrivateKey === '' || this.model.passWord === '') {
       this.resout.result = 'Please fill all input';
       this.resout.showResult = true;
       console.log(this.resout);
       return;
     }
-    // this.model.sendAddress = u8aToHex(toPublic(hexToBytes(this.model.sendPrivateKey)));
-    this.model.sendAddress = 'tyee12n2pjuwa5hukpnxjt49q5fal7m5h2ddtxxlju0yepzxty2e2fads5g57yd';
-    // tslint:disable-next-line:max-line-length
-    this.model.sendPrivateKey = '0xa079ef650520662d08f270c4bc088f0c61abd0224f58243f6d1e6827c3ab234a7a1a0a3b89bbb02f2b10e357fd2a5ddb5050bc528c875a6990874f9dc6496772';
-    this.ls.setObject('wallet_address', this.model.sendAddress);
-    // tslint:disable-next-line:max-line-length
-    this.ls.setObject('wallet_private_key_enc', new Buffer(this.encrypt(this.model.sendPrivateKey, this.model.passWord)).toString('base64'));
-    this.router.navigate([this.networkURLPrefix, 'wallet']);
+    let privateKeyHex = this.model.sendPrivateKey;
+
+    schnorrkel.waitReady().then((ready) => {
+      console.log("schnorrkel ready: " + ready);
+      if (ready){
+        let publicKey = null;
+        try {
+          publicKey = schnorrkel.toPublic(hexToBytes(privateKeyHex));
+        }catch (e) {
+          this.resout.result = 'Invalid private Key';
+          this.resout.showResult = true;
+          return;
+        }
+        console.log("public key: " + bytesToHex(publicKey));
+
+        const address = bech32.encode('tyee', bech32.toWords(publicKey));
+        console.log("address: " + address);
+
+        privateKeyHex = bytesToHex(hexToBytes(privateKeyHex));//remove leading '0x'
+        let enc = this.encrypt(privateKeyHex, this.model.passWord);
+
+        this.ls.setObject('wallet_address', address);
+        this.ls.setObject('wallet_private_key_enc', enc);
+
+      }
+    });
 
   }
-  // get(): void {
-  //   this.ls.remove('logincache');
-  //   this.cache = this.ls.getObject('logincache');
-  // }
-  //
-  // set(): void {
-  //   this.ls.setObject('logincache', '{"address":"EMYYerk8fASGu4jYrcyqv2K7Y4wLPzs4ka1pxQQgrcv3axR"}');
-  // }
-  public encrypt(msg, pass) {
-    // var salt = CryptoJS.lib.WordArray.random(128/8);
-    const salt = 'yee';
 
-    console.log('salt--' + salt.toString());
+  // plainTextHex: hex without leading '0x'
+  // password: utf8 string
+  // return: hex
+  public encrypt(plainTextHex, password) {
 
-    const key = crypto.PBKDF2(pass, salt, {
-      keySize: this.keySize / 32,
-      iterations: this.iterations
-    });
-    console.log('key--' + key.toString());
+    const key = this.getKey(password);
+    const keyHex = key[0];
+    const ivHex = key[1];
 
-    // var iv = CryptoJS.lib.WordArray.random(128 / 8);
-    console.log('key--' + key.toString());
-
-    const iv = crypto.enc.Hex.parse(key.toString().substring(0, 32));
-    console.log('iv--' + iv);
-
-    const encrypted = crypto.AES.encrypt(msg, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
-      iv,
-      padding: crypto.pad.Pkcs7,
+    const encrypted = crypto.AES.encrypt(crypto.enc.Hex.parse(plainTextHex), crypto.enc.Hex.parse(keyHex), {
+      iv: crypto.enc.Hex.parse(ivHex),
+      padding: crypto.pad.NoPadding,
       mode: crypto.mode.CTR
-
     });
-    // salt, iv will be hex 32 in length
-    // append them to the ciphertext for use  in decryption
-    const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
-    console.log('iv--' + iv.toString());
-    console.log('encrypted--' + encrypted.toString());
-    console.log('transitmessage--' + transitmessage.toString());
-    // this.decrypt(transitmessage, pass);
-    return encrypted.toString();
+
+    return encrypted.ciphertext.toString();
   }
 
-  public decrypt(transitmessage, pass) {
-    // var salt = crypto.enc.Hex.parse(transitmessage.substr(0, 32));
-    const salt = 'yee';
-    const iv = crypto.enc.Hex.parse(transitmessage.substr(3, 32));
-    console.log('iv--' + iv.toString());
-    const encrypted = transitmessage.substring(35);
-    console.log('encrypted--' + encrypted.toString());
+  // cypherTextHex: hex without leading '0x'
+  // password: utf8 string
+  // return: hex
+  public decript(cypherTextHex, password) {
 
-    const key = crypto.PBKDF2(pass, salt, {
-      keySize: this.keySize / 32,
-      iterations: this.iterations
-    });
+    const key = this.getKey(password);
+    const keyHex = key[0];
+    const ivHex = key[1];
 
-    const decrypted = crypto.AES.decrypt(encrypted, crypto.enc.Hex.parse(key.toString().substring(32, 64)), {
-      iv,
-      padding: crypto.pad.Pkcs7,
+    const cypherText = crypto.enc.Hex.parse(cypherTextHex);
+    const cypherTextBase64 = crypto.enc.Base64.stringify(cypherText);
+
+    let decrypted = crypto.AES.decrypt(cypherTextBase64, crypto.enc.Hex.parse(keyHex), {
+      iv: crypto.enc.Hex.parse(ivHex),
+      padding: crypto.pad.NoPadding,
       mode: crypto.mode.CTR
-
     });
-    console.log('decrypted--' + decrypted.toString());
-    return decrypted;
+
+    return decrypted.toString(crypto.enc.Hex);
+
+  }
+
+  // password: utf8 string
+  // return [keyHex, ivHex]
+  public getKey(password){
+
+    const salt = 'yee';
+    const keySize = 256;
+    const rawKeyHex = crypto.PBKDF2(crypto.enc.Utf8.parse(password), salt, {
+      keySize: keySize / 32 * 2,
+      iterations: this.iterations
+    }).toString();
+    // console.log("raw key:" + rawKeyHex);
+
+    const rawKey = hexToBytes(rawKeyHex);
+
+    const keyHex = bytesToHex(rawKey.slice(0, 32));
+    const ivHex = bytesToHex(rawKey.slice(32, 64));
+
+    // console.log("key:" + keyHex);
+    // console.log("iv:" + ivHex);
+
+    return [keyHex, ivHex];
+
   }
 }
