@@ -9,6 +9,7 @@ let runtime = {}
 let onRuntimeInit = []
 
 function initialiseFromMetadata(md) {
+
   console.log("initialiseFromMetadata", md)
   let callIndex = 0;
   md.modules.forEach((m) => {

@@ -24,7 +24,6 @@ import {Component, OnInit} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {AccoutModelClass} from './accout-model.class';
 import {ResultOut} from './result.class';
-import * as crypto from 'crypto-js';
 import {LocalStorage} from '../wallet-detail/local.storage';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
@@ -33,7 +32,7 @@ import {
 } from 'oo7-substrate';
 
 import * as schnorrkel from '@yeecoders/schnorrkel-js';
-import bech32 from 'bech32';
+import * as api from 'src/app/lib/api.js';
 
 @Component({
   selector: 'app-import-wallet',
@@ -83,11 +82,11 @@ export class ImportWalletComponent implements OnInit {
         }
         console.log("public key: " + bytesToHex(publicKey));
 
-        const address = bech32.encode('tyee', bech32.toWords(publicKey));
+        const address = api.default.utils.bech32Encode(publicKey);
         console.log("address: " + address);
 
         privateKeyHex = bytesToHex(hexToBytes(privateKeyHex));//remove leading '0x'
-        let enc = this.encrypt(privateKeyHex, this.model.password);
+        let enc = api.default.utils.encrypt(privateKeyHex, this.model.password);
 
         this.ls.setObject('wallet_address', address);
         this.ls.setObject('wallet_private_key_enc', enc);
@@ -96,71 +95,6 @@ export class ImportWalletComponent implements OnInit {
 
       }
     });
-
-  }
-
-  // plainTextHex: hex without leading '0x'
-  // password: utf8 string
-  // return: hex
-  public encrypt(plainTextHex, password) {
-
-    const key = this.getKey(password);
-    const keyHex = key[0];
-    const ivHex = key[1];
-
-    const encrypted = crypto.AES.encrypt(crypto.enc.Hex.parse(plainTextHex), crypto.enc.Hex.parse(keyHex), {
-      iv: crypto.enc.Hex.parse(ivHex),
-      padding: crypto.pad.NoPadding,
-      mode: crypto.mode.CTR
-    });
-
-    return encrypted.ciphertext.toString();
-  }
-
-  // cypherTextHex: hex without leading '0x'
-  // password: utf8 string
-  // return: hex
-  public decript(cypherTextHex, password) {
-
-    const key = this.getKey(password);
-    const keyHex = key[0];
-    const ivHex = key[1];
-
-    const cypherText = crypto.enc.Hex.parse(cypherTextHex);
-    const cypherTextBase64 = crypto.enc.Base64.stringify(cypherText);
-
-    let decrypted = crypto.AES.decrypt(cypherTextBase64, crypto.enc.Hex.parse(keyHex), {
-      iv: crypto.enc.Hex.parse(ivHex),
-      padding: crypto.pad.NoPadding,
-      mode: crypto.mode.CTR
-    });
-
-    return decrypted.toString(crypto.enc.Hex);
-
-  }
-
-  // password: utf8 string
-  // return [keyHex, ivHex]
-  public getKey(password){
-
-    const salt = 'yee';
-    const keySize = 256;
-    const iterations = 100;
-    const rawKeyHex = crypto.PBKDF2(crypto.enc.Utf8.parse(password), salt, {
-      keySize: keySize / 32 * 2,
-      iterations: iterations
-    }).toString();
-    // console.log("raw key:" + rawKeyHex);
-
-    const rawKey = hexToBytes(rawKeyHex);
-
-    const keyHex = bytesToHex(rawKey.slice(0, 32));
-    const ivHex = bytesToHex(rawKey.slice(32, 64));
-
-    // console.log("key:" + keyHex);
-    // console.log("iv:" + ivHex);
-
-    return [keyHex, ivHex];
 
   }
 }
