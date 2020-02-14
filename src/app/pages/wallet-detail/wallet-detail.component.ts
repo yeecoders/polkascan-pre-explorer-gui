@@ -102,7 +102,7 @@ export class WalletDetailComponent implements OnInit {
     this.transferSuccess = false;
 
     // TODO remove
-    this.model.dest = 'tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh';
+    // this.model.dest = 'tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh';
   }
 
   async transfer() {
