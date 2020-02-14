@@ -4,5 +4,5 @@ export const environment = {
   networkName: 'YeeCo',
   networkTokenSymbol: 'YEE',
   networkTokenDecimals: 8,
-  switchRootUrl: 'https://pocnet.yeescan.org/switch/api',
+  switchRootUrl: 'https://pocnet.yeescan.org/switch/api/',
 };
