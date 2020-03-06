@@ -18,6 +18,8 @@
  * along with Polkascan. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import {BrowserModule} from '@angular/platform-browser';
+import { Asset } from './asset.class';
 import {Component, OnInit} from '@angular/core';
 import {DocumentCollection} from 'ngx-jsonapi';
 import {Extrinsic} from '../../classes/extrinsic.class';
@@ -25,7 +27,7 @@ import {BalanceTransferService} from '../../services/balance-transfer.service';
 import {ExtrinsicService} from '../../services/extrinsic.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
+import {interval, Observable, Subscription} from 'rxjs';
 import {Account} from '../../classes/account.class';
 import {AccountService} from '../../services/account.service';
 import {switchMap} from 'rxjs/operators';
@@ -50,6 +52,7 @@ import {TransformBond} from 'oo7';
 import * as chainRuntime from 'src/app/lib/runtime.js';
 import * as api from 'src/app/lib/api.js';
 import {sign} from '@polkadot/wasm-schnorrkel';
+import {AssetService} from '../../services/asset.service';
 
 @Component({
   selector: 'app-wallet-detail',
@@ -57,6 +60,8 @@ import {sign} from '@polkadot/wasm-schnorrkel';
   styleUrls: ['./wallet-detail.component.scss']
 })
 export class WalletDetailComponent implements OnInit {
+  private assetUpdateSubsription: Subscription;
+  public assets: DocumentCollection<Asset>;
   public extrinsics: DocumentCollection<Extrinsic>;
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
@@ -70,6 +75,8 @@ export class WalletDetailComponent implements OnInit {
   public txHash: string;
 
   constructor(
+    private assetService: AssetService,
+    private router: Router,
     private ls: LocalStorage,
     private balanceTransferService: BalanceTransferService,
     private extrinsicService: ExtrinsicService,
@@ -84,7 +91,11 @@ export class WalletDetailComponent implements OnInit {
   public calls = {};
 
   ngOnInit() {
+    const  aUpdateCounter = interval(6000);
 
+    this.assetUpdateSubsription = aUpdateCounter.subscribe( n => {
+      this.getAssets(1);
+    });
     this.address = this.ls.get('wallet_address');
     console.log('address: ', this.address);
 
@@ -104,7 +115,11 @@ export class WalletDetailComponent implements OnInit {
     // TODO remove
     // this.model.dest = 'tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh';
   }
-
+  getAssets(page: number): void {
+    this.assetService.all({
+      page: { number: page, size: 10000}
+    }).subscribe(assets => (this.assets = assets));
+  }
   async transfer() {
 
     console.log(this.calls);
@@ -230,5 +245,8 @@ export class WalletDetailComponent implements OnInit {
   get(): void {
     this.ls.remove('logincache');
     this.cache = this.ls.get('logincache');
+  }
+  public AssetTransfer() {
+    this.router.navigate(['', 'transfer-asset']);
   }
 }

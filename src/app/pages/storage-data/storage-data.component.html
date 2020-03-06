@@ -1,0 +1,35 @@
+<div class="columns">
+  <div class="card events-card">
+    <div class="column is-12">
+
+          <section class="creat center create_asset">
+            <div class="name">
+              Storage
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Data
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.data">
+
+              <p class="production">* Please input string data.</p>
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                <span class="innertitle">Password of Private Key</span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.password">
+
+              <p class="production">* Please input Password of issuer private key.</p>
+            </div>
+            <button type="submit" class="ceratedone"  (click)="storage()" >Storage data</button>
+            <div *ngIf="transferSuccess" style="color: #008000; ">
+              Transfer successfully <a [href]="'/transaction/' + txHash">View transaction</a>
+
+            </div>
+          </section>
+    </div>
+  </div>
+</div>

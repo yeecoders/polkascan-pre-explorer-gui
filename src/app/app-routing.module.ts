@@ -68,9 +68,16 @@ import {InherentListComponent} from './pages/inherent-list/inherent-list.compone
 import {InherentDetailComponent} from './pages/inherent-detail/inherent-detail.component';
 import {AnalyticsSearchComponent} from './pages/analytics-search/analytics-search.component';
 import {CreateWalletComponent} from './pages/create-wallet/create-wallet.component';
+import {CreateAssetComponent} from './pages/create-asset/create-asset.component';
+import {TransferAssetComponent} from './pages/transfer-asset/transfer-asset.component';
+import {StorageDataComponent} from './pages/storage-data/storage-data.component'
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent},
+  { path: 'storage-data', component: StorageDataComponent },
+  { path: 'transfer-asset', component: TransferAssetComponent },
+  { path: 'create-asset', component: CreateAssetComponent },
   { path: 'create-wallet', component: CreateWalletComponent },
   { path: 'import-wallet', component: ImportWalletComponent },
   { path: 'wallet', component: WalletDetailComponent },

@@ -88,6 +88,12 @@
                     <a *ngIf="address" class="navbar-item" routerLink="/wallet">
                       {{ 'My Account' | translate }}
                     </a>
+                    <a *ngIf="address" class="navbar-item" routerLink="/create-asset">
+                      {{ 'Create Asset' | translate }}
+                    </a>
+                    <a *ngIf="address" class="navbar-item" routerLink="/storage-data">
+                      {{ 'Storage Data' | translate }}
+                    </a>
                     <a *ngIf="address" class="navbar-item" routerLink="/" (click)="logout()">
                       {{ 'Logout' | translate }}
                     </a>

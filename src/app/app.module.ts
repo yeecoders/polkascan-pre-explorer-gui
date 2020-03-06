@@ -19,6 +19,7 @@
  *
  * app.module.ts
  */
+
 import { LocalStorage } from './pages/wallet-detail/local.storage';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -105,6 +106,10 @@ import { ReferendumInfoComponent } from './types/referendum-info/referendum-info
 import { AnalyticsSearchComponent } from './pages/analytics-search/analytics-search.component';
 import {ImportWalletComponent} from './pages/import-wallet/import-wallet.component';
 import {CreateWalletComponent} from './pages/create-wallet/create-wallet.component';
+import {CreateAssetComponent} from './pages/create-asset/create-asset.component';
+import {TransferAssetComponent} from './pages/transfer-asset/transfer-asset.component';
+import {StorageDataComponent} from './pages/storage-data/storage-data.component';
+
 export class MyClock extends TimeagoClock {
   tick(then: number): Observable<number> {
     return interval(1000);
@@ -114,6 +119,9 @@ export class MyClock extends TimeagoClock {
 @NgModule({
   declarations: [
     AppComponent,
+    StorageDataComponent,
+    TransferAssetComponent,
+    CreateAssetComponent,
     CreateWalletComponent,
     ImportWalletComponent,
     WalletDetailComponent,

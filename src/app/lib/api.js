@@ -154,13 +154,35 @@ const api = {
       return shardNum
     },
     runInBalancesTransferCall(dest, value, calls, cb) {
-
+      //0400ff a0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59 a10f
       // calls.balances.transfer tie doesnot work, so build manually
       const callHex = "0400FF" + bytesToHex(dest) + bytesToHex(encode(value, 'Compact<u128>'))
       const call = hexToBytes(callHex)
-      console.log('call: ', call)
+      console.log('runInBalancesTransferCall: ', call)
       cb(call)
 
+    },
+    runInIssueAssetCall(name, supply, decimals, calls, cb) {
+      const callHex = "0800" + bytesToHex(encode(name, 'Vec<u8>')) + bytesToHex(encode(supply, 'Compact<u128>')) +
+        bytesToHex(encode(decimals, 'Compact<u128>'))
+      const call = hexToBytes(callHex)
+      console.log('runInIssueAssetCall: ', call)
+      cb(call)
+    },
+    runInAssetTransferCall(shard_code, id, dest, value, calls, cb) {
+      //0801 08 5c70 3d66 ff
+      // a0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59
+      // a10f
+      const callHex = "080108" + shard_code+ bytesToHex(encode(id, 'Compact<u128>'))+ 'ff' + bytesToHex(dest) + bytesToHex(encode(value, 'Compact<u128>'))
+      const call = hexToBytes(callHex)
+      console.log('runInIssueAssetCall: ', call)
+      cb(call)
+    },
+    runInStorageTransferCall(data, calls, cb) {
+      const callHex = "0a00" + bytesToHex(encode(data, 'Vec<u8>'))
+      const call = hexToBytes(callHex)
+      console.log('runInStorageTransferCall: ', call)
+      cb(call)
     },
     composeTransaction(senderPublic, secret, call) {
 

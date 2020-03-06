@@ -1,0 +1,81 @@
+<div class="columns">
+  <div class="card events-card">
+    <div class="column is-12">
+
+          <section class="creat center transfer_asset">
+            <div class="name">
+              Asset Transfer
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+          <span class="innertitle">
+            Password of private key
+          </span>
+              </p>
+              <input class="inputw is-large is-loading" type="password" [(ngModel)]="model.password">
+
+              <p class="production">Your wallet password of private key</p>
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Asset Type
+                        </span> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                <select>
+                  <option *ngFor="let asset of assets.data; trackBy: assets.trackBy">
+                    <span>{{asset.attributes.name}}</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>{{asset.attributes.total_supply}} {{asset.attributes.decimals}}</span>
+                  </option>
+                </select>
+              </p>
+
+            </div>
+            <p class="production"> The Asset type  which your will transfer to . </p>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Shard Code
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.assetTransferShard">
+            </div>
+            <p class="production"> Asset shard code for which shard the asset issued. </p>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Asset Id
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.assetTransferId">
+
+            </div>
+
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          To
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.assetTo">
+
+              <p class="production">The address which your will transfer to</p>
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Amount
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.assetAmount">
+
+            </div>
+            <button type="submit" class="ceratedone"  (click)="transfer_asset()" >transfer asset</button>
+            <div *ngIf="transferSuccess" style="color: #008000; ">
+              Transfer successfully <a [href]="'/transaction/' + txHash">View transaction</a>
+
+            </div>
+          </section>
+    </div>
+  </div>
+</div>

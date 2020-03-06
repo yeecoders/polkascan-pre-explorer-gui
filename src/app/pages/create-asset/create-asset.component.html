@@ -1,0 +1,55 @@
+<div class="columns">
+  <div class="card events-card">
+    <div class="column is-12">
+
+          <section class="creat center create_asset">
+            <div class="name">
+              Create Asset
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Asset name
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.assetName">
+              <p class="production">* Max size: 16 bytes.</p>
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Total Supply
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.totalSupply">
+              <p class="production">* Total supply for this asset.</p>
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                        <span class="innertitle">
+                          Decimals
+                        </span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.assetDecimals">
+
+              <p class="production">* Decimals for this asset.</p>
+            </div>
+            <div class=" information">
+              <p class="wtitle">
+                <span class="innertitle">Password of Private Key</span>
+              </p>
+              <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.password">
+
+              <p class="production">* Please input Password of issuer private key.</p>
+            </div>
+            <button type="submit" class="ceratedone"  (click)="new_asset()" >Create asset</button>
+            <div *ngIf="transferSuccess" style="color: #008000; ">
+              Transfer successfully <a [href]="'/transaction/' + txHash">View transaction</a>
+
+            </div>
+          </section>
+      <!-- Create Asset end -->
+
+    </div>
+  </div>
+</div>
