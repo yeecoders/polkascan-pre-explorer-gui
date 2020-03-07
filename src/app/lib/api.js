@@ -170,10 +170,8 @@ const api = {
       cb(call)
     },
     runInAssetTransferCall(shard_code, id, dest, value, calls, cb) {
-      //0801 08 5c70 3d66 ff
-      // a0837b84eedaf81b26323f05426b39eeedbb4d28868727de045eb679ac2c9b59
-      // a10f
-      const callHex = "080108" + shard_code+ bytesToHex(encode(id, 'Compact<u128>'))+ 'ff' + bytesToHex(dest) + bytesToHex(encode(value, 'Compact<u128>'))
+      const callHex = "0801" + bytesToHex(encode(hexToBytes(shard_code), 'Vec<u8>'))+ bytesToHex(encode(id, 'Compact<u64>'))+ 'ff' + bytesToHex(dest) + bytesToHex(encode(value, 'Compact<u128>'))
+      console.log('runInIssueAssetcallHex: ', callHex)
       const call = hexToBytes(callHex)
       console.log('runInIssueAssetCall: ', call)
       cb(call)

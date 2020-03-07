@@ -110,7 +110,7 @@ export class TransferAssetComponent implements OnInit {
     api.default.utils.runInAssetTransferCall(
       this.model.assetTransferShard,
       this.model.assetTransferId,
-      this.model.assetTo,
+      api.default.utils.bech32Decode(this.model.assetTo),
       this.model.assetAmount,
       this.calls,
       (call) => {
