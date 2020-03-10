@@ -40,15 +40,12 @@ import {Asset} from '../wallet-detail/asset.class';
   styleUrls: ['./transfer-asset.component.scss']
 })
 export class TransferAssetComponent implements OnInit {
-  private assetUpdateSubsription: Subscription;
-  public assets: DocumentCollection<Asset>;
   public address: string;
   public environment = environment;
   public networkURLPrefix: string;
   public transferSuccess: boolean;
   public txHash: string;
   constructor(
-    private assetService: AssetService,
     private ls: LocalStorage,
     private router: Router,
   ) { }
@@ -62,22 +59,13 @@ export class TransferAssetComponent implements OnInit {
     if (!this.address) {
       this.router.navigate(['', '**']);
     }
-    const  aUpdateCounter = interval(6000);
-
-    this.assetUpdateSubsription = aUpdateCounter.subscribe( n => {
-      this.getAssets(1);
-    });
     console.log('address: ', this.address);
     chainRuntime.initRuntime();
     this.calls = chainRuntime.default.calls;
     window['calls'] = this.calls;
     this.transferSuccess = false;
   }
-  getAssets(page: number): void {
-    this.assetService.all({
-      page: { number: page, size: 10000}
-    }).subscribe(assets => (this.assets = assets));
-  }
+
   async transfer_asset() {
     console.log(this.calls);
     if (this.model.password === '' || this.model.assetTransferShard === ''

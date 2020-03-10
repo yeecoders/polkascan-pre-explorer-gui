@@ -68,13 +68,13 @@
 
     Assets:
       &nbsp;&nbsp;&nbsp;
-      <select>
-        <option *ngFor="let asset of assets.data; trackBy: assets.trackBy">
-          <span>{{asset.attributes.name}}</span>
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span>{{asset.attributes.total_supply}} {{asset.attributes.decimals}}</span>
-        </option>
-      </select>
+<!--      <select>-->
+<!--        <option *ngFor="let asset of assets.data; trackBy: assets.trackBy">-->
+<!--          <span>{{asset.attributes.name}}</span>-->
+<!--         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--          <span>{{asset.attributes.total_supply}} {{asset.attributes.decimals}}</span>-->
+<!--        </option>-->
+<!--      </select>-->
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button class="ceratedtwo" (click)="AssetTransfer()">Asset Transfer</button>
     <p class="production">if you want transfer asset , please click 'Asset Transfer'  button!  </p>
