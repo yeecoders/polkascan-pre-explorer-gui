@@ -25,7 +25,7 @@ import {environment} from '../../../environments/environment';
 import {TransferModelClass} from './transfer-model.class';
 import {ResultOut} from './result.class';
 import {LocalStorage} from '../wallet-detail/local.storage';
-import { Router } from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import * as api from 'src/app/lib/api.js';
 import * as chainRuntime from 'src/app/lib/runtime.js';
 import {hexToBytes, stringToBytes} from 'oo7-substrate';
@@ -33,6 +33,7 @@ import {AssetService} from '../../services/asset.service';
 import {interval, Subscription} from 'rxjs';
 import {DocumentCollection} from 'ngx-jsonapi';
 import {Asset} from '../wallet-detail/asset.class';
+import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-transfer-asset',
@@ -48,6 +49,7 @@ export class TransferAssetComponent implements OnInit {
   constructor(
     private ls: LocalStorage,
     private router: Router,
+    private route: ActivatedRoute,
   ) { }
   public model = new TransferModelClass('', '', '', '', '');
   public resout = new ResultOut('', false, false);
@@ -64,6 +66,11 @@ export class TransferAssetComponent implements OnInit {
     this.calls = chainRuntime.default.calls;
     window['calls'] = this.calls;
     this.transferSuccess = false;
+    this.route.queryParams.subscribe(queryParams => {
+      this.model.assetTransferShard = queryParams.assetTransferShard;
+      this.model.assetTransferId = queryParams.assetTransferId;
+      console.log(' this.model---',  this.model);
+    });
   }
 
   async transfer_asset() {

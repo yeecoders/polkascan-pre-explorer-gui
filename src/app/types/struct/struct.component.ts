@@ -61,7 +61,7 @@ export class StructComponent implements OnInit {
   }
 
   checkType(obj) {
-    if (obj.coinbase && obj.coinbase.includes('0x')) {
+    if (obj !== undefined && obj.coinbase && obj.coinbase.includes('0x')) {
       obj.coinbase = this.bech32_encode(obj.coinbase);
       console.log(obj.coinbase);
     }
