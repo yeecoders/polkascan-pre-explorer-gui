@@ -24,7 +24,6 @@ import {Component, OnInit} from '@angular/core';
 import {DocumentCollection} from 'ngx-jsonapi';
 import {Extrinsic} from '../../classes/extrinsic.class';
 import {BalanceTransferService} from '../../services/balance-transfer.service';
-import {ExtrinsicService} from '../../services/extrinsic.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {interval, Observable, Subscription} from 'rxjs';
@@ -53,6 +52,8 @@ import * as chainRuntime from 'src/app/lib/runtime.js';
 import * as api from 'src/app/lib/api.js';
 import {sign} from '@polkadot/wasm-schnorrkel';
 import {AssetService} from '../../services/asset.service';
+import {Event} from '../../classes/event.class';
+import {EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-wallet-detail',
@@ -60,7 +61,9 @@ import {AssetService} from '../../services/asset.service';
   styleUrls: ['./wallet-detail.component.scss']
 })
 export class WalletDetailComponent implements OnInit {
-  public extrinsics: DocumentCollection<Extrinsic>;
+  public assetBalance: string;
+  public event: Event;
+  public events: DocumentCollection<Event>;
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
   public cache: string;
@@ -73,10 +76,10 @@ export class WalletDetailComponent implements OnInit {
   public txHash: string;
 
   constructor(
+    private eventService: EventService,
     private router: Router,
     private ls: LocalStorage,
     private balanceTransferService: BalanceTransferService,
-    private extrinsicService: ExtrinsicService,
     private accountService: AccountService,
     private accountIndexService: AccountIndexService,
     private httpClient: HttpClient,
@@ -90,7 +93,7 @@ export class WalletDetailComponent implements OnInit {
   ngOnInit() {
     this.address = this.ls.get('wallet_address');
     console.log('address: ', this.address);
-
+    this.getAssetList();
     this.nonce = this.getNonce(this.address);
     this.balance = this.getBalance(this.address);
     this.shardnum = this.getShardNum(this.address);
@@ -106,6 +109,50 @@ export class WalletDetailComponent implements OnInit {
 
     // TODO remove
     // this.model.dest = 'tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh';
+  }
+   switch(str: any) {
+    return 'asset name:' + str[2].value + ', asset balance:' +   str[4].value;
+  }
+  selectModule(module) {
+
+     this.event = module;
+     console.log(this.event);
+  }
+  getAssetList(): void {
+    this.event = null;
+    // tslint:disable-next-line:prefer-const
+    let params = {
+      page: {number: 1, size: 8000},
+      remotefilter: {}
+    };
+    // @ts-ignore
+    params.remotefilter.module_id = 'assets';
+    // @ts-ignore
+    params.remotefilter.event_id = 'issued';
+    this.eventService.all(params).subscribe(events => (
+      this.updateAsset(events),
+      this.events = events
+    ));
+  }
+  updateAsset(events: any) {
+    for (const entry of events.data) {
+      console.log(entry.attributes.attributes[4].value);
+      if (entry.attributes.attributes[4].value !== null) {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        // tslint:disable-next-line:max-line-length
+        this.httpClient.post(environment.switchRootUrl,
+          // tslint:disable-next-line:max-line-length
+          {jsonrpc: '2.0' , method: 'state_getAssetBalance', params: [this.address, entry.attributes.attributes[0].valueRaw,  entry.attributes.attributes[1].value], id: 0},  {headers}).toPromise().then((res: Jsonrpc) => {
+            // tslint:disable-next-line:no-eval
+            if (res.result === undefined ) {
+              console.log('state_getAssetBalance_error: ',  res.error);
+            } else {
+              console.log('state_getAssetBalance: ', res.result );
+              entry.attributes.attributes[4].value = eval(res.result);
+            }
+          });
+      }
+    }
   }
   async transfer() {
 
@@ -234,6 +281,18 @@ export class WalletDetailComponent implements OnInit {
     this.cache = this.ls.get('logincache');
   }
   public AssetTransfer() {
-    this.router.navigate(['', 'transfer-asset']);
+    // @ts-ignore
+    if (this.event === null) {
+      alert('请选择一个资产！');
+    }
+    // @ts-ignore
+    this.router.navigate(['', 'transfer-asset'], {
+      queryParams: {
+        // @ts-ignore
+        assetTransferShard: this.event.attributes.attributes[0].valueRaw,
+        // @ts-ignore
+        assetTransferId: this.event.attributes.attributes[1].value
+      }
+      });
   }
 }

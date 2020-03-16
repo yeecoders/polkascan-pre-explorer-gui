@@ -67,57 +67,23 @@
     </section>
 
     Assets:
-      &nbsp;&nbsp;&nbsp;
-<!--      <select>-->
-<!--        <option *ngFor="let asset of assets.data; trackBy: assets.trackBy">-->
-<!--          <span>{{asset.attributes.name}}</span>-->
-<!--         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-<!--          <span>{{asset.attributes.total_supply}} {{asset.attributes.decimals}}</span>-->
-<!--        </option>-->
-<!--      </select>-->
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="ceratedtwo" (click)="AssetTransfer()">Asset Transfer</button>
-    <p class="production">if you want transfer asset , please click 'Asset Transfer'  button!  </p>
+    <div class="select is-fullwidth">
+      <select name="country" [(ngModel)]="event" (ngModelChange)="selectModule($event)">
+        <option [ngValue]="null">{{ 'All asset' }}</option>
+        <option *ngFor="let module of events.data" [ngValue]="module"> {{switch(module.attributes.attributes)}}</option>
+      </select>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="control">
+      <button class="ceratedtwo" (click)="AssetTransfer()">Asset Transfer</button>
+      <p class="production">if you want transfer asset , please click 'Asset Transfer'  button!  </p>
+    </div>
 
-
-    <!--    <section class="creat center">-->
-<!--      <div class="name">-->
-<!--        Create Wallet-->
-<!--      </div>-->
-<!--      <p class="production"> Create the wallet address </p>-->
-<!--      <button class="ceratedone" (click)="createAccount()">Create</button>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--          Address-->
-<!--        </p>-->
-<!--        <p class="address">-->
-<!--          <span>{{address}}</span>-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--          Private Key-->
-<!--        </p>-->
-<!--        <p class="address privatekey">-->
-<!--          <span class="privatekeytext">{{privateKey}}</span>-->
-
-<!--        </p>-->
-<!--      </div>-->
-<!--      <div>This page will not store your private key, please back up it by yourself for further use.</div>-->
-<!--    </section>-->
     <section class="creat center transfer">
       <div class="name">
         Transfer <span style="color: #FF0000; "> {{resout.result}}</span>
       </div>
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--          <span class="innertitle">-->
-<!--            From address-->
-<!--          </span>-->
-<!--        </p>-->
-<!--        <input class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendAddress">-->
-<!--        <p class="production">Your wallet address</p>-->
-<!--      </div>-->
+
       <div class=" information">
         <p class="wtitle">
           <span class="innertitle">
@@ -148,264 +114,14 @@
 
         <p class="production">Amount that your want it transfer (in YEE)</p>
       </div>
-<!--        <div *ngIf="relayFlag  && ext.attributes.extrinsic_hash == null &&  balanceTransfer.attributes.extrinsic_hash " class="card dashboard-card">-->
-<!--          <p class="balance ">-->
-<!--                    <span class="result" v-if="showResult" :class="{success:success}">-->
-<!--                      {{result}}-->
-<!--                    </span>-->
-<!--          </p>-->
-<!--        </div>-->
+
       <button type="submit" class="ceratedone"  (click)="transfer()" >Transfer</button>
       <div *ngIf="transferSuccess" style="color: #008000; ">
         Transfer successfully <a [href]="'/transaction/' + txHash">View transaction</a>
 
       </div>
     </section>
-<!--    <section class="creat center create_asset">-->
-<!--      <div class="name">-->
-<!--        Create Asset-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Asset name-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="inputw is-large is-loading" type="text" [(ngModel)]="assetmodel.assetName">-->
-<!--        <p class="production">* Max size: 16 bytes.</p>-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Total Supply-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="inputw is-large is-loading" type="text" [(ngModel)]="assetmodel.totalSupply">-->
-<!--        <p class="production">* Total supply for this asset.</p>-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Decimals-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="inputw is-large is-loading" type="text" [(ngModel)]="assetmodel.assetDecimals">-->
-
-<!--        <p class="production">* Decimals for this asset.</p>-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Issuer Address-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="inputw is-large is-loading" type="text" [(ngModel)]="assetmodel.assetIssuer">-->
-<!--        <p class="production">* Please input issuer address.</p>-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--          <span class="innertitle">Issuer Private Key</span>-->
-<!--        </p>-->
-<!--        <input class="inputw is-large is-loading" type="text" [(ngModel)]="assetmodel.assetIssuerPrvKey">-->
-
-<!--        <p class="production">* Please input issuer private key.</p>-->
-<!--      </div>-->
-<!--      <button type="submit" class="ceratedone"  (click)="new_asset()" >Create asset</button>-->
-<!--      <div *ngIf="transferSuccess" style="color: #008000; ">-->
-<!--        Transfer successfully <a [href]="'/transaction/' + txHash">View transaction</a>-->
-
-<!--      </div>-->
-<!--    </section>-->
-    <!-- Create Asset end -->
-    <!-- Transfer Asset start -->
-<!--    <section class="creat center transfer_asset">-->
-<!--      <div class="name">-->
-<!--        Asset Transfer-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Shard Code-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="input" type="text" v-model="assetTransferShard">-->
-<!--      </div>-->
-<!--      <p class="production"> Asset shard code for which shard the asset issued. </p>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Asset Id-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="input" type="text" v-model="assetTransferId">-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    From-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="input" type="text" v-model="assetFrom">-->
-<!--        <p class="production">Your wallet address</p>-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Private Key-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="input" type="text" v-model="assetPrivateKey">-->
-<!--        <p class="production">Your wallet private key</p>-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    To-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="input" type="text" v-model="assetTo">-->
-<!--        <p class="production">The address which your will transfer to</p>-->
-<!--      </div>-->
-<!--      <div class=" information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Amount-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <input class="input" type="text" v-model="assetAmount">-->
-<!--      </div>-->
-
-<!--      <button type="submit" class="ceratedone"  (click)="transfer_asset()" >transfer asset</button>-->
-<!--      <div *ngIf="transferSuccess" style="color: #008000; ">-->
-<!--        Transfer successfully <a [href]="'/transaction/' + txHash">View transaction</a>-->
-
-<!--      </div>-->
-<!--    </section>-->
-    <!-- Transfer Assets end -->
-    <!-- check asset balance start -->
-<!--    <section class="creat center balance">-->
-<!--      <div class="name">-->
-<!--        Check Asset Balance-->
-<!--      </div>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Address-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="queryAssetAddress">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <p class="production"> Check the balance of the address </p>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Shard Code-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="queryAssetShard">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <p class="production"> Asset shard code for which shard the asset issued. </p>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Asset Id-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="queryAssetId">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <p class="balance">-->
-<!--                <span class="result" v-if="assetBalance!==''">-->
-<!--                  Balance is {{ assetBalance}}, Shard num is {{assetShardNum}}-->
-<!--                </span>-->
-<!--      </p>-->
-<!--      <button type="submit" class="ceratedone"  (click)="check_asset()" >check asset</button>-->
-
-<!--    </section>-->
-    <!-- check asset balance end -->
-    <!-- asset detail start -->
-<!--    <section class="creat center balance">-->
-<!--      <div class="name">-->
-<!--        Asset Detail-->
-<!--      </div>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Shard Number-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="detailAssetShard">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Asset Id-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="detailAssetId">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <p class="balance ">-->
-<!--                <span class="result" v-if="showAssetDetailResult" :class="{success:success}">-->
-<!--                  {{detailAssetResult}}-->
-<!--                </span>-->
-<!--      </p>-->
-<!--      <button type="submit" class="ceratedone"  (click)="asset_detail()" > asset detail</button>-->
-<!--    </section>-->
-    <!-- asset detail end -->
-    <!-- get block's event start -->
-    <!-- commit storage start -->
-<!--    <section class="creat center balance">-->
-<!--      <div class="name">-->
-<!--        Storage-->
-<!--      </div>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Account-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="storageAccountId">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Account Private Key-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="storageAccountPrvKey">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <div class="information">-->
-<!--        <p class="wtitle">-->
-<!--                  <span class="innertitle">-->
-<!--                    Data-->
-<!--                  </span>-->
-<!--        </p>-->
-<!--        <p class="address input">-->
-<!--          <input class="input" type="text" v-model="storageData">-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <p class="production">* Please input hex data.</p>-->
-<!--      <p class="balance ">-->
-<!--                <span class="result" v-if="showStorageResult" :class="{success:success}">-->
-<!--                  {{storageResult}}-->
-<!--                </span>-->
-<!--      </p>-->
-<!--      <button type="submit" class="ceratedone"  (click)="transfer_storage()" >transfer storage</button>-->
-<!--    </section>-->
-<!--    &lt;!&ndash; commit storage end &ndash;&gt;-->
   </div>
 </div>
 </div>
+
