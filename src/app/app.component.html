@@ -6,6 +6,54 @@
     'network-kusama': environment.networkName == 'Kusama'
 
   }">
+  <app-model title="Access By PrivateKry" [myModel]="showModel" (myModelChange)="onMyModelChange('showModel', $event)">
+    <div class="model-box">
+      <div class="input-box">
+        <input placeholder="Enter Private Key" class="inputw is-large is-loading" type="text" [(ngModel)]="model.sendPrivateKey">
+      </div>
+      <div class="errorMsg" *ngIf="resout.showResult">{{resout.result}}</div>
+      <button [ngClass]="{disable: !model.sendPrivateKey}" (click)="showPassWordModelFn()">Next</button>
+    </div>
+  </app-model>
+
+  <app-model title="Enter Password" [myModel]="showPassWordModel" (myModelChange)="onMyModelChange('showPassWordModel', $event)">
+    <div class="model-box">
+      <div class="input-box">
+        <input placeholder="Enter Password" class="inputw is-large is-loading" type="text" [(ngModel)]="model.password">
+      </div>
+      <div class="errorMsg" *ngIf="resout.showResult">{{resout.result}}</div>
+      <button [ngClass]="{disable: !model.sendPrivateKey}" (click)="import()">Access Wallet</button>
+    </div>
+  </app-model>
+   
+  <app-model title="Enter Password" [myModel]="showCreateModel" (myModelChange)="onMyModelChange('showCreateModel', $event)">
+    <div class="model-box">
+      <div class="input-box">
+        <input placeholder="Set Password" class="inputw is-large is-loading" type="text" [(ngModel)]="model.password">
+      </div>
+      <div class="errorMsg" *ngIf="resout.showResult">{{resout.result}}</div>
+      <button [ngClass]="{disable: !model.password}" (click)="createAccount()">Next</button>
+    </div>
+  </app-model>
+
+  <app-model title="Enter Password" [myModel]="showResultModel" (myModelChange)="onMyModelChange('showResultModel', $event)">
+    <div class="model-box">
+      <div class="tips">
+        <img src="../../assets/tips.png">
+        <div class="tipsInfo">
+          <p><b>Do not lose it!</b> YeeCo cannot help you recover a lost key.</p>
+          <p><b>Do not share it!</b> Your funds may be stolen if you use this file a malicious site.</p>
+          <p><b>Make a backup!</b> Just in case your laptop is set on fire.</p>
+        </div>
+      </div>
+      <div class="input-box">
+        <div class="private" id="private">{{privateKey}}</div>
+        <img src="assets/ic_copy.png" width="24" class="copy"   (click)="copy()">
+      </div>
+      <button (click)="accessWallet()">Access Wallet</button>
+    </div>
+  </app-model>
+
   <!-- START NAV -->
   <nav class="navbar is-black network-alexander" role="navigation" aria-label="main navigation" >
       <div class="container">
@@ -33,28 +81,30 @@
                     <a class="navbar-link">
                       {{ 'NavBar.Chain' | translate }}
                     </a>
-                    <div class="navbar-dropdown" (click)="toggleSubmenus()">
-                      <a class="navbar-item" routerLink="/block">
-                        {{ 'NavBar.item_Blocks' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/transaction">
-                        {{ 'NavBar.item_Transactions' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/balances/transfer">
-                        {{ 'NavBar.item_Transfers' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/account">
-                        {{ 'NavBar.item_Accounts' | translate }}
-                      </a>
-                      <!--                      <a class="navbar-item" routerLink="/inherent">-->
-                      <!--                        {{ 'NavBar.item_Inherents' | translate }}-->
-                      <!--                      </a>-->
-                      <a class="navbar-item" routerLink="/event">
-                        {{ 'NavBar.item_Events' | translate }}
-                      </a>
-                      <a class="navbar-item" routerLink="/log">
-                        {{ 'NavBar.item_Logs' | translate }}
-                      </a>
+                    <div class="navbar-dropdown right-dropdown" (click)="toggleSubmenus()">
+                      <div class="navbar-dropdown-box">
+                          <a class="dropdown-navbar-item" routerLink="/block">
+                            {{ 'NavBar.item_Blocks' | translate }}
+                          </a>
+                          <a class="dropdown-navbar-item" routerLink="/transaction">
+                            {{ 'NavBar.item_Transactions' | translate }}
+                          </a>
+                          <a class="dropdown-navbar-item" routerLink="/balances/transfer">
+                            {{ 'NavBar.item_Transfers' | translate }}
+                          </a>
+                          <a class="dropdown-navbar-item" routerLink="/account">
+                            {{ 'NavBar.item_Accounts' | translate }}
+                          </a>
+                          <!--                      <a class="navbar-item" routerLink="/inherent">-->
+                          <!--                        {{ 'NavBar.item_Inherents' | translate }}-->
+                          <!--                      </a>-->
+                          <a class="dropdown-navbar-item" routerLink="/event">
+                            {{ 'NavBar.item_Events' | translate }}
+                          </a>
+                          <a class="dropdown-navbar-item" routerLink="/log">
+                            {{ 'NavBar.item_Logs' | translate }}
+                          </a>
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -77,27 +127,33 @@
                   <a class="navbar-link">
                     {{ 'NavBar.Wallet' | translate }}
                   </a>
-                  <div class="navbar-dropdown" (click)="toggleSubmenus()">
-
-                    <a *ngIf="!address" class="navbar-item" routerLink="/import-wallet">
-                      {{ 'NavBar.Import Wallet' | translate }}
-                    </a>
-                    <a *ngIf="!address" class="navbar-item" routerLink="/create-wallet">
-                      {{ 'NavBar.Create Wallet' | translate }}
-                    </a>
-                    <a *ngIf="address" class="navbar-item" routerLink="/wallet">
-                      {{ 'My Account' | translate }}
-                    </a>
-                    <a *ngIf="address" class="navbar-item" routerLink="/create-asset">
-                      {{ 'Create Asset' | translate }}
-                    </a>
-                    <a *ngIf="address" class="navbar-item" routerLink="/storage-data">
-                      {{ 'Storage Data' | translate }}
-                    </a>
-                    <a *ngIf="address" class="navbar-item" routerLink="/" (click)="logout()">
-                      {{ 'Logout' | translate }}
-                    </a>
-
+                  <div class="navbar-dropdown right-dropdown" (click)="toggleSubmenus()">
+                    <div class="navbar-dropdown-box">
+                      <a *ngIf="!address" class="dropdown-navbar-item" routerLink="/import-wallet" (click)="showModelFn()">
+                        {{ 'NavBar.Import Wallet' | translate }}
+                      </a>
+                      <a *ngIf="!address" class="dropdown-navbar-item" routerLink="/create-wallet" (click)="showCreateModelFn()">
+                        {{ 'NavBar.Create Wallet' | translate }}
+                      </a>
+                      <div class="link-box" *ngIf="address" class="dropdown-navbar-item">
+                        <div class="dropdown-box">
+                          <div>{{ 'My Account' | translate }}</div>
+                          <a class="address-text" routerLink="/wallet">{{address}}</a>
+                        </div>
+                      </div>
+                      <a class="yee-wallet" routerLink="/wallet">
+                        <p class="account-card-title" >{{ formatBalance(balance) ||0}} {{ networkTokenSymbol }}</p>
+                      </a>
+                      <a *ngIf="address" class="dropdown-navbar-item" routerLink="/create-asset">
+                          <div>{{ 'Create Asset' | translate }}</div>
+                      </a>
+                      <a *ngIf="address" class="dropdown-navbar-item" routerLink="/storage-data">
+                          <div>{{ 'Storage Data' | translate }}</div>
+                      </a>
+                      <a *ngIf="address" class="logout" routerLink="/" (click)="logout()">
+                          <div>{{ 'Logout' | translate }}</div>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -3,7 +3,7 @@ html, body {
   font-size: 16px;
   line-height: 1.5;
   height: 100%;
-  background: #fafafb;
+  background: #e5e5e5;
 }
 nav.navbar {
   border-top: 4px solid #2a364a;
@@ -353,13 +353,130 @@ a {
 @import '~node_modules/bulma/sass/utilities/mixins';
 
 @include desktop {
+  
     .navbar-item {
-        &.is-hoverable:hover {
-            .navbar-dropdown {
-                display: block;
+        .navbar-dropdown{
+          background: none;
+          display: none;
+          border: none!important;
+          font-size: .875rem;
+          border-radius: none;
+          box-shadow: none;
+          left: 0;
+          position: absolute;
+          top: 100%;
+          z-index: 20;
+          padding: 0;;
+          .navbar-dropdown-box{
+            padding: 18px;
+            width: 314px;
+            box-sizing: border-box;
+            background-color: #fff;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 8px 8px rgba(10,10,10,.1);
+            margin-top: 10px;
+            position: relative;
+            &::before{
+              content: " ";
+              display: block;
+              position: absolute;
+              left: 90%;
+              top: -7px;
+              width: 0;
+              height: 0;
+              border-left: 7px solid transparent;
+              border-right: 7px solid transparent;
+              border-bottom: 7px solid #ffffff;
             }
-        }
-    }
+          }
+          .yee-wallet{
+            display: block;
+            color: #FFF;
+            height: 56px;
+            width: 100%;
+            padding: 17px 24px;
+            box-shadow: none;
+            box-sizing: border-box;
+            background: url('./assets/yeeBg1.png');
+            background-size: 100%;
+          }
+          &.right-dropdown {
+              max-width: 300px;
+              left: auto;
+              right: 0;
+              .dropdown-navbar-item{
+                font-size: 16px;
+                line-height: 48px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 0;
+                border-bottom: 1px solid rgba(46,57,74,.1);
+                position: relative;
+                &::before{
+                  right: 0;
+                  position: absolute;
+                  display: block;
+                  content: " ";
+                  height: 11px;
+                  width: 7px;
+                  background: url('./assets/arrow.png');
+                  color: #2a364a;
+                  background-size: cover;
+                }
+                &.address-text{
+                  color:#c23731;
+                }
+              }
+              .logout{
+                height: 41px;
+                background-color: #df2649;
+                line-height: 41px;
+                color: #fff;
+                font-size: 14px;
+                display: block;
+                text-align: center;
+                margin-top: 48px;
+              }
+            }
+            .dropdown-navbar-item{
+              display: flex;
+              color: #2a2f3a;
+              padding: 0;
+              align-items: center;
+              .dropdown-box{
+                flex-grow: 1;
+                flex-shrink: 1;
+                font-size: 16px;
+                line-height: 20px;
+                padding-bottom: 20px;
+                padding-right: 20px;
+                width: 100%;
+                .address-text{
+                  font-size: 13px;
+                  color: #3560ff;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  width: 100%;
+                  display: block;
+                }
+              }
+              .arrow{
+                width: 30px;
+                flex-shrink: 0;
+                font-size: 18px;
+                text-align: right;
+              }
+            }
+          }
+          &.is-hoverable:hover {
+              .navbar-dropdown {
+                  display: block;
+              }
+          }
+      }
 }
 
 

@@ -21,7 +21,6 @@
  */
 
 import { LocalStorage } from './pages/wallet-detail/local.storage';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { TranslateCompiler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -42,8 +41,9 @@ import localeZh from '@angular/common/locales/zh';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NgxJsonapiModule } from 'ngx-jsonapi';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {WalletDetailComponent} from './pages/wallet-detail/wallet-detail.component';
+import { ModelComponent } from './components/model/model.component';
 import { BlockListComponent } from './pages/block-list/block-list.component';
 import { BlockDetailComponent } from './pages/block-detail/block-detail.component';
 import { MessagesComponent } from './components/messages/messages.component';
@@ -109,6 +109,7 @@ import {CreateWalletComponent} from './pages/create-wallet/create-wallet.compone
 import {CreateAssetComponent} from './pages/create-asset/create-asset.component';
 import {TransferAssetComponent} from './pages/transfer-asset/transfer-asset.component';
 import {StorageDataComponent} from './pages/storage-data/storage-data.component';
+// import 'bulma/sass/utilities/mixins';
 
 export class MyClock extends TimeagoClock {
   tick(then: number): Observable<number> {
@@ -119,6 +120,7 @@ export class MyClock extends TimeagoClock {
 @NgModule({
   declarations: [
     AppComponent,
+    ModelComponent,
     StorageDataComponent,
     TransferAssetComponent,
     CreateAssetComponent,

@@ -1,0 +1,42 @@
+.mask{
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  background: rgba(51, 51, 51, 0.2);
+  width: 100vw;
+  height: 100vh;
+  .model-box{
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 410px;
+  	min-height: 274px;
+    background-color: #ffffff;
+    .model-header{
+	    height: 45px;
+      background-color: #2a364a;
+      display: flex;
+      padding: 15px 14px 16px 17px;
+      box-sizing: border-box;
+      .model-title{
+        flex-grow: 1;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .close{
+        color: #ffffff;
+        background: url('../../../assets/close.png');
+        width: 14px;
+        height: 14px;
+        background-size: cover;
+        cursor: pointer;
+      }
+    }
+    .model-content{
+      padding: 18px;
+    }
+  }
+}

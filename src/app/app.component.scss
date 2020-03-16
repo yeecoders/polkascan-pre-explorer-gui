@@ -2,3 +2,70 @@
   padding-right: 10px;
   padding-top: 2px;
 }
+.model-box{
+  padding-top: 30px;
+  .tips{
+    padding: 13px 20px;
+    box-sizing: border-box;
+    background: #faf1e1;
+    margin: -48px -18px 18px -18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 20px;
+    font-size: 12px;
+    img{
+      width: 49px;
+      height: 44px;
+      flex-grow: 0;
+      margin-right: 16px;
+    }
+    .tipsInfo{
+      flex-grow: 1;
+    }
+  }
+  .input-box{
+    width: 100%;
+    padding: 16px 13px;
+    box-sizing: border-box;
+    background-color: hsl(216, 26%, 96%);
+    display: flex;
+    .private{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+    .copy{
+      width: 24px;
+      height: 24px;
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+    input{
+      background: none;
+      height: 100%;
+      outline: none;
+      width: 100%;
+      border: none;
+    }
+  }
+  button{
+    margin-top: 22px;
+    width: 100%;
+    font-weight: bolder;
+	  height: 41px;
+    background-color: #2a364a;
+    color: #FFF;
+    line-height: 41px;
+    text-align: center;
+    &.disable{
+      background-color:rgba(42,54,74,.3);
+  }
+  }
+  .errorMsg{
+    font-size: 12px;
+    color: red;
+  }
+}

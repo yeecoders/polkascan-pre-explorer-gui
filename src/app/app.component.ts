@@ -22,7 +22,18 @@
 
 import { Component } from '@angular/core';
 import {environment} from '../environments/environment';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import { AccoutModelClass } from './accout-model.class'
+import { ResultOut } from './result.class'
+import {HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import * as schnorrkel from '@yeecoders/schnorrkel-js';
+import {generateMnemonic} from 'bip39';
+import {
+  calls, runtime, chain, system, runtimeUp, pretty,
+  addressBook, secretStore, metadata, nodeService, bytesToHex, hexToBytes, AccountId
+} from 'oo7-substrate';
+import * as api from 'src/app/lib/api.js';
+import {NavigationEnd, NavigationStart, Router, ActivatedRoute} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {LocalStorage} from '../app/pages/wallet-detail/local.storage';
 
@@ -33,6 +44,17 @@ import {LocalStorage} from '../app/pages/wallet-detail/local.storage';
 })
 export class AppComponent {
   title = 'Polkascan';
+  public showModel:boolean = false;
+  public showPassWordModel:boolean = false;
+  public showCreateModel:boolean = false;
+  public showResultModel:boolean = false;
+  public privateKeyHex:string;
+  public balance: string;
+  public model = new AccoutModelClass('', '', '');
+  public resout = new ResultOut('', false, false);
+  public privateKey: string;
+  public networkTokenSymbol: string;
+  public networkTokenDecimals: number;
   public address: string;
   public environment = environment;
   public showNavigation = false;
@@ -40,7 +62,12 @@ export class AppComponent {
   public langs = ['en', 'de', 'fr', 'it', 'es', 'zh', 'ja', 'ko', 'ru', 'uk'];
   public selectedLanguage = 'en';
 
-  constructor(private router: Router, private translate: TranslateService, private ls: LocalStorage) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private httpClient: HttpClient,
+    private translate: TranslateService,
+    private ls: LocalStorage) {
     router.events.subscribe((val) => {
         this.showNavigation = false;
         this.address = this.ls.get('wallet_address');
@@ -57,7 +84,140 @@ export class AppComponent {
     this.address = this.ls.get('wallet_address');
     console.log('address: ', this.address);
     console.log('app init');
+    this.balance = this.getBalance(this.address);
+    this.networkTokenDecimals = environment.networkTokenDecimals;
+    this.networkTokenSymbol = environment.networkTokenSymbol
+  }
+  public getBalance(str: string) {
+    if (str === '' || str === undefined) {
+      return;
+    }
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post(environment.switchRootUrl, {
+      jsonrpc: '2.0',
+      method: 'state_getBalance',
+      params: [str],
+      id: 0
+    }, {headers}).subscribe((res: Jsonrpc) => {
+      console.log('getBalance: ', res.result);
+      // tslint:disable-next-line:no-eval
+      this.balance = eval(res.result);
+    });
+    return this.balance;
+  }
+  public formatBalance(balance: string) {
+    return Number(balance) / Math.pow(10, this.networkTokenDecimals);
+  }
+  showModelFn() :void {
+    this.model = new AccoutModelClass('', '', '');
+    this.resout = new ResultOut('', false, false);
+    this.showModel = true
+  }
+  showCreateModelFn() :void {
+    this.model = new AccoutModelClass('', '', '');
+    this.resout = new ResultOut('', false, false);
+    this.showCreateModel = true
+  }
+  showPassWordModelFn():void {
+    if (!this.model.sendPrivateKey) return;
+    this.resout.result = '';
+    // console.log(this.model);
+    if (this.model.sendPrivateKey === '') {
+      this.resout.result = 'Please fill all input';
+      this.resout.showResult = true;
+      console.log(this.resout);
+      return;
+    }
+    let privateKeyHex = this.model.sendPrivateKey;
+    schnorrkel.waitReady().then((ready) => {
+      console.log("schnorrkel ready: " + ready);
+      if (ready){
+        let publicKey = null;
+        try {
+          publicKey = schnorrkel.toPublic(hexToBytes(privateKeyHex));
+        }catch (e) {
+          this.resout.result = 'Wrong Private Key!';
+          this.resout.showResult = true;
+          return;
+        }
+        console.log("public key: " + bytesToHex(publicKey));
+        this.address = api.default.utils.bech32Encode(publicKey);
+        this.privateKeyHex = bytesToHex(hexToBytes(privateKeyHex));//remove leading '0x'
+      }
+      this.showModel = false
+      this.showPassWordModel = true
+    })
+  }
+  public import() {
+    this.resout.result = '';
+    if (this.model.password === '' || this.model.password.length < 6) {
+      this.resout.result = 'Too Short!';
+      this.resout.showResult = true;
+      console.log(this.resout);
+      return;
+    }
+    let privateKeyHex = this.privateKeyHex;
+    privateKeyHex = bytesToHex(hexToBytes(privateKeyHex));//remove leading '0x'
+    let enc = api.default.utils.encrypt(privateKeyHex, this.model.password);
+    this.ls.set('wallet_address', this.address);
+    this.ls.set('wallet_private_key_enc', enc);
+    this.router.navigate(['', 'wallet']);
+    this.model = new AccoutModelClass('', '', '');
+    this.resout = new ResultOut('', false, false);
+  }
+  createAccount() {
+    this.resout.result = '';
+    if (this.model.password === '' || this.model.password.length < 6) {
+      this.resout.result = 'Too Short!';
+      this.resout.showResult = true;
+      console.log(this.resout);
+      return;
+    }
+    schnorrkel.waitReady().then((ready) => {
+      console.log("schnorrkel ready: " + ready);
+      if (ready){
+        const mnemonic = generateMnemonic();
+        const srKeypairFromUri = window['srKeypairFromUri'];
+        // console.log(mnemonic);
+        const keypair = srKeypairFromUri(mnemonic);
+        const publicKey = keypair.slice(64, 96);
+        const privateKey = keypair.slice(0, 64);
+        const address = api.default.utils.bech32Encode(publicKey);
+        console.log("address: " + address);
+        const privateKeyHex = bytesToHex(privateKey);
+        let enc = api.default.utils.encrypt(privateKeyHex, this.model.password);
+        this.ls.set('wallet_address', address);
+        this.ls.set('wallet_private_key_enc', enc);
+        this.privateKey = "0x" + privateKeyHex;
+        this.address = address;
+        console.log(this.privateKey)
+        console.log(this.address)
+        this.showResultModel = true
+        this.showCreateModel = false
+        this.model = new AccoutModelClass('', '', '');
+        this.resout = new ResultOut('', false, false);
+      }
+    });
 
+  }
+  public copy() {
+    const range = document.createRange();
+    range.selectNode(document.getElementById('private'));
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      selection.removeAllRanges();
+    }
+    selection.addRange(range);
+    document.execCommand('copy');
+    alert('复制成功');
+  }
+  public accessWallet() {
+    this.showResultModel = false
+    this.router.navigate(['', 'wallet']);
+  }
+  onMyModelChange(key,value) {
+    this[key] = value
   }
   toggleNavigation() {
     this.showNavigation = !this.showNavigation;

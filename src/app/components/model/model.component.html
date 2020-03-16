@@ -1,0 +1,11 @@
+<div class="mask" *ngIf="_myModel">
+  <div class="model-box">
+    <div class="model-header">
+      <div class="model-title">{{title}}</div>
+      <div  class="close" (click)="close()"></div>
+    </div>
+    <div class="model-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
