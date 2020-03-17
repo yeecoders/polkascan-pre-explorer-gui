@@ -20,6 +20,7 @@
  */
 import {BrowserModule} from '@angular/platform-browser';
 import { Asset } from './asset.class';
+import {TransferModelClass} from './transfer-model.class';
 import {Component, OnInit} from '@angular/core';
 import {DocumentCollection} from 'ngx-jsonapi';
 import {Extrinsic} from '../../classes/extrinsic.class';
@@ -61,7 +62,9 @@ import {EventService} from '../../services/event.service';
   styleUrls: ['./wallet-detail.component.scss']
 })
 export class WalletDetailComponent implements OnInit {
+  public TransferModel = new TransferModelClass('', '', '', '', '');
   public assetBalance: string;
+  public showPassWordModel: boolean = false;
   public event: Event;
   public events: DocumentCollection<Event>;
   public networkTokenDecimals: number;
@@ -110,11 +113,16 @@ export class WalletDetailComponent implements OnInit {
     // TODO remove
     // this.model.dest = 'tyee18z4vztn7d0t9290d6tmlucqcelj4d4luzshnfh274vsuf62gkdrsd7hqxh';
   }
+  onMyModelChange(key,value) {
+    this[key] = value
+    this.resout.result = '';
+    this.resout.showResult = false;
+    this.model.password = ''
+  }
    switch(str: any) {
     return 'asset name:' + str[2].value + ', asset balance:' +   str[4].value;
   }
   selectModule(module) {
-
      this.event = module;
      console.log(this.event);
   }
@@ -154,31 +162,95 @@ export class WalletDetailComponent implements OnInit {
       }
     }
   }
-  async transfer() {
-
+  async transfer_asset() {
     console.log(this.calls);
+    if (this.model.password === '' || this.TransferModel.assetTransferShard === ''
+      || this.TransferModel.assetTransferId === '' || this.model.dest === '' || this.model.amount === '' ) {
+      this.resout.result = 'Please fill all field';
+      this.resout.showResult = true;
+      return;
+    }
 
+    if (!api.default.utils.isIntNum(this.TransferModel.assetTransferId)) {
+      this.resout.result = 'Decimals should be a integer';
+      this.resout.showResult = true;
+      return;
+    }
+    if (!api.default.utils.isIntNum(this.model.amount)) {
+      this.resout.result = 'Decimals should be a integer';
+      this.resout.showResult = true;
+      return;
+    }
+    const shardNum = api.default.utils.getShardNum(this.address);
+    console.log('issuer sharding number: ', shardNum);
+    const senderPublic = api.default.utils.bech32Decode(this.address);
+    console.log('senderPublic:', senderPublic);
+
+    const enc = this.ls.get('wallet_private_key_enc');
+    console.log('enc:', enc);
+    const senderPrivateKey = hexToBytes(api.default.utils.decrypt(enc, this.model.password));
+    console.log('senderPrivateKey:', senderPrivateKey);
+    api.default.switchRootUrl = environment.switchRootUrl;
+    api.default.utils.runInAssetTransferCall(
+      this.TransferModel.assetTransferShard,
+      this.TransferModel.assetTransferId,
+      api.default.utils.bech32Decode(this.model.dest),
+      this.model.amount,
+      this.calls,
+      (call) => {
+        api.default.utils.composeTransaction(senderPublic, senderPrivateKey, call).then((res) => {
+          this.txHash = res.data.result;
+          this.transferSuccess = true;
+          this.showPassWordModel = false
+        }).catch((res) => {
+          console.log(res);
+          this.resout.result = 'Something is wrong';
+          this.resout.showResult = true;
+        });
+      }
+    );
+  }
+  showPassWordModelFn() {
+    if(!this.model.dest || !this.model.amount) {
+      return
+    }
+    this.showPassWordModel = true
+  }
+  async transfer() {
+    if (this.model.password === '' || this.model.password.length < 6) {
+      this.resout.result = 'Too Short!';
+      this.resout.showResult = true;
+      console.log(this.resout);
+      return;
+    }
+    if (this.event) {
+      // @ts-ignore
+      this.TransferModel.assetTransferShard = this.event.attributes.attributes[0].valueRaw;
+      // @ts-ignore
+      this.TransferModel.assetTransferId = this.event.attributes.attributes[1].value;
+      this.transfer_asset()
+    } else {
+      this.transferFn()
+    }
+  }
+  transferFn() {
     if (this.model.password === '' || this.model.dest === '' || this.model.amount === '') {
       this.resout.result = 'Please fill all input';
       this.resout.showResult = true;
       return;
     }
-
     const amountInCo = this.fromBalance(this.model.amount);
     console.log('acmountInCo: ' + amountInCo);
-
     if (amountInCo < 1000) {
       this.resout.result = 'The amount should not be less than 0.0001';
       this.resout.showResult = true;
       return;
     }
-
     if (!api.default.utils.isIntNum(amountInCo)) {
       this.resout.result = 'Amount should be a number';
       this.resout.showResult = true;
       return;
     }
-
     const descPublic = api.default.utils.bech32Decode(this.model.dest);
     // const senderPublic = api.utils.bech32Decode(this.sendAddress)
     // let secret = hexToBytes(that.sendPrivateKey)
@@ -202,6 +274,7 @@ export class WalletDetailComponent implements OnInit {
         api.default.utils.composeTransaction(senderPublic, senderPrivateKey, call).then((res) => {
           this.txHash = res.data.result;
           this.transferSuccess = true;
+          this.showPassWordModel = false
         }).catch((res) => {
           console.log(res);
           this.resout.result = 'Something is wrong';
@@ -210,7 +283,6 @@ export class WalletDetailComponent implements OnInit {
       }
     );
   }
-
   public getBalance(str: string) {
     if (str === '' || str === undefined) {
       return;
@@ -273,7 +345,7 @@ export class WalletDetailComponent implements OnInit {
     }
     selection.addRange(range);
     document.execCommand('copy');
-    alert('复制成功');
+    alert('Cpoied');
   }
 
   get(): void {
@@ -285,6 +357,7 @@ export class WalletDetailComponent implements OnInit {
     if (this.event === null) {
       alert('请选择一个资产！');
     }
+
     // @ts-ignore
     this.router.navigate(['', 'transfer-asset'], {
       queryParams: {

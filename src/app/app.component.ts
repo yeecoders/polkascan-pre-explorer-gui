@@ -28,6 +28,7 @@ import {HttpHeaders} from '@angular/common/http';
 import {HttpClient} from '@angular/common/http';
 import * as schnorrkel from '@yeecoders/schnorrkel-js';
 import {generateMnemonic} from 'bip39';
+import { Jsonrpc } from './pages/wallet-detail/jsonrpc.class'
 import {
   calls, runtime, chain, system, runtimeUp, pretty,
   addressBook, secretStore, metadata, nodeService, bytesToHex, hexToBytes, AccountId
@@ -36,6 +37,7 @@ import * as api from 'src/app/lib/api.js';
 import {NavigationEnd, NavigationStart, Router, ActivatedRoute} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {LocalStorage} from '../app/pages/wallet-detail/local.storage';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -210,7 +212,7 @@ export class AppComponent {
     }
     selection.addRange(range);
     document.execCommand('copy');
-    alert('复制成功');
+    alert('Cpoied');
   }
   public accessWallet() {
     this.showResultModel = false

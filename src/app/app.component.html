@@ -19,24 +19,24 @@
   <app-model title="Enter Password" [myModel]="showPassWordModel" (myModelChange)="onMyModelChange('showPassWordModel', $event)">
     <div class="model-box">
       <div class="input-box">
-        <input placeholder="Enter Password" class="inputw is-large is-loading" type="text" [(ngModel)]="model.password">
+        <input placeholder="Enter Password" class="inputw is-large is-loading" type="password" [(ngModel)]="model.password">
       </div>
       <div class="errorMsg" *ngIf="resout.showResult">{{resout.result}}</div>
       <button [ngClass]="{disable: !model.sendPrivateKey}" (click)="import()">Access Wallet</button>
     </div>
   </app-model>
    
-  <app-model title="Enter Password" [myModel]="showCreateModel" (myModelChange)="onMyModelChange('showCreateModel', $event)">
+  <app-model title="Set Password" [myModel]="showCreateModel" (myModelChange)="onMyModelChange('showCreateModel', $event)">
     <div class="model-box">
       <div class="input-box">
-        <input placeholder="Set Password" class="inputw is-large is-loading" type="text" [(ngModel)]="model.password">
+        <input placeholder="Set Password" class="inputw is-large is-loading" type="password" [(ngModel)]="model.password">
       </div>
       <div class="errorMsg" *ngIf="resout.showResult">{{resout.result}}</div>
       <button [ngClass]="{disable: !model.password}" (click)="createAccount()">Next</button>
     </div>
   </app-model>
 
-  <app-model title="Enter Password" [myModel]="showResultModel" (myModelChange)="onMyModelChange('showResultModel', $event)">
+  <app-model title="Save Your Private Key" [myModel]="showResultModel" (myModelChange)="onMyModelChange('showResultModel', $event)">
     <div class="model-box">
       <div class="tips">
         <img src="../../assets/tips.png">
@@ -129,26 +129,26 @@
                   </a>
                   <div class="navbar-dropdown right-dropdown" (click)="toggleSubmenus()">
                     <div class="navbar-dropdown-box">
-                      <a *ngIf="!address" class="dropdown-navbar-item" routerLink="/import-wallet" (click)="showModelFn()">
+                      <div *ngIf="!address" class="dropdown-navbar-item" (click)="showModelFn()">
                         {{ 'NavBar.Import Wallet' | translate }}
-                      </a>
-                      <a *ngIf="!address" class="dropdown-navbar-item" routerLink="/create-wallet" (click)="showCreateModelFn()">
+                      </div>
+                      <div *ngIf="!address" class="dropdown-navbar-item" (click)="showCreateModelFn()">
                         {{ 'NavBar.Create Wallet' | translate }}
-                      </a>
+                      </div>
                       <div class="link-box" *ngIf="address" class="dropdown-navbar-item">
                         <div class="dropdown-box">
                           <div>{{ 'My Account' | translate }}</div>
                           <a class="address-text" routerLink="/wallet">{{address}}</a>
                         </div>
                       </div>
-                      <a class="yee-wallet" routerLink="/wallet">
+                      <a class="yee-wallet" routerLink="/wallet" *ngIf="address">
                         <p class="account-card-title" >{{ formatBalance(balance) ||0}} {{ networkTokenSymbol }}</p>
                       </a>
-                      <a *ngIf="address" class="dropdown-navbar-item" routerLink="/create-asset">
-                          <div>{{ 'Create Asset' | translate }}</div>
+                      <a class="dropdown-navbar-item" [routerLink]="['/account' + address]" *ngIf="address">
+                        {{ 'Transactions' | translate }}
                       </a>
-                      <a *ngIf="address" class="dropdown-navbar-item" routerLink="/storage-data">
-                          <div>{{ 'Storage Data' | translate }}</div>
+                      <a *ngIf="address" class="dropdown-navbar-item" [routerLink]="['/wallet']" fragment="transfer">
+                          <div>{{ 'Transfer' | translate }}</div>
                       </a>
                       <a *ngIf="address" class="logout" routerLink="/" (click)="logout()">
                           <div>{{ 'Logout' | translate }}</div>

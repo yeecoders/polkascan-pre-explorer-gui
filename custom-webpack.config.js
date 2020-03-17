@@ -27,6 +27,34 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js']
   },
+  mode: 'production',
+  // js 分包
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          name: 'lib'
+        },
+        default: {
+          minSize: 0,
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+          name: 'utils'
+        }
+      }
+    }
+  },
   plugins: [
     new webpack.DefinePlugin({
       $ENV: {

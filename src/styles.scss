@@ -394,12 +394,15 @@ a {
             display: block;
             color: #FFF;
             height: 56px;
-            width: 100%;
+            width: 110%;
             padding: 17px 24px;
             box-shadow: none;
             box-sizing: border-box;
             background: url('./assets/yeeBg1.png');
             background-size: 100%;
+            margin: 0 -11px;
+            display: flex;
+            align-items: center;
           }
           &.right-dropdown {
               max-width: 300px;
@@ -454,6 +457,7 @@ a {
                 padding-right: 20px;
                 width: 100%;
                 .address-text{
+                  margin-top: 10px;
                   font-size: 13px;
                   color: #3560ff;
                   white-space: nowrap;
