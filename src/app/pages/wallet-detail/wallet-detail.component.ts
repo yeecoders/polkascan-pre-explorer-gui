@@ -120,7 +120,7 @@ export class WalletDetailComponent implements OnInit {
     this.model.password = ''
   }
    switch(str: any) {
-    return 'asset name:' + str[2].value + ', asset balance:' +   str[4].value;
+    return str[2].value + ` (${str[4].value} available)`;
   }
   selectModule(module) {
      this.event = module;

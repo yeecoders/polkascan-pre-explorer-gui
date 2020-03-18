@@ -61,7 +61,7 @@
       <fieldset class="form-info">
         <legend>Token</legend>
         <select class="ng-pristine ng-valid ng-touched" name="country" [(ngModel)]="event" (ngModelChange)="selectModule($event)">
-          <option [ngValue]="null">{{ 'YEE' }}</option>
+          <option [ngValue]="null">{{ 'YEE (' }}{{ formatBalance(balance) ||0}}{{' available)'}}</option>
           <option *ngFor="let module of events.data" [ngValue]="module"> {{switch(module.attributes.attributes)}}</option>
         </select>
       </fieldset>
