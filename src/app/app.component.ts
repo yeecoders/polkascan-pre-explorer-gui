@@ -63,7 +63,7 @@ export class AppComponent {
   public showSubmenus = true;
   public langs = ['en', 'de', 'fr', 'it', 'es', 'zh', 'ja', 'ko', 'ru', 'uk'];
   public selectedLanguage = 'en';
-
+  public white:boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -75,6 +75,7 @@ export class AppComponent {
         this.address = this.ls.get('wallet_address');
         console.log('address: ', this.address);
     });
+    this.white = location.pathname === '/wallet'
     translate.addLangs(this.langs);
     translate.setDefaultLang('en');
 

@@ -29,7 +29,7 @@ import { MessageService } from '../../services/message.service';
   styleUrls: ['./model.component.scss']
 })
 export class ModelComponent implements OnInit {
-  private _myModel;
+  public _myModel;
     @Input()
     get myModel() {
       return this._myModel;
