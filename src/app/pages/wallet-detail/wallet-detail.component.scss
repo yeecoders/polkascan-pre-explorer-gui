@@ -38,6 +38,46 @@
       }
     }
   }
+  .tokens{
+    .tokens-title{
+      font-size: 30px;
+      color: #2e394b;
+      margin-bottom: 28px;
+    }
+    .my-table{
+      margin-bottom: 100px;
+      .table-header{
+        display: flex;
+        height: 36px;
+        line-height: 36px;
+        border-bottom: 2px solid #e6e6e6;
+        .col-header{
+          padding: 0 60px;
+          box-sizing: border-box;
+          color: #2e394b;
+          font-weight: 800;
+          font-size: 14px;
+          width: 25%;
+        }
+      }
+      .table-content{
+        .row{
+          display: flex;
+          line-height: 36px;
+          height: 36px;
+          border-bottom: 1px solid #edeff3;
+          .col{
+            width: 25%;
+            padding: 0 60px;
+            box-sizing: border-box;
+            color: #2a364a;
+            font-size: 12px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
   .transfer-box{
     .transfer-title{
       font-size: 30px;

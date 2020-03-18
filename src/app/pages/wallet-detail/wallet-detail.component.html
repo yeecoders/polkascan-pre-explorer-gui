@@ -25,6 +25,25 @@
       <p class="account-card-title" >{{ formatBalance(balance) ||0}} {{ networkTokenSymbol }}</p>
       <p class="account-card-subtitle">{{ 'Balance' | translate }}</p>
     </div>
+    <section class="tokens" *ngIf="events.data">
+      <div class="tokens-title">Tokens</div>
+      <div class="my-table">
+        <div class="table-header">
+          <div class="col-header">Name</div>
+          <div class="col-header">ID</div>
+          <div class="col-header">Decimal</div>
+          <div class="col-header">Balance</div>
+        </div>
+        <div class="table-content">
+         <div class="row" *ngFor="let module of events.data">
+          <div class="col blue">{{module.attributes.attributes[2].value}}</div>
+          <div class="col">{{module.attributes.attributes[1]['value']}}</div>
+          <div class="col">{{module.attributes.attributes[5]['value']}}</div>
+          <div class="col">{{module.attributes.attributes[4].value}}</div>
+        </div>
+        </div>
+      </div>
+    </section>
     <section class="transfer-box" id="transfer">
       <div class="transfer-title">
         Transfer <span style="color: #FF0000; "> {{resout.result}}</span>
