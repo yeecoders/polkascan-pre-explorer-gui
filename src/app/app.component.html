@@ -25,7 +25,7 @@
       <button [ngClass]="{disable: !model.sendPrivateKey}" (click)="import()">Access Wallet</button>
     </div>
   </app-model>
-   
+
   <app-model title="Set Password" [myModel]="showCreateModel" (myModelChange)="onMyModelChange('showCreateModel', $event)">
     <div class="model-box">
       <div class="input-box">
@@ -144,7 +144,7 @@
                       <a class="yee-wallet" routerLink="/wallet" *ngIf="address">
                         <p class="account-card-title" >{{ formatBalance(balance) ||0}} {{ networkTokenSymbol }}</p>
                       </a>
-                      <a class="dropdown-navbar-item" [routerLink]="['/account' + address]" *ngIf="address">
+                      <a class="dropdown-navbar-item" [routerLink]="['/account/' + address]" *ngIf="address">
                         {{ 'Transactions' | translate }}
                       </a>
                       <a *ngIf="address" class="dropdown-navbar-item" [routerLink]="['/wallet']" fragment="transfer">
