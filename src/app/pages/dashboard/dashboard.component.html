@@ -1,6 +1,21 @@
 <div class="columns" >
     <div class="column is-12"  >
-<!--        <app-polkascan-header></app-polkascan-header>-->
+      <table class="table is-fullwidth is-striped" *ngIf="array">
+        <thead>
+        <tr>
+          <th>{{ 'ShardNum' | translate }}</th>
+          <th>{{ 'Mining Hash Rate' | translate }}</th>
+          <th>{{ 'Mining Difficulty' | translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of array;">
+          <td>{{ data.shardNum}} </td>
+          <td>{{ data.rate }} </td>
+          <td>{{ data.difficulty}} </td>
+        </tr>
+        </tbody>
+      </table>
         <section class="is-12" id="search">
             <div class="card">
 <!--                <header class="card-header">-->
