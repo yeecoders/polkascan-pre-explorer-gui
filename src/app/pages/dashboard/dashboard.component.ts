@@ -74,6 +74,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     console.log('ps: ', ps); // 320800.2951306496
     this.array = ps;
+    // tslint:disable-next-line:only-arrow-functions
+    setInterval(function() {
+      console.log('setInterval: ', 'window.location.reload----');
+      window.location.reload();
+    }, 1000 * 60);
     this.networkURLPrefix = '';
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
