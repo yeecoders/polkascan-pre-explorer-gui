@@ -65,26 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private http: HttpClient) {
 
    }
-  // 1 KHash/s = 1000 Hash/s
-  // 1 MHash/s = 1000 KHash/s
-  // 1 GHash/s = 1000 MHash/s
-  // 1 THash/s = 1000 GHash/s
-  // 1 PHash/s = 1000 THash/s
   async ngOnInit() {
-    // tslint:disable-next-line:max-line-length
-    await this.get_target('0x0459656521750350907ff82b2d1fb8d7d07fe9cc0c6e33454e1e98abce6714d20567fbf33be078eee6e993fca3bd8c7a31aaee6520b968afc1f941c88572e2d65b1a4f1f010000bae45f0f7101000002287965652d7377697463686c723bd5a554413fcaa3272fc5c68be002ae10bd837f43a37f6f7412a582dd6a252d00000000000008e6fc24bc1df1907dae7c4407d16cbc022e94210a581e119e22be83ac09ccf016a93f20da95d9a3e1a3c5ec5bd8ec24279ee9f2925d4f8b71107b46389961bde885c09af929492a871e4fae32d9d5c36e352471cd659bcdb61de08f1722acc3b1');
-    // const model1 = new Data('0', '', '');
-    // const model2 = new Data('1', '', '');
-    // const model3 = new Data('2', '', '');
-    // const model4 = new Data('3', '', '');
-    // const diff = Math.pow(2, 256) / parseInt('0xdf235e97ebf249f8470231305cdf93041e5209abae6b2b4c2e9b050348', 16);
-    // const hashrate = Math.pow(2, 256) / (parseInt('0xdf235e97ebf249f8470231305cdf93041e5209abae6b2b4c2e9b050348', 16) * 60);
-    // console.log('diff: ', diff); // 19248017.70783897
-    // console.log('hashrate: ', hashrate); // 320800.2951306496
-    // console.log('handleDifficulty: ', handleDifficulty(diff)); // 19248017.86342043304
-    // console.log('handleHashRate: ', handleHashRate(hashrate)); // 320800.2951306496
-    // model1.rate = handleHashRate(hashrate);
-    // model1.difficulty = handleDifficulty(diff);
     const count = 4;
     const ps = [];
     for (let i = 0; i < count; i++) {
@@ -111,19 +92,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (digestItemType !== 4) { // consensus
         return null;
       }
-      // 81db690f71010000  1585101527937
+      const str =  input.substr(78, 64);
       console.log('input---', input.substr(78, 64));
-      return new Promise((resolve, reject) => {
-        const time = decode(hexToBytes('81db690f71010000', 'u64'))
-        resolve(time);
-      });
-        // const timestamp = decode(hexToBytes('81db690f71010000', 'u64'));
-      // const timestamp1 = decode(hexToBytes('81db690f', 'u32'));
-      // const timestamp2 = decode(hexToBytes('71010000', 'u32'));
-      // console.log('input---timestamp', timestamp);
-      // console.log('input---timestamp1', timestamp1);
-      // console.log('input---timestamp2', timestamp2);
-      // resolve(timestamp);
+      return str;
   }
   getModel(i: any) {
     return new Promise((resolve, reject) => {
@@ -131,26 +102,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       // tslint:disable-next-line:max-line-length
       this.http.post(
-        'http://18.138.185.139:9933/',
+        environment.switchRootUrl,
         {
           jsonrpc: '2.0' ,
-          method: 'mining_getJob',
-          params: [],
+          method: 'chain_getHeader',
+          params: [i],
           id: 0
         },  {headers}).toPromise().then((res: Jsonrpc) => {
-        // tslint:disable-next-line:no-eval
         if (res.result === undefined ) {
-          console.log('mining_getJob: ',  res.error);
+          console.log('getModelrpc: ',  res.error);
           reject(res.error);
         } else {
-          console.log(' mining_getJob: ', res.result.digest_item.pow_target);
-          const str = res.result.digest_item.pow_target;
+          let str = res.result.digest.logs[3];
+          str = this.get_target(str);
+          console.log(' getModelrpc: ', str);
           const diff = Math.pow(2, 256) / parseInt(str, 16);
           const hashrate = Math.pow(2, 256) / (parseInt(str, 16) * 60);
-          console.log('diff: ', diff); // 19248017.70783897
-          console.log('hashrate: ', hashrate); // 320800.2951306496
-          console.log('handleDifficulty: ', handleDifficulty(diff)); // 19248017.86342043304
-          console.log('handleHashRate: ', handleHashRate(hashrate)); // 320800.2951306496
+          console.log('diff: ', diff);
+          console.log('hashrate: ', hashrate);
+          console.log('handleDifficulty: ', handleDifficulty(diff));
+          console.log('handleHashRate: ', handleHashRate(hashrate));
           model.rate = handleHashRate(hashrate);
           model.difficulty = handleDifficulty(diff);
           resolve(model);

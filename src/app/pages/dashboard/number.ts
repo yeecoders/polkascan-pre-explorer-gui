@@ -1,4 +1,9 @@
 import BigNumber from 'bignumber.js'
+// 1 KHash/s = 1000 Hash/s
+// 1 MHash/s = 1000 KHash/s
+// 1 GHash/s = 1000 MHash/s
+// 1 THash/s = 1000 GHash/s
+// 1 PHash/s = 1000 THash/s
 
 export const localeNumberString = (value: BigNumber | string | number): string => {
   if (!value) return '0'
@@ -66,3 +71,4 @@ export const handleDifficulty = (value: BigNumber | string | number) => {
 export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
+
