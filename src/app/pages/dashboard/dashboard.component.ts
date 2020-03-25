@@ -82,8 +82,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const count = 4;
     const ps = [];
     for (let i = 0; i < count; i++) {
-        // const model =  await this.getModel(i);
-      await ps.push( this.getModel(i));
+      const model =  await this.getModel(i);
+      ps.push(model);
     }
     console.log('ps: ', ps); // 320800.2951306496
     this.array = ps;
@@ -98,30 +98,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.getBlocks();
     });
   }
-  async getModel(i: any) {
-    const model = new Data(i.toString(), '', '');
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    // tslint:disable-next-line:max-line-length
-    this.http.post('http://18.138.185.139:9933/',
+  getModel(i: any){
+    return new Promise((resolve, reject) => {
+      const model = new Data(i.toString(), '', '');
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
       // tslint:disable-next-line:max-line-length
-      {jsonrpc: '2.0' , method: 'mining_getJob', params: [], id: 0},  {headers}).toPromise().then((res: Jsonrpc) => {
-      // tslint:disable-next-line:no-eval
-      if (res.result === undefined ) {
-        console.log('mining_getJob: ',  res.error);
-      } else {
-        console.log(' mining_getJob: ', res.result.digest_item.pow_target);
-        const str = res.result.digest_item.pow_target;
-        const diff = Math.pow(2, 256) / parseInt(str, 16);
-        const hashrate = Math.pow(2, 256) / (parseInt(str, 16) * 60);
-        console.log('diff: ', diff); // 19248017.70783897
-        console.log('hashrate: ', hashrate); // 320800.2951306496
-        console.log('handleDifficulty: ', handleDifficulty(diff)); // 19248017.86342043304
-        console.log('handleHashRate: ', handleHashRate(hashrate)); // 320800.2951306496
-        model.rate = handleHashRate(hashrate);
-        model.difficulty = handleDifficulty(diff);
-        return model;
-      }
-    });
+      this.http.post(
+        'http://18.138.185.139:9933/',
+        // tslint:disable-next-line:max-line-length
+        {
+          jsonrpc: '2.0' ,
+          method: 'mining_getJob',
+          params: [],
+          id: 0
+        },  {headers}).toPromise().then((res: Jsonrpc) => {
+        // tslint:disable-next-line:no-eval
+        if (res.result === undefined ) {
+          console.log('mining_getJob: ',  res.error);
+          reject(res.error)
+        } else {
+          console.log(' mining_getJob: ', res.result.digest_item.pow_target);
+          const str = res.result.digest_item.pow_target;
+          const diff = Math.pow(2, 256) / parseInt(str, 16);
+          const hashrate = Math.pow(2, 256) / (parseInt(str, 16) * 60);
+          console.log('diff: ', diff); // 19248017.70783897
+          console.log('hashrate: ', hashrate); // 320800.2951306496
+          console.log('handleDifficulty: ', handleDifficulty(diff)); // 19248017.86342043304
+          console.log('handleHashRate: ', handleHashRate(hashrate)); // 320800.2951306496
+          model.rate = handleHashRate(hashrate);
+          model.difficulty = handleDifficulty(diff);
+          resolve(model);
+          // return model;
+        }
+      });
+    })
   }
   getBlocks(): void {
     this.blockService.all({
