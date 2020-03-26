@@ -34,7 +34,7 @@ import {BalanceTransferService} from '../../services/balance-transfer.service';
 import {environment} from '../../../environments/environment';
 import {Jsonrpc} from '../wallet-detail/jsonrpc.class';
 import {Data} from '../dashboard/data.class';
-import {handleHashRate, handleDifficulty} from '../dashboard/number';
+import {handleHashRate, handleDifficulty, handleDiff} from '../dashboard/number';
 import {
   encode, decode, calls, runtime, chain, system, runtimeUp, pretty,
   addressBook, secretStore, metadata, nodeService, bytesToHex, AccountId, hexToBytes, TransactionEra, StorageBond
@@ -98,8 +98,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return null;
       }
       const str =  input.substr(78, 64);
-      console.log('input---', input.substr(78, 64));
-      return str;
+      console.log('input---', str);
+      const str1 = hexToBytes(str);
+      return bytesToHex(str1.reverse());
   }
   getModel(i: any) {
     return new Promise((resolve, reject) => {
@@ -128,7 +129,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           console.log('handleDifficulty: ', handleDifficulty(diff));
           console.log('handleHashRate: ', handleHashRate(hashrate));
           model.rate = handleHashRate(hashrate);
-          model.difficulty = handleDifficulty(diff);
+          model.difficulty = handleDiff(diff);
           resolve(model);
         }
       });

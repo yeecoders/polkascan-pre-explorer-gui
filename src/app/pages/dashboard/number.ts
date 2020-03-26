@@ -72,3 +72,41 @@ export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
+export const handleDiff = (value: BigNumber | string | number) => {
+  if (!value) return '0'
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  const kv = bigValue.dividedBy(1000)
+  const mv = kv.dividedBy(1000)
+  const gv = mv.dividedBy(1000)
+  const tv = gv.dividedBy(1000)
+  const pv = tv.dividedBy(1000)
+  const ev = pv.dividedBy(1000)
+  const zv = ev.dividedBy(1000)
+  const yv = zv.dividedBy(1000)
+
+  if (yv.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(yv.toFixed(2))} Y`
+  }
+  if (zv.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(zv.toFixed(2))} Z`
+  }
+  if (ev.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(ev.toFixed(2))} E`
+  }
+  if (pv.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(pv.toFixed(2))} P`
+  }
+  if (tv.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(tv.toFixed(2))} T`
+  }
+  if (gv.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(gv.toFixed(2))} G`
+  }
+  if (mv.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(mv.toFixed(2))} M`
+  }
+  if (kv.isGreaterThanOrEqualTo(MIN_VALUE)) {
+    return `${localeNumberString(kv.toFixed(2))} K`
+  }
+  return `${localeNumberString(bigValue.toFixed(2))} `
+}
