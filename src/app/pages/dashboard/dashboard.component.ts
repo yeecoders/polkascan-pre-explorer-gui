@@ -52,8 +52,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   blockSearchText: string;
   private blockUpdateSubsription: Subscription;
-
+  
   public networkURLPrefix: string;
+  public showShards:boolean = false;
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
 
@@ -67,6 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    }
   async ngOnInit() {
     const count = 4;
+    this.networkURLPrefix = '';
     const ps = [];
     for (let i = 0; i < count; i++) {
       const model =  await this.getModel(i);
@@ -79,7 +81,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log('setInterval: ', 'window.location.reload----');
       window.location.reload();
     }, 1000 * 60);
-    this.networkURLPrefix = '';
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
     this.getBlocks();
@@ -89,6 +90,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.networkstats$ = this.networkstatsService.get('latest');
       this.getBlocks();
     });
+  }
+  showShardsBox() {
+    this.showShards = !this.showShards
   }
   get_target(input: string) {
       console.log(' target: ', input);
@@ -159,6 +163,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Will clear when component is destroyed e.g. route is navigated away from.
-    this.blockUpdateSubsription.unsubscribe();
+    if(this.blockUpdateSubsription) {
+      this.blockUpdateSubsription.unsubscribe();
+    }
   }
 }

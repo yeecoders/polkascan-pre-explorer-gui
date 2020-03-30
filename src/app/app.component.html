@@ -4,7 +4,8 @@
     'network-robonomics': environment.networkName == 'Robonomics',
     'network-joystream': environment.networkName == 'Joystream',
     'network-kusama': environment.networkName == 'Kusama',
-    'white': white
+    'white': white,
+    'home': home
   }">
   <app-model title="Access By PrivateKry" [myModel]="showModel" (myModelChange)="onMyModelChange('showModel', $event)">
     <div class="model-box">
@@ -59,7 +60,7 @@
       <div class="container">
           <div class="navbar-brand">
             <a class="navbar-item brand-text" routerLink="/">
-              <img src="assets/logo.png" width="80">   &nbsp;&nbsp; <img src="assets/ic_pocnet.png" width="33">
+              <img src="assets/logo.png" width="80">   &nbsp;&nbsp; <img src="assets/ic_pocnet.png" width="68">
             </a>
               <a role="button" class="navbar-burger burger" data-target="navMenu" [ngClass]="{'is-active': showNavigation}" (click)="toggleNavigation()">
                   <span></span>
@@ -156,10 +157,27 @@
                     </div>
                   </div>
                 </div>
+                <div class="navbar-item has-dropdown" [ngClass]="{'is-hoverable': showSubmenus}">
+
+                  <a class="navbar-link">
+                    <img src="../assets/changeIcon.png" alt="">
+                  </a>
+                  <div class="navbar-dropdown right-dropdown" (click)="toggleSubmenus()">
+                    <div class="navbar-dropdown-box">
+                        <a class="dropdown-navbar-item" href="http://testnet.yeescan.org/" target="_blank">
+                          TESTNET
+                        </a>
+                        <a class="dropdown-navbar-item" href="https://pocnet.yeescan.org/" target="_blank">
+                          POCNET
+                        </a>
+                  </div>
+                  </div>
+                </div>
               </div>
           </div>
         </div>
   </nav>
+  <div class="home-Bg"></div>
   <!-- END NAV -->
   <div class="container" >
       <router-outlet></router-outlet>

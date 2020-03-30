@@ -299,7 +299,9 @@
 		"item_Transfers": "Traslados",
 		"item_Types": "Tipos",
 		"item_Upgrade_history": "Historial De Actualizaciones",
-		"item_Validators": "Validadores"
+		"item_Validators": "Validadores",
+		"item_TESTNET": "TESTNET",
+		"item_pocnet": "pocnet"
 	},
 	"Not-found": {
 		"No page could be found for current URL": "No se encontró ninguna página para la URL actual",

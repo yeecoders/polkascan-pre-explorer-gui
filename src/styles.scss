@@ -16,6 +16,12 @@ nav.navbar {
   font-size: 14px;
   font-weight: 700;
 }
+.navbar-menu .navbar-item, .navbar-link{
+  img{
+    width: 26px;
+    height: 21px;
+  }
+}
 .locale-flag {
   padding: 2px;
   margin-right: 5px;
@@ -646,4 +652,174 @@ aaa {
   background: #2e394b;
   border: none;
   cursor: pointer;
+}
+
+// 首页样式 
+.home {
+  background: #f3f5f8;
+  nav{
+    background: none!important;
+    width: 1152px;
+    margin: 0 auto;
+  }
+  .homeBox {
+    width: 1152px;
+    margin: 0 auto;
+    &>.column{
+      padding: 0;
+    }
+  }
+  .homeFooter{
+  	height: 81px;
+	  background-color: #2a364a;
+  }
+  .container{
+    max-width: 100%;
+    width: 100%;
+  }
+  .home-Bg{
+    background-image: url('./assets/ic_bg_top.png');
+    background-position: center;
+    width: 100%;
+    height: 300px;
+    position: absolute;
+    top: 0;
+  }
+  #search {
+    width: 607px;
+    margin: 65px auto 64px;
+    .card{
+      background: none;
+      border: solid 2px #d1d1d1;
+      margin: 0;
+      box-shadow: none;
+    }
+    .card-content {
+      padding: 0;
+      .control{
+        display: flex;
+        .icon {
+          display: none;
+        }
+        .search-btn{
+          cursor: pointer;
+          width: 98px;  
+          height: 46px;
+          background-color: #ffffff;
+          background-image: url('./assets//search.png');
+          background-size: 21px 18px;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+        input{
+          flex-grow: 1;
+          padding: 17px 19px 13px 19px;
+          box-sizing: border-box;
+          height: 46px;
+          background: none;
+          font-size: 14px;
+          border: none;
+          color: #fff;
+          &::placeholder{
+            font-size: 14px;
+            line-height: 48px;
+            color: #cacaca;
+          }
+        }
+      }
+    }
+  }
+  .box7 {
+    padding: 40px 90px;
+    .is-ancestor{
+      margin: 0;
+      .tile{
+        padding: 0;
+      }
+      .is-parent{
+        cursor: pointer;
+        position: relative;
+        &::before {
+          display: block;
+          content: " ";
+          width: 1px;
+	        height: 71px;
+          background-color: #2a364a;
+          opacity: 0.1;
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &:last-of-type{
+          &::before {
+            display: none;
+          }
+        }
+        .five-y{
+          font-size: 24px;
+          color: #2a364a;
+          line-height: 48px;
+        }
+        .five-t{
+          height: 14px;
+          font-size: 16px;
+          line-height: 20px;
+          color: #808998;
+        }
+      }
+    }
+    .shardsBox {
+      margin-top: 40px;
+      .shards-title{
+        display: flex;
+        padding: 0 15px;
+        border-bottom: 2px solid #e6e6e6;
+        .shards-item{
+          width: 33.33%;
+          font-size: 14px;
+          color: #808998;
+          line-height: 33px;
+        }
+      }
+      .shards-body{
+        display: flex;
+        border-bottom: 1px solid #edeff3;
+        padding: 0 15px;
+        .shards-item{
+          width: 33.33%;
+          font-size: 12px;
+          color: #2a364a;
+          line-height: 33px;
+        }
+      }
+    }
+  }
+  .planeBox{
+    height: auto;
+    .plane{
+      .card-header-title{
+        color: #2a364a;
+        font-size: 14px;
+        font-weight: 900;
+        padding: 30px 30px;
+      }
+      .card-header-icon{
+        font-size: 12px;
+        font-weight: 600; 
+      }
+      .card-table{
+        th{
+          font-size: 14px;
+          color: #808998;
+          font-weight: normal;
+        }
+        td{
+          font-size: 12px;
+          color: #2a364a;
+          font-weight: normal;
+        }
+      }
+    }
+  }
 }

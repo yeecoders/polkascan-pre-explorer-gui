@@ -314,7 +314,9 @@
 		"item_Transfers": "轉讓",
 		"item_Types": "類型",
 		"item_Upgrade_history": "升級歷史記錄",
-		"item_Validators": "驗證器"
+		"item_Validators": "驗證器",
+		"item_TESTNET": "TESTNET",
+		"item_pocnet": "pocnet"
 	},
 	"Not-found": {
 		"No page could be found for current URL": "找不到當前網址的頁面",

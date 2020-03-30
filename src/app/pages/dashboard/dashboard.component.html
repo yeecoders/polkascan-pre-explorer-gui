@@ -1,21 +1,5 @@
-<div class="columns" >
-    <div class="column is-12"  >
-      <table class="table is-fullwidth is-striped" *ngIf="array">
-        <thead>
-        <tr>
-          <th>{{ 'ShardNum' | translate }}</th>
-          <th>{{ 'Mining Hash Rate' | translate }}</th>
-          <th>{{ 'Mining Difficulty' | translate }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let data of array;">
-          <td>{{ data.shardNum}} </td>
-          <td>{{ data.rate }} </td>
-          <td>{{ data.difficulty}} </td>
-        </tr>
-        </tbody>
-      </table>
+<div class="" >
+    <div class="column homeBox is-12"  >
         <section class="is-12" id="search">
             <div class="card">
 <!--                <header class="card-header">-->
@@ -33,6 +17,7 @@
                         <form (ngSubmit)="search()">
                         <div class="control has-icons-left has-icons-right">
                             <input class="input is-large" type="text" [(ngModel)]="blockSearchText" [ngModelOptions]="{standalone: true}" [placeholder]="'PlaceHolderSearch' | translate">
+                            <span class="search-btn" (click)="search()"></span>
                             <span class="icon is-medium is-left">
                               <i class="fa fa-search"></i>
                             </span>
@@ -97,7 +82,7 @@
                     </article>
                 </div>
                 <div class="tile is-parent is-2-mobile">
-                    <article class="tile is-child box">
+                    <article class="tile is-child box" (click)="showShardsBox()">
 <!--                      <a routerLink="{{ networkURLPrefix }}/runtime">-->
                         <div>
                           <span class="yeecoiconfont" >&#xe654;</span>
@@ -109,10 +94,22 @@
                     </article>
                 </div>
             </div>
+            <div class="shardsBox" *ngIf="array && showShards">
+              <div class="shards-title">
+                <div class="shards-item">ShardNum</div>
+                <div class="shards-item">Mining Hash Rate</div>
+                <div class="shards-item">Mining Difficulty</div>
+              </div>
+              <div class="shards-body" *ngFor="let data of array;">
+                <div class="shards-item">#{{ data.shardNum}} </div>
+                <div class="shards-item">{{ data.rate }} </div>
+                <div class="shards-item">{{ data.difficulty}} </div>
+              </div>
+            </div>
         </section>
 
-        <section class="columns">
-            <div class="column is-6 last-blocks" id="last-blocks">
+        <section class="columns planeBox">
+            <div class="column is-6 last-blocks plane" id="last-blocks">
                 <div class="card dashboard-card">
                   <a routerLink="{{ networkURLPrefix }}/block">
                     <header class="card-header">
@@ -120,9 +117,7 @@
                             {{ 'DashBoard.Last blocks' | translate }}
                         </p>
                         <a [routerLink]="" fragment="last-blocks" class="card-header-icon" aria-label="more options">
-                          <span class="icon">
-                            <i class="fa fa-cube" aria-hidden="true"></i>
-                          </span>
+                          View All →
                         </a>
                     </header>
                   </a>
@@ -155,7 +150,7 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-6 last-transfers" id="last-transfers">
+            <div class="column is-6 last-transfers plane" id="last-transfers">
               <div class="card dashboard-card">
                   <a routerLink="{{ networkURLPrefix }}/balances/transfer">
                     <header class="card-header">
@@ -163,9 +158,7 @@
                             {{ 'DashBoard.Last balance transfers' | translate }}
                         </p>
                         <a [routerLink]="" fragment="last-transfers" class="card-header-icon" aria-label="more options">
-                          <span class="icon">
-                            <i class="fa fa-exchange-alt" aria-hidden="true"></i>
-                          </span>
+                          View All →
                         </a>
                     </header>
                   </a>
@@ -196,4 +189,5 @@
             </div>
         </section>
     </div>
+    <div class="homeFooter"></div>
 </div>

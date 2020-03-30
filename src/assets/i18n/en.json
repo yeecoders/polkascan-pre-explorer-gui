@@ -307,7 +307,9 @@
 		"No items": "No items",
 		"Type": "Type",
 		"View next": "View next",
-    "ShardNum": "ShardNum"
+		"ShardNum": "ShardNum",
+		"item_TESTNET": "TESTNET",
+		"item_pocnet": "pocnet"
 
   },
 	"NavBar": {

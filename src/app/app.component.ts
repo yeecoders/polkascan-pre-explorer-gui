@@ -64,6 +64,7 @@ export class AppComponent {
   public langs = ['en', 'de', 'fr', 'it', 'es', 'zh', 'ja', 'ko', 'ru', 'uk'];
   public selectedLanguage = 'en';
   public white:boolean;
+  public home:boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -73,9 +74,11 @@ export class AppComponent {
     router.events.subscribe((val) => {
         this.showNavigation = false;
         this.address = this.ls.get('wallet_address');
+        this.white = location.pathname === '/wallet'
+        this.home = location.pathname === '/'
         console.log('address: ', this.address);
     });
-    this.white = location.pathname === '/wallet'
+    console.log(location.pathname)
     translate.addLangs(this.langs);
     translate.setDefaultLang('en');
 
@@ -90,6 +93,8 @@ export class AppComponent {
     this.balance = this.getBalance(this.address);
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol
+    this.white = location.pathname === '/wallet'
+    this.home = location.pathname === '/'
   }
   public getBalance(str: string) {
     if (str === '' || str === undefined) {
