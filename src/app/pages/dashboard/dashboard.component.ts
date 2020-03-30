@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private blockUpdateSubsription: Subscription;
   
   public networkURLPrefix: string;
-  public showShards:boolean = false;
+  public showShards:boolean = true;
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
 
