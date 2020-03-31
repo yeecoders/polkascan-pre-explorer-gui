@@ -61,6 +61,7 @@ export class AppComponent {
   public environment = environment;
   public showNavigation = false;
   public showSubmenus = true;
+  public ShowPocnetLogo:boolean = false;
   public langs = ['en', 'de', 'fr', 'it', 'es', 'zh', 'ja', 'ko', 'ru', 'uk'];
   public selectedLanguage = 'en';
   public white:boolean;
@@ -95,6 +96,7 @@ export class AppComponent {
     this.networkTokenSymbol = environment.networkTokenSymbol
     this.white = location.pathname === '/wallet'
     this.home = location.pathname === '/'
+    this.ShowPocnetLogo =  location.hostname === 'pocnet.yeescan.org'
   }
   public getBalance(str: string) {
     if (str === '' || str === undefined) {

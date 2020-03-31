@@ -560,7 +560,7 @@ a {
   display: block;
   padding: 1.25rem;
   margin: 20px auto;
-  width: 1320px;
+  max-width: 1320px;
   height: 148px;
   margin-top: 0px;
   box-shadow: 8px 10px 10px rgba(46, 57, 75, 0.06)
@@ -659,11 +659,11 @@ aaa {
   background: #f3f5f8;
   nav{
     background: none!important;
-    width: 1152px;
+    max-width: 1152px;
     margin: 0 auto;
   }
   .homeBox {
-    width: 1152px;
+    max-width: 1152px;
     margin: 0 auto;
     &>.column{
       padding: 0;
@@ -686,7 +686,7 @@ aaa {
     top: 0;
   }
   #search {
-    width: 607px;
+    max-width: 607px;
     margin: 65px auto 64px;
     .card{
       background: none;
@@ -730,7 +730,7 @@ aaa {
     }
   }
   .box7 {
-    padding: 40px 90px;
+    // padding: 40px 90px;
     .is-ancestor{
       margin: 0;
       .tile{
@@ -762,7 +762,7 @@ aaa {
           line-height: 48px;
         }
         .five-t{
-          height: 14px;
+          height: 20px;
           font-size: 16px;
           line-height: 20px;
           color: #808998;
@@ -809,6 +809,7 @@ aaa {
         font-weight: 600; 
       }
       .card-table{
+        overflow-y: hidden!important;
         th{
           font-size: 14px;
           color: #808998;
