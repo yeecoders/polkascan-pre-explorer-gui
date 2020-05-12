@@ -11,6 +11,9 @@ nav.navbar {
 }
 .navbar-item.brand-text {
   font-weight: 300;
+  &:hover{
+    background: none!important;
+  }
 }
 .navbar-item, .navbar-link {
   font-size: 14px;
@@ -716,6 +719,7 @@ aaa {
           padding: 0 19px;
           box-sizing: border-box;
           height: 46px;
+          line-height: 46px;
           background: none;
           font-size: 14px;
           border: none;
