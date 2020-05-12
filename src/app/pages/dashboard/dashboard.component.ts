@@ -52,9 +52,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   blockSearchText: string;
   private blockUpdateSubsription: Subscription;
-  
+
   public networkURLPrefix: string;
-  public showShards:boolean = true;
+  public showShards = true;
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
 
@@ -77,9 +77,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log('ps: ', ps); // 320800.2951306496
     this.array = ps;
     // tslint:disable-next-line:only-arrow-functions
-    setInterval(function() {
+    setInterval(async () => {
+      this.array = [];
       console.log('setInterval: ', 'window.location.reload----');
-      window.location.reload();
+      for (let i = 0; i < count; i++) {
+        const model =  await this.getModel(i);
+        // @ts-ignore
+        this.array.push(model);
+      }
     }, 1000 * 60);
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
@@ -92,7 +97,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
   showShardsBox() {
-    this.showShards = !this.showShards
+    this.showShards = !this.showShards;
   }
   get_target(input: string) {
       console.log(' target: ', input);
@@ -137,7 +142,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           resolve(model);
         }
       });
-    });
+    }).catch((e) => {});
   }
   getBlocks(): void {
     this.blockService.all({
