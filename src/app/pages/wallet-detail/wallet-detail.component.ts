@@ -262,7 +262,6 @@ export class WalletDetailComponent implements OnInit {
     const enc = this.ls.get('wallet_private_key_enc');
     console.log('enc:', enc);
     const senderPrivateKey = hexToBytes(api.default.utils.decrypt(enc, this.model.password));
-    console.log('senderPrivateKey:', senderPrivateKey);
 
 
     api.default.switchRootUrl = environment.switchRootUrl;
