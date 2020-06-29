@@ -43,7 +43,7 @@
                        class="address-mobile-format">{{ balanceTransfer.attributes.sender }}</a></td>
               </tr>
               <tr>
-                <td>{{ 'BalanceTransfer.Destination' | translate }}{{ get_relayFlag(balanceTransfer.attributes.sender, balanceTransfer.attributes.destination)}}</td>
+                <td>{{ 'BalanceTransfer.Destination' | translate }}{{ get_relayFlag(balanceTransfer.attributes.sender, balanceTransfer.attributes.destination,  balanceTransfer.attributes.success)}}</td>
                 <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}"
                        class="address-mobile-format"> {{ balanceTransfer.attributes.destination }}</a></td>
               </tr>

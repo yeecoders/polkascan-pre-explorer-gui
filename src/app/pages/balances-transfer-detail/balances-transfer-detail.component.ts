@@ -54,11 +54,11 @@ export class BalancesTransferDetailComponent implements OnInit {
   //
   // }
 
-  public get_relayFlag(from: string, to: string) {
+  public get_relayFlag(from: string, to: string, flag: string) {
     if (from && to) {
       console.log(from);
       console.log(to);
-      const mask = 0x03
+      const mask = 0x03;
       // tslint:disable-next-line:no-bitwise
       // @ts-ignore
       // tslint:disable-next-line:no-bitwise
@@ -73,6 +73,11 @@ export class BalancesTransferDetailComponent implements OnInit {
       if (shardNum1 !== shardNum2) {
         this.relayFlag = true;
       } else {
+        this.relayFlag = false;
+      }
+      // @ts-ignore
+      if (flag !== 1) {
+        console.log('suflag:', flag);
         this.relayFlag = false;
       }
       console.log(this.relayFlag);

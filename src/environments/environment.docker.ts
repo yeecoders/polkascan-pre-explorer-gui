@@ -4,5 +4,5 @@ export const environment = {
   networkName: $ENV.NETWORK_NAME,
   networkTokenSymbol: $ENV.NETWORK_TOKEN_SYMBOL,
   networkTokenDecimals: $ENV.NETWORK_TOKEN_DECIMALS,
-  switchRootUrl: 'https://pocnet.yeescan.org/switch/api/',
+  switchRootUrl: 'https://testnet.yeescan.org/switch/api/',
 };
