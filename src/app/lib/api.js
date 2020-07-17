@@ -8,7 +8,7 @@ import * as crypto from 'crypto-js';
 import axios from 'axios';
 
 const api = {
-  hrp: "tyee",
+  hrp: "yee",
   salt: "yee",
   keySize: 256,
   iterations: 100,
