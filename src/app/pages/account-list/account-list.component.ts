@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import bech32 from 'bech32';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-account-list',
@@ -51,7 +52,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
         bytes.push(parseInt(hex.substr(c, 2), 16));
         bts = bytes;
       }
-      const str = bech32.encode('yee', bech32.toWords(bts));
+      const str = bech32.encode(environment.HRP, bech32.toWords(bts));
       console.log('---');
       console.log(str);
       return str;
@@ -64,7 +65,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
         bytes.push(parseInt(id.substr(c, 2), 16));
         bts = bytes;
       }
-      const str = bech32.encode('yee', bech32.toWords(bts));
+      const str = bech32.encode(environment.HRP, bech32.toWords(bts));
       console.log('---');
       console.log(str);
       const mask = 0x03

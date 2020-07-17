@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient) {
 
-   }
+  }
   async ngOnInit() {
     const count = 4;
     this.networkURLPrefix = '';
@@ -100,16 +100,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.showShards = !this.showShards;
   }
   get_target(input: string) {
-      console.log(' target: ', input);
-      input = input.replace('0x', '');
-      const digestItemType = decode(hexToBytes(input.substr(0, 2)), 'u16');
-      if (digestItemType !== 4) { // consensus
-        return null;
-      }
-      const str =  input.substr(78, 64);
-      console.log('input---', str);
-      const str1 = hexToBytes(str);
-      return bytesToHex(str1.reverse());
+    console.log(' target: ', input);
+    input = input.replace('0x', '');
+    const digestItemType = decode(hexToBytes(input.substr(0, 2)), 'u16');
+    if (digestItemType !== 4) { // consensus
+      return null;
+    }
+    const str =  input.substr(78, 64);
+    console.log('input---', str);
+    const str1 = hexToBytes(str);
+    return bytesToHex(str1.reverse());
   }
   getModel(i: any) {
     return new Promise((resolve, reject) => {
@@ -142,7 +142,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           resolve(model);
         }
       });
-    }).catch((e) => {});
+    });
   }
   getBlocks(): void {
     this.blockService.all({
@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }).subscribe(balanceTransfers => (this.balanceTransfers = balanceTransfers));
   }
 
-   search(): void {
+  search(): void {
     // Strip whitespace from search text
     this.blockSearchText = this.blockSearchText.trim();
     if (this.blockSearchText !== '') {

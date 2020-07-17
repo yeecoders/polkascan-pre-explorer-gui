@@ -6,9 +6,10 @@ import {sign, verify} from '@polkadot/wasm-schnorrkel';
 import bech32 from 'bech32';
 import * as crypto from 'crypto-js';
 import axios from 'axios';
+import {environment} from '../../../environments/environment';
 
 const api = {
-  hrp: "yee",
+  hrp: environment.HRP,
   salt: "yee",
   keySize: 256,
   iterations: 100,

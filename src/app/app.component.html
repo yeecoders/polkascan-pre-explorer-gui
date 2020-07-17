@@ -60,9 +60,9 @@
       <div class="container">
           <div class="navbar-brand">
             <a class="navbar-item brand-text" routerLink="/">
-              <img src="assets/logo.png" width="80">   &nbsp;&nbsp; 
-              <img src="assets/ic_pocnet.png" width="68" *ngIf="!ShowPocnetLogo">
-              <img src="assets/ic_pocnet2.png" width="33" *ngIf="ShowPocnetLogo">
+              <img src="assets/yeescan_logo.png" width="80">   &nbsp;&nbsp;
+<!--              <img src="assets/ic_pocnet.png" width="68" *ngIf="!ShowPocnetLogo">-->
+<!--              <img src="assets/ic_pocnet2.png" width="33" *ngIf="ShowPocnetLogo">-->
             </a>
               <a role="button" class="navbar-burger burger" data-target="navMenu" [ngClass]="{'is-active': showNavigation}" (click)="toggleNavigation()">
                   <span></span>
@@ -166,11 +166,11 @@
                   </a>
                   <div class="navbar-dropdown right-dropdown" (click)="toggleSubmenus()">
                     <div class="navbar-dropdown-box">
-                        <a class="dropdown-navbar-item" href="http://testnet.yeescan.org/" >
-                          TESTNET
+                        <a class="dropdown-navbar-item" href="https://yeescan.io/" >
+                          MAINNET
                         </a>
                         <a class="dropdown-navbar-item" href="https://pocnet.yeescan.org/" >
-                          POCNET
+                          TESTNET
                         </a>
                   </div>
                   </div>
