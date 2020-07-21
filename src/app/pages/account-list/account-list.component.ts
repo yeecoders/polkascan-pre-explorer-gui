@@ -6,7 +6,6 @@ import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import bech32 from 'bech32';
-import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-account-list',
