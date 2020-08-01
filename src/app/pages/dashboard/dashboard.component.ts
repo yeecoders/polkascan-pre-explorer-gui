@@ -113,7 +113,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   getModel(i: any) {
     return new Promise((resolve, reject) => {
-      const model = new Data(i.toString(), '', '');
+      const model = new Data(i.toString(), '', '', '');
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       // tslint:disable-next-line:max-line-length
       this.http.post(
@@ -129,6 +129,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           reject(res.error);
         } else {
           let str = res.result.digest.logs[3];
+          model.hight = parseInt( res.result.number, 16).toString();
           str = this.get_target(str);
           console.log(' getModelrpc: ', str);
           const diff = Math.pow(2, 256) / parseInt(str, 16);

@@ -77,7 +77,7 @@
 	},
 	"BalanceTransfer": {
 		"Balance transfer": "Balance Transfer",
-		"Block": "BlockHash",
+		"Block": "BlockHight",
 		"Destination": "To",
 		"Extrinsic Index": "Extrinsic Index",
 		"Sender": "From",
@@ -98,7 +98,10 @@
 		"Value": "Value",
 		"View next": "View Next",
     "ShardNum": "ShardNum",
+    "SrcShard": "SrcShard",
+    "DestShard": "DestShard",
     "Time": "Time",
+    "Success": "Status",
     "TxHash": "TxHash"
   },
 	"Block-Detail": {
@@ -189,6 +192,7 @@
 		"Search": "Search",
 		"Transactions": "Transactions",
     "ShardNum": "ShardNum",
+    "Success": "Status",
     "Hash": "TxHash"
   },
 	"Democracy-proposal-detail": {
@@ -370,7 +374,7 @@
 	"extrinsic-table": {
 		"Account Index": "Account index",
 		"Address": "From",
-		"Block": "Block",
+		"Block": "BlockHight",
 		"Call": "Call",
 		"Hash": "TxHash",
 		"Index": "Index",

@@ -5,6 +5,7 @@ import { BalanceTransferService } from '../../services/balance-transfer.service'
 import { environment } from '../../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import bech32 from 'bech32';
 
 @Component({
   selector: 'app-balances-transfer-list',
@@ -57,7 +58,22 @@ export class BalancesTransferListComponent implements OnInit, OnDestroy {
     // Will clear when component is destroyed e.g. route is navigated away from.
     this.fragmentSubsription.unsubscribe();
   }
-
+  public getshardnum(id: string) {
+    if (id) {
+      let bts = [];
+      for (let bytes = [], c = 0; c < id.length; c += 2) {
+        bytes.push(parseInt(id.substr(c, 2), 16));
+        bts = bytes;
+      }
+      const str = bech32.encode(environment.HRP, bech32.toWords(bts));
+      console.log('---');
+      console.log(str);
+      const mask = 0x03
+      // tslint:disable-next-line:no-bitwise
+      const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];
+      return shardNum;
+    }
+  }
   public formatBalance(balance: number) {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }

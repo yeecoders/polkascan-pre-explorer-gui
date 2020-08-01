@@ -97,11 +97,13 @@
             <div class="shardsBox" *ngIf="array && showShards">
               <div class="shards-title">
                 <div class="shards-item">ShardNum</div>
+                <div class="shards-item">Best Hight</div>
                 <div class="shards-item">Mining Hash Rate</div>
                 <div class="shards-item">Mining Difficulty</div>
               </div>
               <div class="shards-body" *ngFor="let data of array;">
                 <div class="shards-item">#{{ data.shardNum}} </div>
+                <div class="shards-item">{{ data.hight}} </div>
                 <div class="shards-item">{{ data.rate }} </div>
                 <div class="shards-item">{{ data.difficulty}} </div>
               </div>
@@ -171,6 +173,7 @@
                                     <th>{{ 'DashBoard.Hash' | translate }}</th>
                                     <th>{{ 'DashBoard.Age' | translate }}</th>
                                     <th>{{ 'DashBoard.Amount' | translate }}</th>
+                                    <th>{{ 'DashBoard.Success' | translate }}</th>
                                     <th></th>
                                   </tr>
                                 </thead>
@@ -180,6 +183,10 @@
                                         <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
                                         <td class="is-hidden-mobile"><span rel="tooltip" title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span></td>
                                         <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
+                                      <td>
+                                        <i *ngIf="balanceTransfer.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
+                                        <i *ngIf="balanceTransfer.attributes.error" class="fa fa-times" style="color: darkred"></i>
+                                      </td>
                                     </tr>
                                 </tbody>
                             </table>

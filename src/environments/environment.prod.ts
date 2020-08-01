@@ -5,5 +5,5 @@ export const environment = {
   networkTokenSymbol: 'YEE',
   HRP: 'yee',
   networkTokenDecimals: 8,
-  switchRootUrl: 'https://testnet.yeescan.org/switch/api/',
+  switchRootUrl: 'https://yeescan.org/switch/api/',
 };

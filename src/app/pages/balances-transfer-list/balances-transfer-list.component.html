@@ -22,11 +22,14 @@
                                 <th></th>
                                 <th class="is-hidden-mobile">{{ 'BalanceTransferList.TxHash' | translate }}</th>
                                 <th class="is-hidden-mobile">{{ 'BalanceTransferList.Time' | translate }}</th>
-                                <th class="is-hidden-mobile">{{ 'BalanceTransferList.ShardNum' | translate }}</th>
                                 <th class="is-hidden-mobile">{{ 'BalanceTransferList.Sender' | translate }}</th>
+                                <th class="is-hidden-mobile">{{ 'BalanceTransferList.SrcShard' | translate }}</th>
                                 <th>{{ 'BalanceTransferList.Destination' | translate }}</th>
+                                <th class="is-hidden-mobile">{{ 'BalanceTransferList.DestShard' | translate }}</th>
                                 <th>{{ 'BalanceTransferList.Value' | translate }}</th>
-                               <!-- <th>{{ 'BalanceTransferList.Success' | translate }}</th>-->
+                                <th class="is-hidden-mobile">{{ 'BalanceTransferList.Success' | translate }}</th>
+
+                                <!-- <th>{{ 'BalanceTransferList.Success' | translate }}</th>-->
                                 <th></th>
                               </tr>
                             </thead>
@@ -36,14 +39,15 @@
 
                                   <td><a class="hash-format" routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}">0x{{ balanceTransfer.id }}</a></td>
                                   <td class="is-hidden-mobile"><span rel="tooltip" title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span></td>
-                                  <td>#{{ balanceTransfer.attributes.shard_num }}</td>
                                   <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"> {{ balanceTransfer.attributes.sender }}</a></td>
+                                  <td>#{{ balanceTransfer.attributes.shard_num }}</td>
                                   <td><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-format"> {{ balanceTransfer.attributes.destination }}</a></td>
+                                  <td class="is-hidden-mobile">#{{getshardnum(balanceTransfer.attributes.destination)}}</td>
                                   <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15'}} {{ networkTokenSymbol }}</td>
-<!--                                  <td>-->
-<!--                                    <i *ngIf="balanceTransfer.attributes.success" class="fa fa-check" style="color: forestgreen"></i>-->
-<!--                                    <i *ngIf="balanceTransfer.attributes.error" class="fa fa-times" style="color: darkred"></i>-->
-<!--                                  </td>-->
+                                  <td>
+                                    <i *ngIf="balanceTransfer.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
+                                    <i *ngIf="balanceTransfer.attributes.error" class="fa fa-times" style="color: darkred"></i>
+                                  </td>
                                 </tr>
                             </tbody>
                         </table>

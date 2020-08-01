@@ -74,8 +74,7 @@ export class ExtrinsicTableComponent implements OnInit {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }
 
-  public get_relayFlag(from: string, to: Array<string>) {
-    console.log(from);
+  public get_relayFlag(from: string, to: Array<string>, flag: string) {
     const param = JSON.parse(JSON.stringify(to[0]));
     console.log(param.value);
     const mask = 0x03
@@ -91,6 +90,11 @@ export class ExtrinsicTableComponent implements OnInit {
     if (shardNum1 !== shardNum2) {
       this.relayFlag = true;
     } else {
+      this.relayFlag = false;
+    }
+    // @ts-ignore
+    if (flag !== 1) {
+      console.log('suflag:', flag);
       this.relayFlag = false;
     }
   }
