@@ -38,6 +38,7 @@ export class RenderTypeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('item--', this.item );
   }
 
   public formatBalance(balance: number) {

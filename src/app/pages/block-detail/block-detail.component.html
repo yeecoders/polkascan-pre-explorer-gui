@@ -48,6 +48,10 @@
                                   <td><div class="mobile-hash-format">{{block.attributes.state_root}}</div></td>
                               </tr>
                               <tr>
+                                <td>{{ 'Block-Detail.Work hash' | translate }}</td>
+                                <td><div class="mobile-hash-format">{{getWorkHash()}}</div></td>
+                              </tr>
+                              <tr>
                                   <td>{{ 'Block-Detail.Extrinsics Root' | translate }}</td>
                                   <td><div class="mobile-hash-format">{{block.attributes.extrinsics_root}}</div></td>
                               </tr>

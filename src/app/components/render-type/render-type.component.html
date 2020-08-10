@@ -10,7 +10,8 @@
   <div *ngSwitchCase="'AccountIndex'"><a routerLink="{{ networkURLPrefix }}/indices/account/{{ item.value }}">Account index {{ item.value }}</a></div>
   <div *ngSwitchCase="'EthereumAddress'"><a href="https://etherscan.io/address/0x{{ item.value }}" target="_blank">Ethereum Address: 0x{{ item.value }}</a></div>
   <div *ngSwitchCase="'Balance'">{{ formatBalance(item.value) | number}} {{ networkTokenSymbol }}</div>
-  <div *ngSwitchCase="'Compact<Balance>'">{{ formatBalance(item.value) | number}} {{ networkTokenSymbol }}</div>
+  <div *ngSwitchCase="'Compact<Balance>'">{{ item.value | number}} </div>
+  <div *ngSwitchCase="'Compact<Decimals>'">{{ item.valueRaw | number}} </div>
   <div *ngSwitchCase="'Compact<BalanceOf>'">{{ formatBalance(item.value) | number}} {{ networkTokenSymbol }}</div>
   <div *ngSwitchCase="'Compact<Moment>'">{{ item.value | date:'medium' }}</div>
   <div *ngSwitchCase="'bool'">

@@ -33,6 +33,7 @@ import {environment} from '../../../environments/environment';
 import {BlockTotal} from '../../classes/block-total.class';
 import {BlockTotalService} from '../../services/block-total.service';
 import {LogService} from '../../services/log.service';
+import {blake2b} from 'blakejs';
 
 @Component({
   selector: 'app-block-detail',
@@ -47,6 +48,7 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
   public currentTab: string;
+  public workhash: string;
 
   private fragmentSubsription: Subscription;
   networkURLPrefix: any;
@@ -107,6 +109,12 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
   }
   public formatBalance(balance: number) {
     return balance / Math.pow(10, this.networkTokenDecimals);
+  }
+  public getWorkHash() {
+    // tslint:disable-next-line:max-line-length
+    const hex = Buffer.from( blake2b('abc', null, 32)).toString('hex');
+
+    return  '0x' + hex;
   }
 
   public Copy() {

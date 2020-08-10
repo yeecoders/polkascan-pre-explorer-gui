@@ -21,6 +21,7 @@ import bech32 from 'bech32';
 export class AccountDetailComponent implements OnInit {
 
   public balanceTransfers: DocumentCollection<BalanceTransfer>;
+  public balanceTransfersRec: DocumentCollection<BalanceTransfer>;
   public extrinsics: DocumentCollection<Extrinsic>;
 
   public account$: Observable<Account>;
@@ -41,7 +42,7 @@ export class AccountDetailComponent implements OnInit {
   ngOnInit() {
     this.currentTab = 'transfers';
     this.activatedRoute.fragment.subscribe(value => {
-      if (value === 'transactions' || value === 'transfers') {
+      if (value === 'transactions' || value === 'transfers' || value === 'transfers-rec') {
         this.currentTab = value;
       }
     });
@@ -61,24 +62,36 @@ export class AccountDetailComponent implements OnInit {
         remotefilter: {address: val.id},
         page: {number: 0}
       }).subscribe(balanceTransfers => (this.balanceTransfers = balanceTransfers));
-
+      this.balanceTransferService.all({
+        remotefilter: {dest: val.id},
+        page: {number: 0}
+      }).subscribe(balanceTransfers => (this.balanceTransfersRec = balanceTransfers));
       const params = {
         page: {number: 0, size: 25},
         remotefilter: {address: val.id},
       };
-
       this.extrinsicService.all(params).subscribe(extrinsics => {
         this.extrinsics = extrinsics;
       });
 
     });
+    if ( this.balanceTransfersRec.data) {
+      this.currentTab = 'transfers-rec';
+      // console.log('balanceTransfersRecval--', this.balanceTransfersRec.data);
+      // for (let i = 0; i <= this.balanceTransfersRec.data.length; i++) {
+      //   console.log('balanceTransfersRecval--', this.balanceTransfersRec.data);
+      //
+      //   this.balanceTransfers.data.push(this.balanceTransfersRec.data[i]);
+      // }
+      // this.balanceTransfers.data.concat(this.balanceTransfersRec.data);
+     }
   }
 
   public bech32_encode(hex: string) {
     if (hex) {
       if (hex.indexOf('0x') === 0) {
         hex = hex.substr(2);
-        console.log('has head 0x!');
+       // console.log('has head 0x!');
       }
       let bts = [];
       for (let bytes = [], c = 0; c < hex.length; c += 2) {
@@ -86,8 +99,8 @@ export class AccountDetailComponent implements OnInit {
         bts = bytes;
       }
       const str = bech32.encode(environment.HRP, bech32.toWords(bts));
-      console.log('---');
-      console.log(str);
+     // console.log('---');
+     // console.log(str);
       return str;
     }
   }
@@ -100,8 +113,8 @@ export class AccountDetailComponent implements OnInit {
         bts = bytes;
       }
       const str = bech32.encode(environment.HRP, bech32.toWords(bts));
-      console.log('---');
-      console.log(str);
+     // console.log('---');
+     // console.log(str);
       const mask = 0x03
       // tslint:disable-next-line:no-bitwise
       const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];

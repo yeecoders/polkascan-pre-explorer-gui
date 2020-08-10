@@ -59,18 +59,17 @@ export class BalancesTransferListComponent implements OnInit, OnDestroy {
     this.fragmentSubsription.unsubscribe();
   }
   public getshardnum(id: string) {
+    console.log('DestShard--', id);
     if (id) {
-      let bts = [];
-      for (let bytes = [], c = 0; c < id.length; c += 2) {
-        bytes.push(parseInt(id.substr(c, 2), 16));
-        bts = bytes;
-      }
-      const str = bech32.encode(environment.HRP, bech32.toWords(bts));
-      console.log('---');
-      console.log(str);
-      const mask = 0x03
+      // let bts = [];
+      // for (let bytes = [], c = 0; c < id.length; c += 2) {
+      //   bytes.push(parseInt(id.substr(c, 2), 16));
+      //   bts = bytes;
+      // }
+      // const str = bech32.encode(environment.HRP, bech32.toWords(bts));
+      const mask = 0x03;
       // tslint:disable-next-line:no-bitwise
-      const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];
+      const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(id).words))[31];
       return shardNum;
     }
   }

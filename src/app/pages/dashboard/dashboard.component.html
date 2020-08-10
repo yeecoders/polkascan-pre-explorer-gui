@@ -97,12 +97,14 @@
             <div class="shardsBox" *ngIf="array && showShards">
               <div class="shards-title">
                 <div class="shards-item">ShardNum</div>
-                <div class="shards-item">Best Hight</div>
+                <div class="shards-item">Best number</div>
+                <div class="shards-item">Finalized number</div>
                 <div class="shards-item">Mining Hash Rate</div>
                 <div class="shards-item">Mining Difficulty</div>
               </div>
               <div class="shards-body" *ngFor="let data of array;">
                 <div class="shards-item">#{{ data.shardNum}} </div>
+                <div class="shards-item">{{ data.hight}} </div>
                 <div class="shards-item">{{ data.hight}} </div>
                 <div class="shards-item">{{ data.rate }} </div>
                 <div class="shards-item">{{ data.difficulty}} </div>
