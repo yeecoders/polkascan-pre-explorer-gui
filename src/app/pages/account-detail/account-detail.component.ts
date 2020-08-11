@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DocumentCollection} from 'ngx-jsonapi';
+import {DocumentCollection, Resource} from 'ngx-jsonapi';
 import {Extrinsic} from '../../classes/extrinsic.class';
 import {BalanceTransferService} from '../../services/balance-transfer.service';
 import {ExtrinsicService} from '../../services/extrinsic.service';
@@ -21,7 +21,6 @@ import bech32 from 'bech32';
 export class AccountDetailComponent implements OnInit {
 
   public balanceTransfers: DocumentCollection<BalanceTransfer>;
-  public balanceTransfersRec: DocumentCollection<BalanceTransfer>;
   public extrinsics: DocumentCollection<Extrinsic>;
 
   public account$: Observable<Account>;
@@ -42,7 +41,7 @@ export class AccountDetailComponent implements OnInit {
   ngOnInit() {
     this.currentTab = 'transfers';
     this.activatedRoute.fragment.subscribe(value => {
-      if (value === 'transactions' || value === 'transfers' || value === 'transfers-rec') {
+      if (value === 'transactions' || value === 'transfers') {
         this.currentTab = value;
       }
     });
@@ -62,10 +61,6 @@ export class AccountDetailComponent implements OnInit {
         remotefilter: {address: val.id},
         page: {number: 0}
       }).subscribe(balanceTransfers => (this.balanceTransfers = balanceTransfers));
-      this.balanceTransferService.all({
-        remotefilter: {dest: val.id},
-        page: {number: 0}
-      }).subscribe(balanceTransfers => (this.balanceTransfersRec = balanceTransfers));
       const params = {
         page: {number: 0, size: 25},
         remotefilter: {address: val.id},
@@ -75,15 +70,8 @@ export class AccountDetailComponent implements OnInit {
       });
 
     });
-    if ( this.balanceTransfersRec.data) {
-      this.currentTab = 'transfers-rec';
-      // console.log('balanceTransfersRecval--', this.balanceTransfersRec.data);
-      // for (let i = 0; i <= this.balanceTransfersRec.data.length; i++) {
-      //   console.log('balanceTransfersRecval--', this.balanceTransfersRec.data);
-      //
-      //   this.balanceTransfers.data.push(this.balanceTransfersRec.data[i]);
-      // }
-      // this.balanceTransfers.data.concat(this.balanceTransfersRec.data);
+    if ( this.balanceTransfers.data) {
+      this.currentTab = 'transfers';
      }
   }
 

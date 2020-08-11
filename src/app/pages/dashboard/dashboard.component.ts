@@ -45,7 +45,7 @@ import {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  public array: Array<Data> ;
+  public array: any ;
   public blocks: DocumentCollection<Block>;
   public balanceTransfers: DocumentCollection<BalanceTransfer>;
   public networkstats$: Observable<Networkstats>;
@@ -67,24 +67,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
   async ngOnInit() {
-    const count = 4;
     this.networkURLPrefix = '';
-    const ps = [];
-    for (let i = 0; i < count; i++) {
-      const model =  await this.getModel(i);
-      ps.push(model);
-    }
-    console.log('ps: ', ps); // 320800.2951306496
-    this.array = ps;
-    // tslint:disable-next-line:only-arrow-functions
+    const psa = await this.getModel();
+    this.array = psa;
     setInterval(async () => {
-      this.array = [];
-      console.log('setInterval: ', 'window.location.reload----');
-      for (let i = 0; i < count; i++) {
-        const model =  await this.getModel(i);
-        // @ts-ignore
-        this.array.push(model);
-      }
+      this.array = await this.getModel();
     }, 1000 * 60);
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
@@ -100,47 +87,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.showShards = !this.showShards;
   }
   get_target(input: string) {
-    console.log(' target: ', input);
+    // console.log(' target: ', input);
     input = input.replace('0x', '');
     const digestItemType = decode(hexToBytes(input.substr(0, 2)), 'u16');
     if (digestItemType !== 4) { // consensus
       return null;
     }
     const str =  input.substr(78, 64);
-    console.log('input---', str);
     const str1 = hexToBytes(str);
     return bytesToHex(str1.reverse());
   }
-  getModel(i: any) {
+  getModel() {
     return new Promise((resolve, reject) => {
-      const model = new Data(i.toString(), '', '', '');
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
-      // tslint:disable-next-line:max-line-length
-      this.http.post(
-        environment.switchRootUrl,
-        {
-          jsonrpc: '2.0' ,
-          method: 'chain_getHeader',
-          params: [i],
-          id: 0
-        },  {headers}).toPromise().then((res: Jsonrpc) => {
-        if (res.result === undefined ) {
-          console.log('getModelrpc: ',  res.error);
+      this.http.get(
+        environment.jsonApiRootUrl + 'FinalizedHeadList',
+        {headers}).toPromise().then((res: any) => {
+        if (res.data === undefined ) {
+          console.log('getModelrpc: ',  res);
           reject(res.error);
         } else {
-          let str = res.result.digest.logs[3];
-          model.hight = parseInt( res.result.number, 16).toString();
-          str = this.get_target(str);
-          console.log(' getModelrpc: ', str);
-          const diff = Math.pow(2, 256) / parseInt(str, 16);
-          const hashrate = Math.pow(2, 256) / (parseInt(str, 16) * 60);
-          console.log('diff: ', diff);
-          console.log('hashrate: ', hashrate);
-          console.log('handleDifficulty: ', handleDifficulty(diff));
-          console.log('handleHashRate: ', handleHashRate(hashrate));
-          model.rate = handleHashRate(hashrate);
-          model.difficulty = handleDiff(diff);
-          resolve(model);
+          const ps = [];
+          const list = res.data.attributes;
+          const arr: any[] = [list.shard01, list.shard02, list.shard03, list.shard04];
+          for (let j = 0; j < arr.length; j++) {
+            const model = new Data(j.toString(), '', '', '', '');
+            let str = arr[j].digest.logs[3];
+            model.hight = parseInt( arr[j].number, 16).toString();
+            str = this.get_target(str);
+            const diff = Math.pow(2, 256) / parseInt(str, 16);
+            const hashrate = Math.pow(2, 256) / (parseInt(str, 16) * 60);
+            model.rate = handleHashRate(hashrate);
+            model.fnum = arr[j].finalizedNum;
+            model.difficulty = handleDiff(diff);
+            ps.push(model);
+          }
+          console.log('FinalizedHeadList-ps--: ',  ps);
+          resolve(ps);
         }
       });
     });
@@ -169,7 +152,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Will clear when component is destroyed e.g. route is navigated away from.
-    if(this.blockUpdateSubsription) {
+    if (this.blockUpdateSubsription) {
       this.blockUpdateSubsription.unsubscribe();
     }
   }

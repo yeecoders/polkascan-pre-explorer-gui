@@ -51,7 +51,10 @@
                 <td>{{ 'BalanceTransfer.Value' | translate }}</td>
                 <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
               </tr>
-
+              <tr>
+                <td>{{ 'Gas' | translate }}</td>
+                <td>{{ getGas(balanceTransfer.attributes.extrinsic)   }} </td>
+              </tr>
               <tr>
                 <td width="20%">{{ 'BalanceTransfer.Extrinsic Index' | translate }}</td>
                 <td><a

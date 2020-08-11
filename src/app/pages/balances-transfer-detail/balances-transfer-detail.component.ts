@@ -87,7 +87,10 @@ export class BalancesTransferDetailComponent implements OnInit {
   public formatBalance(balance: number) {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }
-
+  public getGas(str: string) {
+    const len = str.length / 2 + 1;
+    return   100 + 1 * len;
+  }
   public Copy() {
     const range = document.createRange();
     range.selectNode(document.getElementById('hash'));

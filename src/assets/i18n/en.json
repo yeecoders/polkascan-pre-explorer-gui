@@ -84,7 +84,7 @@
 		"Success": "Status",
 		"Transaction Hash": "TxHash",
 		"Value": "Value",
-    "ShardNum": "ShardNum",
+    "ShardNum": "Shard Number",
     "Time": "Time"
   },
 	"BalanceTransferList": {
@@ -376,7 +376,7 @@
 	"extrinsic-table": {
 		"Account Index": "Account index",
 		"Address": "From",
-		"Block": "BlockHight",
+		"Block": "Block Number",
 		"Call": "Call",
 		"Hash": "TxHash",
 		"Index": "Index",
@@ -385,7 +385,7 @@
 		"Parameters": "Parameters",
 		"Result": "Status",
 		"Signature": "Signature",
-    "ShardNum": "ShardNum",
+    "ShardNum": "Shard Number",
     "Time": "Time"
 
 

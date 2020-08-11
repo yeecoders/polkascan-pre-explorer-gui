@@ -51,17 +51,10 @@
         <div class="tabs">
           <ul>
             <li [ngClass]="{'is-active': currentTab == 'transfers'}"
-                *ngIf="!balanceTransfers || balanceTransfers.data.length > 0">
+                *ngIf="!balanceTransfers || balanceTransfers.data.length > 0||!balanceTransfersRec || balanceTransfersRec.data.length > 0">
               <a routerLink="." fragment="transfers">
                 <span class="icon is-small"><i class="fas fa-book" aria-hidden="true"></i></span>
                 <span>{{ ' Transfers' | translate }}</span>
-              </a>
-            </li>
-            <li [ngClass]="{'is-active': currentTab == 'transfers-rec'}"
-                *ngIf="!balanceTransfersRec || balanceTransfersRec.data.length > 0">
-              <a routerLink="." fragment="transfers-rec">
-                <span class="icon is-small"><i class="fas fa-book" aria-hidden="true"></i></span>
-                <span>{{ ' Transfers-rec' | translate }}</span>
               </a>
             </li>
             <li [ngClass]="{'is-active': currentTab == 'transactions'}"
@@ -135,40 +128,6 @@
             </thead>
             <tbody>
             <tr *ngFor="let balanceTransfer of balanceTransfers.data; trackBy: balanceTransfers.trackBy">
-              <td width="5%"><i class="fa fa-exchange-alt"></i></td>
-
-              <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
-              <td class="is-hidden-mobile"><span rel="tooltip" title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span></td>
-              <td class="is-hidden-mobile">#{{ balanceTransfer.attributes.shard_num }}</td>
-              <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.sender }}" class="address-format"> {{ balanceTransfer.attributes.sender }}</a></td>
-              <td class="is-hidden-mobile">#{{getshardnum(balanceTransfer.attributes.destination)}}</td>
-              <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-format"> {{ balanceTransfer.attributes.destination }}</a></td>
-
-              <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
-
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card-table" id="transfers-rec" *ngIf="currentTab == 'transfers-rec'">
-        <div class="content">
-          <app-loading-box *ngIf="!balanceTransfersRec || balanceTransfersRec.is_loading"></app-loading-box>
-          <table class="table is-fullwidth is-striped" *ngIf="balanceTransfersRec && balanceTransfersRec.data.length > 0">
-            <thead>
-            <th></th>
-            <th class="is-hidden-mobile">{{ 'BalanceTransferList.TxHash' | translate }}</th>
-            <th class="is-hidden-mobile">{{ 'BalanceTransferList.Time' | translate }}</th>
-            <th class="is-hidden-mobile">{{ 'BalanceTransferList.SrcShard' | translate }}</th>
-            <th class="is-hidden-mobile">{{ 'BalanceTransferList.Sender' | translate }}</th>
-            <th class="is-hidden-mobile">{{ 'BalanceTransferList.DestShard' | translate }}</th>
-            <th>{{ 'BalanceTransferList.Destination' | translate }}</th>
-            <th>{{ 'BalanceTransferList.Value' | translate }}</th>
-            <th></th>
-            </thead>
-            <tbody>
-            <tr *ngFor="let balanceTransfer of balanceTransfersRec.data; trackBy: balanceTransfersRec.trackBy">
               <td width="5%"><i class="fa fa-exchange-alt"></i></td>
 
               <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>

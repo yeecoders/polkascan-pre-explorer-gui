@@ -30,7 +30,7 @@
         </tr>
         <tr>
           <td width="15%">{{ 'extrinsic-table.Time' | translate }}</td>
-          <td>{{ extrinsic.attributes.datetime | date:'medium'}}</td>
+          <td>{{ extrinsic.attributes.datetime | date:'medium'}}{{get_relayFlag(extrinsic.attributes.address, extrinsic.attributes.params, extrinsic.attributes.success)}}</td>
         </tr>
         <tr *ngIf="context != 'block'">
           <td width="15%">{{ 'extrinsic-table.Block' | translate }}</td>
@@ -89,7 +89,7 @@
         <thead>
         <tr>
           <th colspan="2"
-              style="color: #8F99A3; font-weight: 400; font-size: 16px">{{ get_relayFlag(extrinsic.attributes.address, extrinsic.attributes.params, extrinsic.attributes.success) }}{{ 'extrinsic-table.Parameters' | translate }}</th>
+              style="color: #8F99A3; font-weight: 400; font-size: 16px">{{ 'extrinsic-table.Parameters' | translate }}</th>
         </tr>
         </thead>
         <tbody>
@@ -98,6 +98,8 @@
           <td>
             <app-render-type
               [item]="param"
+              [callId]="extrinsic.attributes.call_id"
+              [moudleId]="extrinsic.attributes.module_id"
               [networkTokenDecimals]="networkTokenDecimals"
               [networkTokenSymbol]="networkTokenSymbol"
             ></app-render-type>
@@ -109,7 +111,7 @@
   </div>
 </div>
 
-
+<!--{{ get_relayFlag(extrinsic) }}-->
 <div *ngIf="extrinsicRelay$ | async as extrinsic" class="card events-card">
   <!--                <header class="card-header" *ngIf="extrinsic && extrinsic.attributes && extrinsic.attributes.id">-->
   <header class="card-header" *ngIf="extrinsic && extrinsic.attributes && extrinsic.attributes.id">

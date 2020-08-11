@@ -52,7 +52,8 @@ export class TransactionDetailComponent implements OnInit {
 
     this.extrinsic$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
-          return this.extrinsicService.get(params.get('id'));
+          const ex = this.extrinsicService.get(params.get('id'));
+          return ex;
       })
     );
   }

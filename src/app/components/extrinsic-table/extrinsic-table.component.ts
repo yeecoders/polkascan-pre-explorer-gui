@@ -28,6 +28,7 @@ import {Observable} from 'rxjs';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import bech32 from 'bech32';
+import {isUndefined} from 'util';
 @Component({
   selector: 'app-extrinsic-table',
   templateUrl: './extrinsic-table.component.html',
@@ -65,40 +66,47 @@ export class ExtrinsicTableComponent implements OnInit {
       );
     }
   }
-
-  goBack(): void {
-    this.location.back();
-  }
-
   public formatBalance(balance: number) {
     return balance / Math.pow(10, this.networkTokenDecimals);
   }
-
-  public get_relayFlag(from: string, to: Array<string>, flag: string) {
-    const param = JSON.parse(JSON.stringify(to[0]));
-    console.log(param.value);
-    const mask = 0x03
-    // tslint:disable-next-line:no-bitwise
-    // @ts-ignore
-    // tslint:disable-next-line:no-bitwise
-    const shardNum1 = mask &  new Uint8Array(bech32.fromWords(bech32.decode(from).words))[31];
-    // tslint:disable-next-line:no-bitwise
-    const shardNum2 = mask & new Uint8Array(bech32.fromWords(bech32.decode(param.value).words))[31];
-    console.log('---------');
-    console.log(shardNum1);
-    console.log(shardNum2);
-    if (shardNum1 !== shardNum2) {
-      this.relayFlag = true;
-    } else {
-      this.relayFlag = false;
-    }
-    // @ts-ignore
-    if (flag !== 1) {
-      console.log('suflag:', flag);
-      this.relayFlag = false;
+  public get_relayFlag(from: string, to: any, flag: string) {
+    if (!isUndefined(to)) {
+      console.log('from--', from);
+      console.log('to--', to);
+      console.log('flag--', flag);
+      let pv = '';
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < to.length; i++) {
+        const str = to[i].value.toString();
+        if (str.indexOf('yee') !== -1) {
+          console.log('str--', str.indexOf('yee'));
+          pv = str;
+        }
+      }
+      const param = JSON.parse(JSON.stringify(to[2]));
+      console.log('pv--', pv);
+      const mask = 0x03
+      // tslint:disable-next-line:no-bitwise
+      // @ts-ignore
+      // tslint:disable-next-line:no-bitwise
+      const shardNum1 = mask &  new Uint8Array(bech32.fromWords(bech32.decode(from).words))[31];
+      // tslint:disable-next-line:no-bitwise
+      const shardNum2 = mask & new Uint8Array(bech32.fromWords(bech32.decode(pv).words))[31];
+      console.log('---------');
+      console.log(shardNum1);
+      console.log(shardNum2);
+      if (shardNum1 !== shardNum2) {
+        this.relayFlag = true;
+      } else {
+        this.relayFlag = false;
+      }
+      // @ts-ignore
+      if (flag !== 1) {
+        console.log('交易状态不成功:', flag);
+        this.relayFlag = false;
+      }
     }
   }
-
   paramName(name: string) {
 
     if (name === 'dest') {

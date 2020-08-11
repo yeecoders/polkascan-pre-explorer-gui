@@ -31,18 +31,43 @@ import {Component, Input, OnInit} from '@angular/core';
 export class RenderTypeComponent implements OnInit {
 
   @Input() item = null;
+  @Input() callId = null;
+  @Input() moudleId = null;
   @Input() networkURLPrefix = null;
   @Input() networkTokenDecimals = 0;
   @Input() networkTokenSymbol: string;
+  public localnetworkTokenSymbol: string;
+
 
   constructor() { }
 
   ngOnInit() {
+    this.localnetworkTokenSymbol = '';
     console.log('item--', this.item );
+    console.log('callId--', this.callId );
+    console.log('moudleId--', this.moudleId );
   }
-
+  getsymbol(): string {
+    if (this.callId === 'transfer' && this.moudleId === 'balances') {
+      return this.networkTokenSymbol;
+    } else {
+      return this.localnetworkTokenSymbol;
+    }
+  }
   public formatBalance(balance: number) {
-    return balance / Math.pow(10, this.networkTokenDecimals);
+    if (this.callId === 'transfer' && this.moudleId === 'balances') {
+      return balance / Math.pow(10, this.networkTokenDecimals);
+    } else {
+      return balance;
+    }
   }
-
+  public sw(b: string) {
+    const n = b.length / 2;
+    const buf = Buffer.alloc(n);
+    for (let i = 0 ; i < n ; i++) {
+      buf[i] = parseInt(b.slice(2 * (i + 1) - 2, 2 * (i + 1)), 16);
+    }
+    const v = parseInt((buf.readIntLE(0, 2) / 4).toString(), null);
+    return v;
+  }
 }
