@@ -101,7 +101,7 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
       if (value.relationships.logs.data.length > 0) {
         // @ts-ignore
         const workhash =  value.relationships.logs.data[3].attributes.data.value.data.substr(64, 64);
-        this.workhash = workhash;
+        this.workhash = '0x' + workhash;
         console.log(' workhash: ', workhash);
       }
     });
