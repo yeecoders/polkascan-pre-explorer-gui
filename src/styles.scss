@@ -362,7 +362,7 @@ a {
 @import '~node_modules/bulma/sass/utilities/mixins';
 
 @include desktop {
-  
+
     .navbar-item {
         .navbar-dropdown{
           background: none;
@@ -657,7 +657,7 @@ aaa {
   cursor: pointer;
 }
 
-// 首页样式 
+// 首页样式
 .home {
   background: #f3f5f8;
   nav{
@@ -706,7 +706,7 @@ aaa {
         }
         .search-btn{
           cursor: pointer;
-          width: 98px;  
+          width: 98px;
           height: 46px;
           background-color: #ffffff;
           background-image: url('./assets//search.png');
@@ -799,6 +799,12 @@ aaa {
       }
     }
   }
+  .foot{
+    margin:0 auto;
+    text-align:center;
+    color: #f2f4f7;
+    font-size: 12px;
+  }
   .planeBox{
     height: auto;
     .plane{
@@ -810,7 +816,7 @@ aaa {
       }
       .card-header-icon{
         font-size: 12px;
-        font-weight: 600; 
+        font-weight: 600;
       }
       .card-table{
         overflow-y: hidden!important;
