@@ -64,7 +64,7 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.currentTab = 'transactions';
+    this.currentTab = 'logs';
 
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
@@ -97,6 +97,14 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
           }
       })
     );
+    this.block$.subscribe(value => {
+      if (value.relationships.logs.data.length > 0) {
+        // @ts-ignore
+        const workhash =  value.relationships.logs.data[3].attributes.data.value.data.substr(64, 64);
+        this.workhash = workhash;
+        console.log(' workhash: ', workhash);
+      }
+    });
   }
 
   goBack(): void {
@@ -113,8 +121,8 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
   public getWorkHash() {
     // tslint:disable-next-line:max-line-length
     const hex = Buffer.from( blake2b('abc', null, 32)).toString('hex');
-
-    return  '0x' + hex;
+    return this.workhash;
+    // return  '0x' + hex;
   }
 
   public Copy() {

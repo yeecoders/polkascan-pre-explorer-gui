@@ -83,27 +83,29 @@ export class ExtrinsicTableComponent implements OnInit {
           pv = str;
         }
       }
-      const param = JSON.parse(JSON.stringify(to[2]));
-      console.log('pv--', pv);
-      const mask = 0x03
-      // tslint:disable-next-line:no-bitwise
-      // @ts-ignore
-      // tslint:disable-next-line:no-bitwise
-      const shardNum1 = mask &  new Uint8Array(bech32.fromWords(bech32.decode(from).words))[31];
-      // tslint:disable-next-line:no-bitwise
-      const shardNum2 = mask & new Uint8Array(bech32.fromWords(bech32.decode(pv).words))[31];
-      console.log('---------');
-      console.log(shardNum1);
-      console.log(shardNum2);
-      if (shardNum1 !== shardNum2) {
-        this.relayFlag = true;
-      } else {
-        this.relayFlag = false;
-      }
-      // @ts-ignore
-      if (flag !== 1) {
-        console.log('交易状态不成功:', flag);
-        this.relayFlag = false;
+      // const param = JSON.parse(JSON.stringify(to[2]));
+      if (!isUndefined(pv) && pv !== '') {
+        console.log('pv--', pv);
+        const mask = 0x03
+        // tslint:disable-next-line:no-bitwise
+        // @ts-ignore
+        // tslint:disable-next-line:no-bitwise
+        const shardNum1 = mask & new Uint8Array(bech32.fromWords(bech32.decode(from).words))[31];
+        // tslint:disable-next-line:no-bitwise
+        const shardNum2 = mask & new Uint8Array(bech32.fromWords(bech32.decode(pv).words))[31];
+        console.log('---------');
+        console.log(shardNum1);
+        console.log(shardNum2);
+        if (shardNum1 !== shardNum2) {
+          this.relayFlag = true;
+        } else {
+          this.relayFlag = false;
+        }
+        // @ts-ignore
+        if (flag !== 1) {
+          console.log('交易状态不成功:', flag);
+          this.relayFlag = false;
+        }
       }
     }
   }
