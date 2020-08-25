@@ -1,5 +1,7 @@
 {
 	"AccountDetail": {
+    "BlockReward": "BlockReward",
+    "FeeReward": "FeeReward",
     "AccountDetail": "Account",
     "Account index": "Account Index",
 		"Active": "Active",

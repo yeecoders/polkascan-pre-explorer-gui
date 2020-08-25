@@ -89,7 +89,8 @@ export class BalancesTransferDetailComponent implements OnInit {
   }
   public getGas(str: string) {
     const len = str.length / 2 + 1;
-    return   100 + 1 * len;
+    // return   100 + 1 * len;
+    return  (10000000 + len * 100000) / Math.pow(10, this.networkTokenDecimals);
   }
   public Copy() {
     const range = document.createRange();

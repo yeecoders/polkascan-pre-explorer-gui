@@ -1,3 +1,4 @@
+<div class="columns">
 <div class="column is-12">
   <!--    <app-polkascan-header></app-polkascan-header>-->
   <div *ngIf="account$ | async as account">
@@ -28,6 +29,14 @@
               <tr>
                 <td>{{ 'AccountDetail.Free Balance' | translate }}</td>
                 <td>{{ formatBalance(account.attributes.free_balance) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'AccountDetail.BlockReward' | translate }}</td>
+                <td>{{ this.blockRewardSum }} {{ networkTokenSymbol }}</td>
+              </tr>
+              <tr>
+                <td>{{ 'AccountDetail.FeeReward' | translate }}</td>
+                <td>{{ this.feeRewardSum }} {{ networkTokenSymbol }}</td>
               </tr>
               <tr>
                 <td>{{ 'AccountDetail.Nonce' | translate }}</td>
@@ -125,6 +134,7 @@
             <th class="is-hidden-mobile">{{ 'BalanceTransferList.DestShard' | translate }}</th>
             <th>{{ 'BalanceTransferList.Destination' | translate }}</th>
             <th>{{ 'BalanceTransferList.Value' | translate }}</th>
+<!--            <th class="is-hidden-mobile">{{ 'BalanceTransferList.Success' | translate }}</th>-->
             <th></th>
             </thead>
             <tbody>
@@ -143,13 +153,20 @@
               <td class="is-hidden-mobile"><a routerLink="{{ networkURLPrefix }}/account/{{ balanceTransfer.attributes.destination }}" class="address-format"> {{ balanceTransfer.attributes.destination }}</a></td>
 
               <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
-
+              <td>
+                <i *ngIf="balanceTransfer.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
+                <i *ngIf="balanceTransfer.attributes.error" class="fa fa-times" style="color: darkred"></i>
+              </td>
             </tr>
             </tbody>
           </table>
+          <div class="no-items" *ngIf="balanceTransfers && balanceTransfers.data.length == 0 && !balanceTransfers.is_loading">{{ 'BalanceTransferList.No items' | translate }}</div>
         </div>
       </div>
-    </section>
-  </div>
+      <footer class="card-footer" *ngIf="balanceTransfers && balanceTransfers.data.length > 0">
+        <a routerLink="." fragment="{{ currentPage + 1 }}" class="card-footer-item">{{ 'BalanceTransferList.View next' | translate }}</a>
+      </footer>
+  </section>
 </div>
-
+</div>
+</div>

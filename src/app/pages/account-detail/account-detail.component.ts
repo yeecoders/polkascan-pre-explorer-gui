@@ -5,13 +5,14 @@ import {BalanceTransferService} from '../../services/balance-transfer.service';
 import {ExtrinsicService} from '../../services/extrinsic.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Account} from '../../classes/account.class';
 import {AccountService} from '../../services/account.service';
 import {switchMap} from 'rxjs/operators';
 import {BalanceTransfer} from '../../classes/balancetransfer.class';
 import {AccountIndexService} from '../../services/account-index.service';
 import bech32 from 'bech32';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-account-detail',
@@ -22,8 +23,11 @@ export class AccountDetailComponent implements OnInit {
 
   public balanceTransfers: DocumentCollection<BalanceTransfer>;
   public extrinsics: DocumentCollection<Extrinsic>;
-
+  currentPage = 1;
+  blockRewardSum = '';
+  feeRewardSum = '';
   public account$: Observable<Account>;
+  private fragmentSubsription: Subscription;
 
   public networkTokenDecimals: number;
   public networkTokenSymbol: string;
@@ -34,7 +38,8 @@ export class AccountDetailComponent implements OnInit {
     private extrinsicService: ExtrinsicService,
     private accountService: AccountService,
     private accountIndexService: AccountIndexService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private http: HttpClient
   ) {
   }
 
@@ -45,36 +50,39 @@ export class AccountDetailComponent implements OnInit {
         this.currentTab = value;
       }
     });
-
     this.networkTokenDecimals = environment.networkTokenDecimals;
     this.networkTokenSymbol = environment.networkTokenSymbol;
-
     this.account$ = this.activatedRoute.paramMap.pipe(
       switchMap((params: ParamMap) => {
+        this.getfee(params.get('id'));
         return this.accountService.get(params.get('id'), {include: ['indices']});
       })
     );
-
+    this.fragmentSubsription = this.activatedRoute.fragment.subscribe(value => {
+      if (+value > 0) {
+        this.currentPage = +value;
+      } else {
+        this.currentPage = 1;
+      }
+      this.getItems(this.currentPage);
+    });
+  }
+  getItems(page: number): void {
     this.activatedRoute.params.subscribe(val => {
 
       this.balanceTransferService.all({
         remotefilter: {address: val.id},
-        page: {number: 0}
+        page: {number: page, size: 25 }
       }).subscribe(balanceTransfers => (this.balanceTransfers = balanceTransfers));
-      const params = {
-        page: {number: 0, size: 25},
+      const paramsa = {
+        page: {number: page, size: 25},
         remotefilter: {address: val.id},
       };
-      this.extrinsicService.all(params).subscribe(extrinsics => {
+      this.extrinsicService.all(paramsa).subscribe(extrinsics => {
         this.extrinsics = extrinsics;
       });
-
     });
-    if ( this.balanceTransfers.data) {
-      this.currentTab = 'transfers';
-     }
   }
-
   public bech32_encode(hex: string) {
     if (hex) {
       if (hex.indexOf('0x') === 0) {
@@ -103,7 +111,7 @@ export class AccountDetailComponent implements OnInit {
       const str = bech32.encode(environment.HRP, bech32.toWords(bts));
      // console.log('---');
      // console.log(str);
-      const mask = 0x03
+      const mask = 0x03;
       // tslint:disable-next-line:no-bitwise
       const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];
       return shardNum;
@@ -125,6 +133,23 @@ export class AccountDetailComponent implements OnInit {
     document.execCommand('copy');
     alert('复制成功');
   }
-
+  getfee(id: string) {
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      this.http.get(
+        environment.jsonApiRootUrl + 'feesum/' + id,
+        {headers}).toPromise().then((res: any) => {
+        if (res.data === undefined ) {
+          console.log('getfee: ',  res);
+          reject(res.error);
+        } else {
+          const ps = [];
+          const list = res.data.attributes;
+          this.blockRewardSum = list.block_reward_sum;
+          this.feeRewardSum = list.fee_reward_sum;
+        }
+      });
+    });
+  }
 
 }
