@@ -121,7 +121,7 @@ const routes: Routes = [
   { path: 'balances/transfer/:id', component: BalancesTransferDetailComponent},
   { path: 'analytics/search', component: AnalyticsSearchComponent},
   { path: 'analytics/search/:query', component: AnalyticsSearchComponent},
-  { path: 'settings', component: SettingsComponent},
+  { path: 'upgraded', component: SettingsComponent},
   { path: 'harvester/admin', component: HarvesterAdminComponent },
 
   // Redirect old URLs
