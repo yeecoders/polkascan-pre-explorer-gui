@@ -121,6 +121,7 @@
 		"Inherents": "Inherents",
 		"Log ID": "Log ID",
 		"Logs": "Logs",
+    "relay": "relay",
 		"Module": "Module",
 		"New accounts": "New Accounts",
 		"New contracts": "New Contracts",

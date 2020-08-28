@@ -46,6 +46,7 @@ export class Block extends Resource {
     inherents: new DocumentCollection<Extrinsic>(),
     events: new DocumentCollection<Event>(),
     logs: new DocumentCollection<Log>(),
+    relay: new DocumentCollection<Extrinsic>(),
   };
 
 }

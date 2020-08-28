@@ -34,6 +34,7 @@ import {BlockTotal} from '../../classes/block-total.class';
 import {BlockTotalService} from '../../services/block-total.service';
 import {LogService} from '../../services/log.service';
 import {blake2b} from 'blakejs';
+import {bytesToHex, hexToBytes} from "oo7-substrate";
 
 @Component({
   selector: 'app-block-detail',
@@ -72,13 +73,13 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
     this.block$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
           if (params.get('id')) {
-            return this.blockService.get(params.get('id'), { include: ['transactions', 'inherents', 'events', 'logs'] });
+            return this.blockService.get(params.get('id'), { include: ['transactions', 'inherents', 'events', 'logs', 'relay'] });
           }
       })
     );
 
     this.fragmentSubsription = this.route.fragment.subscribe(value => {
-      if (value === 'transactions' || value === 'inherents' || value === 'events' || value === 'logs') {
+      if (value === 'transactions' || value === 'inherents' || value === 'events' || value === 'logs' || value === 'relay') {
         this.currentTab = value;
       }
     });
@@ -101,7 +102,8 @@ export class BlockDetailComponent implements OnInit, OnDestroy {
       if (value.relationships.logs.data.length > 0) {
         // @ts-ignore
         const workhash =  value.relationships.logs.data[3].attributes.data.value.data.substr(64, 64);
-        this.workhash = '0x' + workhash;
+        const str1 = hexToBytes(workhash);
+        this.workhash = '0x' + bytesToHex(str1.reverse());
         console.log(' workhash: ', workhash);
       }
     });

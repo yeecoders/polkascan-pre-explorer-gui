@@ -82,55 +82,11 @@
                                 <td>{{ 'Block-Detail.Reward At Block' | translate }}</td>
                                 <td width="10%"><a routerLink="{{ networkURLPrefix }}/block/{{ block.attributes.shard_num }}-{{ block.attributes.reward_block_number }}">{{ block.attributes.reward_block_number }}</a></td>
                               </tr>
-
-                              <!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.Total signed extrinsics' | translate }}</td>-->
-<!--                                  <td >{{ block.attributes.count_extrinsics_signed }}</td>-->
-<!--                              </tr>-->
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.Total failed extrinsics' | translate }}</td>-->
-<!--                                  <td >{{ block.attributes.count_extrinsics_error }}</td>-->
-<!--                              </tr>-->
                               <tr>
                                   <td>{{ 'Block-Detail.Total events' | translate }}</td>
                                   <td >{{block.attributes.count_events}}</td>
                               </tr>
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.Total system events' | translate }}</td>-->
-<!--                                  <td >{{block.attributes.count_events_system}}</td>-->
-<!--                              </tr>-->
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.Total module events' | translate }}</td>-->
-<!--                                  <td >{{block.attributes.count_events_module}}</td>-->
-<!--                              </tr>-->
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.New accounts' | translate }}</td>-->
-<!--                                  <td >{{block.attributes.count_contracts_new}}</td>-->
-<!--                              </tr>-->
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.Reaped accounts' | translate }}</td>-->
-<!--                                  <td >{{block.attributes.count_accounts_reaped}}</td>-->
-<!--                              </tr>-->
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.New contracts' | translate }}</td>-->
-<!--                                  <td >{{block.attributes.count_contracts_new}}</td>-->
-<!--                              </tr>-->
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.New sessions' | translate }}</td>-->
-<!--                                  <td >{{block.attributes.count_sessions_new}}</td>-->
-<!--                              </tr>-->
-<!--                              <tr>-->
-<!--                                  <td>{{ 'Block-Detail.Runtime version' | translate }}</td>-->
-<!--                                  <td><a routerLink="{{ networkURLPrefix }}/runtime/{{ block.attributes.spec_version_id }}">{{block.attributes.spec_version_id}}</a></td>-->
-<!--                              </tr>-->
-<!--                              <tr *ngIf="blockTotal$ | async as blockTotal">-->
-<!--                                <td>{{ 'Block-Detail.Block time' | translate }}</td>-->
-<!--                                <td >{{blockTotal.attributes.blocktime }} {{ 'Block-Detail.seconds' | translate }}</td>-->
-<!--                              </tr>-->
-<!--                              <tr *ngIf="blockTotal$ | async as blockTotal">-->
-<!--                                <td>{{ 'Block-Detail.Session ID' | translate }}</td>-->
-<!--                                <td><a routerLink="{{ networkURLPrefix }}/session/session/{{ blockTotal.attributes.session_id }}">{{ blockTotal.attributes.session_id }}</a></td>-->
-<!--                              </tr>-->
+
                           </tbody>
                       </table>
                   </div>
@@ -163,6 +119,12 @@
                   <a routerLink="." fragment="logs">
                     <span class="icon is-small"><i class="fas fa-book" aria-hidden="true"></i></span>
                     <span>{{ 'Block-Detail.Logs' | translate }}</span>
+                  </a>
+                </li>
+                <li [ngClass]="{'is-active': currentTab == 'relay'}" *ngIf="block.relationships.relay.data.length > 0">
+                  <a routerLink="." fragment="relay">
+                    <span class="icon is-small"><i class="fas fa-file-alt" aria-hidden="true"></i></span>
+                    <span>{{ 'Block-Detail.relay' | translate }}</span>
                   </a>
                 </li>
               </ul>
@@ -260,7 +222,37 @@
                     </table>
                 </div>
             </div>
+            <div class="card-table" id="relay" *ngIf="currentTab == 'relay'">
+              <div class="content">
+                <table class="table is-fullwidth is-striped">
+                  <thead>
+                  <tr>
+                    <th></th>
+                    <th>{{ 'Block-Detail.Inherent ID' | translate }}</th>
+                    <th>{{ 'Block-Detail.Module' | translate }}</th>
+                    <th>{{ 'Block-Detail.Call' | translate }}</th>
+                    <th>{{ 'Block-Detail.Success' | translate }}</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let extrinsic of block.relationships.relay.data; trackBy: block.relationships.relay.trackBy">
+                    <td width="5%">
+                      <i *ngIf="extrinsic.attributes.signed" class="fa fa-file-signature"></i>
+                      <i *ngIf="extrinsic.attributes.unsigned" class="fa fa-file-alt"></i>
+                    </td>
+                    <td><a routerLink="{{ networkURLPrefix }}/inherent/{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}-{{ extrinsic.attributes.extrinsic_idx }}">{{ extrinsic.attributes.shard_num }}-{{ extrinsic.attributes.block_id }}-{{ extrinsic.attributes.extrinsic_idx }}</a></td>
+                    <td>{{ extrinsic.attributes.module_id }}</td>
+                    <td>{{ extrinsic.attributes.call_id }}</td>
+                    <td>
+                      <i *ngIf="extrinsic.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
+                      <i *ngIf="extrinsic.attributes.error" class="fa fa-times" style="color: darkred"></i>
 
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
             <div class="card-table" id="logs" *ngIf="currentTab == 'logs'">
                 <div class="content">
                     <table class="table is-fullwidth is-striped">
