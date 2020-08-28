@@ -122,7 +122,7 @@ const routes: Routes = [
   { path: 'analytics/search', component: AnalyticsSearchComponent},
   { path: 'analytics/search/:query', component: AnalyticsSearchComponent},
   { path: 'upgrading', component: SettingsComponent},
-  { path: 'harvester/admin', component: HarvesterAdminComponent },
+  { path: 'tasks', component: HarvesterAdminComponent },
 
   // Redirect old URLs
   { path: 'system/block/:id', redirectTo: '/block/:id' },
