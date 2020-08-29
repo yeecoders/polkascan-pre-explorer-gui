@@ -13,6 +13,8 @@ import {BalanceTransfer} from '../../classes/balancetransfer.class';
 import {AccountIndexService} from '../../services/account-index.service';
 import bech32 from 'bech32';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {BlockService} from '../../services/block.service';
+import {Block} from '../../classes/block.class';
 
 @Component({
   selector: 'app-account-detail',
@@ -20,7 +22,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   styleUrls: ['./account-detail.component.scss']
 })
 export class AccountDetailComponent implements OnInit {
-
+  public blocks: DocumentCollection<Block>;
   public balanceTransfers: DocumentCollection<BalanceTransfer>;
   public extrinsics: DocumentCollection<Extrinsic>;
   currentPage = 1;
@@ -34,6 +36,7 @@ export class AccountDetailComponent implements OnInit {
   public currentTab: string;
 
   constructor(
+    private blockService: BlockService,
     private balanceTransferService: BalanceTransferService,
     private extrinsicService: ExtrinsicService,
     private accountService: AccountService,
@@ -46,7 +49,7 @@ export class AccountDetailComponent implements OnInit {
   ngOnInit() {
     this.currentTab = 'transfers';
     this.activatedRoute.fragment.subscribe(value => {
-      if (value === 'transactions' || value === 'transfers') {
+      if (value === 'transactions' || value === 'transfers' || value === 'blockrewards') {
         this.currentTab = value;
       }
     });
@@ -73,13 +76,16 @@ export class AccountDetailComponent implements OnInit {
       this.balanceTransferService.all({
         remotefilter: {address: val.id},
         page: {number: page, size: 25 }
-      }).subscribe(balanceTransfers => (this.balanceTransfers = balanceTransfers));
+      }).subscribe(balanceTransfers => {this.balanceTransfers = balanceTransfers; });
       const paramsa = {
         page: {number: page, size: 25},
         remotefilter: {address: val.id},
       };
       this.extrinsicService.all(paramsa).subscribe(extrinsics => {
         this.extrinsics = extrinsics;
+      });
+      this.blockService.all(paramsa).subscribe(blocks => {
+        this.blocks = blocks;
       });
     });
   }
