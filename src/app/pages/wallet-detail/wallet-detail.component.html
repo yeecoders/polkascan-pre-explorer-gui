@@ -25,6 +25,10 @@
       <p class="account-card-title" >{{ formatBalance(balance) ||0}} {{ networkTokenSymbol }}</p>
       <p class="account-card-subtitle">{{ 'Balance' | translate }}</p>
     </div>
+    <div class="account-card">
+      <p class="account-card-title" >#{{ this.getShardNum(address)}}</p>
+      <p class="account-card-subtitle">{{ 'ShardNum' | translate }}</p>
+    </div>
     <section class="tokens" *ngIf="events.data">
       <div class="tokens-title">Tokens</div>
       <div class="my-table">

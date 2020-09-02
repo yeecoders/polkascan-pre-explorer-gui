@@ -86,19 +86,12 @@ export class AnalyticsSearchComponent implements OnInit {
       }
 
       // Search accounts
-      if (this.currentSearchQuery.startsWith('yee') || this.currentSearchQuery.includes('tyee')) {
+      if (this.currentSearchQuery.startsWith('yee') && (this.currentSearchQuery.length === 62)) {
         this.loadingCount++;
-        this.accountService.get(this.currentSearchQuery).subscribe(account => {
-          this.account = account;
-        }, error => {
-          this.loadingCount--;
-        }, () => {
-          this.router.navigate(
-            [this.networkURLPrefix, 'account', this.account.id],
-            {replaceUrl: this.replaceUrl}
-          );
-          this.loadingCount--;
-        });
+        this.router.navigate(
+          [this.networkURLPrefix, 'account', this.currentSearchQuery],
+          {replaceUrl: this.replaceUrl}
+        );
       }
 
       // Search block
@@ -116,20 +109,6 @@ export class AnalyticsSearchComponent implements OnInit {
           this.loadingCount--;
         });
       }
-
-      // Search account indices
-      // this.loadingCount++;
-      // this.accountIndexService.get(this.currentSearchQuery).subscribe(accountIndex => {
-      //   this.accountIndex = accountIndex;
-      // }, error => {
-      //   this.loadingCount--;
-      // }, () => {
-      //   this.router.navigate(
-      //     [this.networkURLPrefix, 'indices', 'account', this.accountIndex.id],
-      //     { replaceUrl: this.replaceUrl }
-      //     );
-      //   this.loadingCount--;
-      // });
     }
   }
 

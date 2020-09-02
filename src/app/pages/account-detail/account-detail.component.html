@@ -24,7 +24,7 @@
               <tbody>
               <tr>
                 <td>{{ 'AccountDetail.ShardNum' | translate }}</td>
-                <td>#{{getshardnum(account.attributes.id)}}</td>
+                <td>#{{this.aid}}</td>
               </tr>
               <tr>
                 <td>{{ 'AccountDetail.Free Balance' | translate }}</td>
@@ -124,7 +124,7 @@
           <div class="no-items"
                *ngIf="extrinsics && !extrinsics.is_loading && extrinsics.data.length == 0">{{ 'AccountDetail.No extrinsics found for this account' | translate }}</div>
         </div>
-        <footer class="card-footer" *ngIf="extrinsics && extrinsics.data.length > 0">
+        <footer class="card-footer" *ngIf="extrinsics && extrinsics.data.length > 24">
           <a routerLink="." fragment="{{ currentPage + 1 }}" class="card-footer-item">{{ 'BalanceTransferList.View next' | translate }}</a>
         </footer>
       </div>
@@ -205,7 +205,7 @@
           </table>
           <div class="no-items" *ngIf="balanceTransfers && balanceTransfers.data.length == 0 && !balanceTransfers.is_loading">{{ 'BalanceTransferList.No items' | translate }}</div>
         </div>
-        <footer class="card-footer" *ngIf="balanceTransfers && balanceTransfers.data.length > 0">
+        <footer class="card-footer" *ngIf="balanceTransfers && balanceTransfers.data.length > 24">
           <a routerLink="." fragment="{{ currentPage + 1 }}" class="card-footer-item">{{ 'BalanceTransferList.View next' | translate }}</a>
         </footer>
       </div>

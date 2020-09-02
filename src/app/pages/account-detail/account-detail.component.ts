@@ -15,6 +15,7 @@ import bech32 from 'bech32';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BlockService} from '../../services/block.service';
 import {Block} from '../../classes/block.class';
+import * as api from '../../lib/api';
 
 @Component({
   selector: 'app-account-detail',
@@ -22,6 +23,7 @@ import {Block} from '../../classes/block.class';
   styleUrls: ['./account-detail.component.scss']
 })
 export class AccountDetailComponent implements OnInit {
+  aid: number;
   public blocks: DocumentCollection<Block>;
   public balanceTransfers: DocumentCollection<BalanceTransfer>;
   public extrinsics: DocumentCollection<Extrinsic>;
@@ -58,6 +60,7 @@ export class AccountDetailComponent implements OnInit {
     this.account$ = this.activatedRoute.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.getfee(params.get('id'));
+        this.aid = api.default.utils.getShardNum(api.default.utils.bech32Decode(params.get('id')));
         return this.accountService.get(params.get('id'), {include: ['indices']});
       })
     );
@@ -109,18 +112,7 @@ export class AccountDetailComponent implements OnInit {
 
   public getshardnum(id: string) {
     if (id) {
-      let bts = [];
-      for (let bytes = [], c = 0; c < id.length; c += 2) {
-        bytes.push(parseInt(id.substr(c, 2), 16));
-        bts = bytes;
-      }
-      const str = bech32.encode(environment.HRP, bech32.toWords(bts));
-     // console.log('---');
-     // console.log(str);
-      const mask = 0x03;
-      // tslint:disable-next-line:no-bitwise
-      const shardNum = mask & new Uint8Array(bech32.fromWords(bech32.decode(str).words))[31];
-      return shardNum;
+      return api.default.utils.getShardNum(api.default.utils.bech32Decode(id));
     }
   }
 
