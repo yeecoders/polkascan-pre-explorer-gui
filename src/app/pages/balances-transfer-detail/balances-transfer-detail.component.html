@@ -125,7 +125,9 @@
 
         </div>
     <div *ngIf="extrinsicRelay$ | async as ext">
-      <div *ngIf="relayFlag   && ext.attributes.id == null"
+      <app-loading-box *ngIf=" ext.is_loading">loading...</app-loading-box>
+
+      <div *ngIf="relayFlag   && ext.attributes.id == null && !ext.is_loading"
            class="card dashboard-card">
         <header class="card-header">
           <div class="card-header-title">

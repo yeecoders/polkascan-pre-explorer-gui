@@ -30,14 +30,14 @@
                 <td>{{ 'AccountDetail.Free Balance' | translate }}</td>
                 <td>{{ formatBalance(account.attributes.free_balance) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
               </tr>
-              <tr>
-                <td>{{ 'AccountDetail.BlockReward' | translate }}</td>
-                <td>{{ this.blockRewardSum }} {{ networkTokenSymbol }}</td>
-              </tr>
-              <tr>
-                <td>{{ 'AccountDetail.FeeReward' | translate }}</td>
-                <td>{{ this.feeRewardSum }} {{ networkTokenSymbol }}</td>
-              </tr>
+<!--              <tr>-->
+<!--                <td>{{ 'AccountDetail.BlockReward' | translate }}</td>-->
+<!--                <td>{{ this.blockRewardSum }} {{ networkTokenSymbol }}</td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td>{{ 'AccountDetail.FeeReward' | translate }}</td>-->
+<!--                <td>{{ this.feeRewardSum }} {{ networkTokenSymbol }}</td>-->
+<!--              </tr>-->
               <tr>
                 <td>{{ 'AccountDetail.Nonce' | translate }}</td>
                 <td>{{ account.attributes.nonce || 0}}</td>
@@ -72,11 +72,10 @@
                 <span>{{ 'Transactions' | translate }}</span>
               </a>
             </li>
-            <li [ngClass]="{'is-active': currentTab == 'blockrewards'}"
-                *ngIf="this.blockRewardSum > 0">
+            <li [ngClass]="{'is-active': currentTab == 'blockrewards'}">
               <a routerLink="." fragment="blockrewards">
                 <span class="icon is-small"><i class="fas fa-file-signature" aria-hidden="true"></i></span>
-                <span>{{ 'blockrewards' | translate }}</span>
+                <span>{{ 'BlockRewards' | translate }}</span>
               </a>
             </li>
 

@@ -56,8 +56,8 @@ export class BalancesTransferDetailComponent implements OnInit {
 
   public get_relayFlag(from: string, to: string, flag: string) {
     if (from && to) {
-      console.log(from);
-      console.log(to);
+      // console.log(from);
+      // console.log(to);
       const mask = 0x03;
       // tslint:disable-next-line:no-bitwise
       // @ts-ignore
@@ -67,9 +67,9 @@ export class BalancesTransferDetailComponent implements OnInit {
       // @ts-ignore
       // tslint:disable-next-line:no-bitwise
       const shardNum2 = mask & new Uint8Array(bech32.fromWords(bech32.decode(to).words))[31];
-      console.log('---------');
-      console.log(shardNum1);
-      console.log(shardNum2);
+      // console.log('---------');
+      // console.log(shardNum1);
+      // console.log(shardNum2);
       if (shardNum1 !== shardNum2) {
         this.relayFlag = true;
       } else {
@@ -77,10 +77,10 @@ export class BalancesTransferDetailComponent implements OnInit {
       }
       // @ts-ignore
       if (flag !== 1) {
-        console.log('suflag:', flag);
+        // console.log('suflag:', flag);
         this.relayFlag = false;
       }
-      console.log(this.relayFlag);
+      // console.log(this.relayFlag);
     }
   }
 

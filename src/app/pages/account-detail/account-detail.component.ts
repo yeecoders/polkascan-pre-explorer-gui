@@ -49,7 +49,7 @@ export class AccountDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentTab = 'transfers';
+    this.currentTab = 'blockrewards';
     this.activatedRoute.fragment.subscribe(value => {
       if (value === 'transactions' || value === 'transfers' || value === 'blockrewards') {
         this.currentTab = value;
@@ -59,7 +59,7 @@ export class AccountDetailComponent implements OnInit {
     this.networkTokenSymbol = environment.networkTokenSymbol;
     this.account$ = this.activatedRoute.paramMap.pipe(
       switchMap((params: ParamMap) => {
-        this.getfee(params.get('id'));
+        //  this.getfee(params.get('id'));
         this.aid = api.default.utils.getShardNum(api.default.utils.bech32Decode(params.get('id')));
         return this.accountService.get(params.get('id'), {include: ['indices']});
       })
