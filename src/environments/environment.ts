@@ -4,7 +4,7 @@
 //   networkName: 'YeeCo',
 //   networkTokenSymbol: 'YEE',
 //   HRP: 'tyee',
-//   networkTokenDecimals: 8,
+//   networkTokenDecimals: 8,//
 //   switchRootUrl: 'https://testnet.yeescan.org/switch/api/',
 // };
 export const environment = {

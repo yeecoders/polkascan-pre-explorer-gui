@@ -1,215 +1,232 @@
-<div class="" >
-    <div class="column homeBox is-12"  >
-        <section class="is-12" id="search">
-            <div class="card">
-<!--                <header class="card-header">-->
-<!--                    <p class="card-header-title">-->
-<!--                      {{ 'DashBoard.Search' | translate }}-->
-<!--                    </p>-->
-<!--                  <a [routerLink]="" fragment="search" class="card-header-icon" aria-label="more options">-->
-<!--                      <span class="icon">-->
-<!--                        <i class="fa fa-search" aria-hidden="true"></i>-->
-<!--                      </span>-->
-<!--                  </a>-->
-<!--                </header>-->
-                <div class="card-content">
-                    <div class="content">
-                        <form (ngSubmit)="search()">
-                        <div class="control has-icons-left has-icons-right">
-                            <input class="input is-large" type="text" [(ngModel)]="blockSearchText" [ngModelOptions]="{standalone: true}" [placeholder]="'PlaceHolderSearch' | translate">
-                            <span class="search-btn" (click)="search()"></span>
-                            <span class="icon is-medium is-left">
-                              <i class="fa fa-search"></i>
-                            </span>
-                            <span class="icon is-medium is-right">
-                              <i *ngIf="blockSearchText" class="fa fa-check"></i>
-                            </span>
-                        </div>
-                      </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="info-tiles is-hidden-mobile" class="box7">
-            <div class="tile is-ancestor has-text-centered" >
-                <div class="tile is-parent is-2-mobile" >
-                    <article class="tile is-child box">
-                      <a routerLink="{{ networkURLPrefix }}/block/">
-                        <div>
-
-                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe64b;</span>
-                          <p class="five-y" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.best_block| number: '1.'}}</p>
-                        <p class="five-t">{{ 'DashBoard.Total Block' | translate }}</p>
-                          </div>
-                      </a>
-                    </article>
-                </div>
-                <div class="tile is-parent is-2-mobile">
-                    <article class="tile is-child box">
-                      <a routerLink="{{ networkURLPrefix }}/extrinsic">
-                        <div>
-                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe64f;</span>
-
-                          <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.total_signed_extrinsics | number: '1.'}}</p>
-                          <p class="five-t">{{ 'DashBoard.Transactions' | translate }}</p>
-                        </div>
-                      </a>
-                    </article>
-                </div>
-                <div class="tile is-parent is-2-mobile">
-                    <article class="tile is-child box">
-                      <a routerLink="{{ networkURLPrefix }}/event">
-                        <div>
-                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe64d;</span>
-
-                          <p class="five-y" *ngIf="networkstats$ | async as networkstats">{{ networkstats.attributes.total_events | number: '1.'}}</p>
-                          <p class="five-t">{{ 'DashBoard.Module Events' | translate }}</p>
-                        </div>
-                      </a>
-                    </article>
-                </div>
-                <div class="tile is-parent is-2-mobile">
-                    <article class="tile is-child box">
-                      <a routerLink="{{ networkURLPrefix }}/account">
-                        <div>
-                          <span style="color: #2a364a;" class="yeecoiconfont" >&#xe651;</span>
-
-                          <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.total_accounts }}</p>
-                          <p class="five-t">{{ 'DashBoard.Active Accounts' | translate }}</p>
-                        </div>
-                      </a>
-                    </article>
-                </div>
-                <div class="tile is-parent is-2-mobile">
-                    <article class="tile is-child box" (click)="showShardsBox()">
-<!--                      <a routerLink="{{ networkURLPrefix }}/runtime">-->
-                        <div>
-                          <span class="yeecoiconfont" >&#xe654;</span>
-
-                          <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.shard_count }}</p>
-                          <p class="five-t">{{ 'DashBoard.Shards' | translate }}</p>
-                        </div>
-<!--                      </a>-->
-                    </article>
-                </div>
-            </div>
-            <div class="shardsBox" *ngIf="array && showShards">
-              <div class="shards-title">
-                <div class="shards-item">ShardNum</div>
-                <div class="shards-item">Best number</div>
-                <div class="shards-item">Finalized number</div>
-                <div class="shards-item">Mining Hash Rate</div>
-                <div class="shards-item">Mining Difficulty</div>
+<div class="">
+  <div class="column homeBox is-12">
+    <section class="is-12" id="search">
+      <div class="card">
+        <!--                <header class="card-header">-->
+        <!--                    <p class="card-header-title">-->
+        <!--                      {{ 'DashBoard.Search' | translate }}-->
+        <!--                    </p>-->
+        <!--                  <a [routerLink]="" fragment="search" class="card-header-icon" aria-label="more options">-->
+        <!--                      <span class="icon">-->
+        <!--                        <i class="fa fa-search" aria-hidden="true"></i>-->
+        <!--                      </span>-->
+        <!--                  </a>-->
+        <!--                </header>-->
+        <div class="card-content">
+          <div class="content">
+            <form (ngSubmit)="search()">
+              <div class="control has-icons-left has-icons-right">
+                <input class="input is-large" type="text" [(ngModel)]="blockSearchText"
+                  [ngModelOptions]="{standalone: true}" [placeholder]="'PlaceHolderSearch' | translate">
+                <span class="search-btn" (click)="search()"></span>
+                <span class="icon is-medium is-left">
+                  <i class="fa fa-search"></i>
+                </span>
+                <span class="icon is-medium is-right">
+                  <i *ngIf="blockSearchText" class="fa fa-check"></i>
+                </span>
               </div>
-              <div class="shards-body" *ngFor="let data of array;">
-                <div class="shards-item">#{{ data.shardNum}} </div>
-                <div class="shards-item"><a routerLink="{{ networkURLPrefix }}/block/{{data.shardNum}}-{{data.hight }}">{{data.hight }}</a></div>
-                <div class="shards-item"><a routerLink="{{ networkURLPrefix }}/block/{{data.shardNum}}-{{data.fnum }}">{{data.fnum }}</a></div>
-                <div class="shards-item">{{ data.rate }} </div>
-                <div class="shards-item">{{ data.difficulty}} </div>
-              </div>
-            </div>
-        </section>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section class="columns planeBox">
-            <div class="column is-6 last-blocks plane" id="last-blocks">
-                <div class="card dashboard-card">
-                  <a routerLink="{{ networkURLPrefix }}/block">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            {{ 'DashBoard.Last blocks' | translate }}
-                        </p>
-                        <a [routerLink]="" fragment="last-blocks" class="card-header-icon" aria-label="more options">
-                          View All →
-                        </a>
-                    </header>
-                  </a>
-                    <div class="card-table">
-                        <div class="content">
-                            <table class="table is-fullwidth is-striped">
-                                <thead>
-                                  <tr>
-                                    <th></th>
-                                    <th>{{ 'DashBoard.Number' | translate }}</th>
-                                    <th class="is-hidden-mobile">{{ 'DashBoard.Age' | translate }}</th>
-                                    <th>{{ 'DashBoard.ShardNum' | translate }}</th>
-                                    <th>{{ 'DashBoard.Transactions' | translate }}</th>
-                                    <th>{{ 'DashBoard.Module Events' | translate }}</th>
-                                    <th></th>
-                                  </tr>
-                                </thead>
-                                <tbody *ngIf="blocks">
-                                    <tr *ngFor="let block of blocks.data; trackBy: blocks.trackBy">
-                                      <td width="5%"><i class="fa fa-cube"></i></td>
-                                      <td width="10%"><a routerLink="{{ networkURLPrefix }}/block/{{ block.attributes.shard_num}}-{{ block.attributes.bid }}">{{ block.attributes.bid }}</a></td>
-                                      <td class="is-hidden-mobile"><span rel="tooltip" title="{{ block.attributes.datetime | date:'medium'}}">{{ block.attributes.datetime | timeago }}</span></td>
-                                      <td width="10%">#{{ block.attributes.shard_num }}</td>
-                                      <td>{{ block.attributes.count_extrinsics_signed }}</td>
-                                      <td>{{ block.attributes.count_events_module }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+    <section class="info-tiles is-hidden-mobile" class="box7">
+      <div class="tile is-ancestor has-text-centered">
+        <div class="tile is-parent is-2-mobile">
+          <article class="tile is-child box">
+            <a routerLink="{{ networkURLPrefix }}/block/">
+              <div>
+
+                <span style="color: #2a364a;" class="yeecoiconfont">&#xe64b;</span>
+                <p class="five-y" *ngIf="networkstats$ | async as networkstats">
+                  {{ networkstats.attributes.best_block| number: '1.'}}</p>
+                <p class="five-t">{{ 'DashBoard.Total Block' | translate }}</p>
+              </div>
+            </a>
+          </article>
+        </div>
+        <div class="tile is-parent is-2-mobile">
+          <article class="tile is-child box">
+            <a routerLink="{{ networkURLPrefix }}/extrinsic">
+              <div>
+                <span style="color: #2a364a;" class="yeecoiconfont">&#xe64f;</span>
+
+                <p *ngIf="networkstats$ | async as networkstats" class="five-y">
+                  {{ networkstats.attributes.total_signed_extrinsics | number: '1.'}}</p>
+                <p class="five-t">{{ 'DashBoard.Transactions' | translate }}</p>
+              </div>
+            </a>
+          </article>
+        </div>
+        <div class="tile is-parent is-2-mobile">
+          <article class="tile is-child box">
+            <a routerLink="{{ networkURLPrefix }}/event">
+              <div>
+                <span style="color: #2a364a;" class="yeecoiconfont">&#xe64d;</span>
+
+                <p class="five-y" *ngIf="networkstats$ | async as networkstats">
+                  {{ networkstats.attributes.total_events | number: '1.'}}</p>
+                <p class="five-t">{{ 'DashBoard.Module Events' | translate }}</p>
+              </div>
+            </a>
+          </article>
+        </div>
+        <div class="tile is-parent is-2-mobile">
+          <article class="tile is-child box">
+            <a routerLink="{{ networkURLPrefix }}/account">
+              <div>
+                <span style="color: #2a364a;" class="yeecoiconfont">&#xe651;</span>
+
+                <p *ngIf="networkstats$ | async as networkstats" class="five-y">
+                  {{ networkstats.attributes.total_accounts }}</p>
+                <p class="five-t">{{ 'DashBoard.Active Accounts' | translate }}</p>
+              </div>
+            </a>
+          </article>
+        </div>
+        <div class="tile is-parent is-2-mobile">
+          <article class="tile is-child box" (click)="showShardsBox()">
+            <!--                      <a routerLink="{{ networkURLPrefix }}/runtime">-->
+            <div>
+              <span class="yeecoiconfont">&#xe654;</span>
+
+              <p *ngIf="networkstats$ | async as networkstats" class="five-y">{{ networkstats.attributes.shard_count }}
+              </p>
+              <p class="five-t">{{ 'DashBoard.Shards' | translate }}</p>
             </div>
-            <div class="column is-6 last-transfers plane" id="last-transfers">
-              <div class="card dashboard-card">
-                  <a routerLink="{{ networkURLPrefix }}/balances/transfer">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            {{ 'DashBoard.Last balance transfers' | translate }}
-                        </p>
-                        <a [routerLink]="" fragment="last-transfers" class="card-header-icon" aria-label="more options">
-                          View All →
-                        </a>
-                    </header>
-                  </a>
-                    <div class="card-table">
-                        <div class="content">
-                            <table class="table is-fullwidth is-striped">
-                                <thead>
-                                  <tr>
-                                    <th></th>
-                                    <th>{{ 'DashBoard.Hash' | translate }}</th>
-                                    <th>{{ 'DashBoard.Age' | translate }}</th>
-                                    <th>{{ 'DashBoard.Amount' | translate }}</th>
-                                    <th>{{ 'DashBoard.Success' | translate }}</th>
-                                    <th></th>
-                                  </tr>
-                                </thead>
-                                <tbody *ngIf="balanceTransfers">
-                                    <tr *ngFor="let balanceTransfer of balanceTransfers.data; trackBy: balanceTransfers.trackBy">
-                                        <td width="5%"><i class="fa fa-exchange-alt"></i></td>
-                                        <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}"><div class="hash-format">0x{{ balanceTransfer.id }}</div></a></td>
-                                        <td class="is-hidden-mobile"><span rel="tooltip" title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span></td>
-                                        <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}</td>
-                                      <td>
-                                        <i *ngIf="balanceTransfer.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
-                                        <i *ngIf="balanceTransfer.attributes.error" class="fa fa-times" style="color: darkred"></i>
-                                      </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <!--                      </a>-->
+          </article>
+        </div>
+      </div>
+      <div class="shardsBox" *ngIf="array && showShards">
+        <div class="shards-title">
+          <div class="shards-item">ShardNum</div>
+          <div class="shards-item">Best number</div>
+          <div class="shards-item">Finalized number</div>
+          <div class="shards-item">Mining Hash Rate</div>
+          <div class="shards-item">Mining Difficulty</div>
+        </div>
+        <div class="shards-body" *ngFor="let data of array;">
+          <div class="shards-item">#{{ data.shardNum}} </div>
+          <div class="shards-item"><a
+              routerLink="{{ networkURLPrefix }}/block/{{data.shardNum}}-{{data.hight }}">{{data.hight }}</a></div>
+          <div class="shards-item"><a
+              routerLink="{{ networkURLPrefix }}/block/{{data.shardNum}}-{{data.fnum }}">{{data.fnum }}</a></div>
+          <div class="shards-item">{{ data.rate }} </div>
+          <div class="shards-item">{{ data.difficulty}} </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="columns planeBox">
+      <div class="column is-6 last-blocks plane" id="last-blocks">
+        <div class="card dashboard-card">
+          <a routerLink="{{ networkURLPrefix }}/block">
+            <header class="card-header">
+              <p class="card-header-title">
+                {{ 'DashBoard.Last blocks' | translate }}
+              </p>
+              <a [routerLink]="" fragment="last-blocks" class="card-header-icon" aria-label="more options">
+                View All →
+              </a>
+            </header>
+          </a>
+          <div class="card-table">
+            <div class="content">
+              <table class="table is-fullwidth is-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>{{ 'DashBoard.Number' | translate }}</th>
+                    <th class="is-hidden-mobile">{{ 'DashBoard.Age' | translate }}</th>
+                    <th>{{ 'DashBoard.ShardNum' | translate }}</th>
+                    <th>{{ 'DashBoard.Transactions' | translate }}</th>
+                    <th>{{ 'DashBoard.Module Events' | translate }}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="blocks">
+                  <tr *ngFor="let block of blocks.data; trackBy: blocks.trackBy">
+                    <td width="5%"><i class="fa fa-cube"></i></td>
+                    <td width="10%"><a
+                        routerLink="{{ networkURLPrefix }}/block/{{ block.attributes.shard_num}}-{{ block.attributes.bid }}">{{ block.attributes.bid }}</a>
+                    </td>
+                    <td class="is-hidden-mobile"><span rel="tooltip"
+                        title="{{ block.attributes.datetime | date:'medium'}}">{{ block.attributes.datetime | timeago }}</span>
+                    </td>
+                    <td width="10%">#{{ block.attributes.shard_num }}</td>
+                    <td>{{ block.attributes.count_extrinsics_signed }}</td>
+                    <td>{{ block.attributes.count_events_module }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-        </section>
-    </div>
-    <div class="homeFooter">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <p class="foot">Powered by YeeCo | YeeScan  © 2020</p>
-    </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-6 last-transfers plane" id="last-transfers">
+        <div class="card dashboard-card">
+          <a routerLink="{{ networkURLPrefix }}/balances/transfer">
+            <header class="card-header">
+              <p class="card-header-title">
+                {{ 'DashBoard.Last balance transfers' | translate }}
+              </p>
+              <a [routerLink]="" fragment="last-transfers" class="card-header-icon" aria-label="more options">
+                View All →
+              </a>
+            </header>
+          </a>
+          <div class="card-table">
+            <div class="content">
+              <table class="table is-fullwidth is-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>{{ 'DashBoard.Hash' | translate }}</th>
+                    <th>{{ 'DashBoard.Age' | translate }}</th>
+                    <th>{{ 'DashBoard.Amount' | translate }}</th>
+                    <th>{{ 'DashBoard.Success' | translate }}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="balanceTransfers">
+                  <tr *ngFor="let balanceTransfer of balanceTransfers.data; trackBy: balanceTransfers.trackBy">
+                    <td width="5%"><i class="fa fa-exchange-alt"></i></td>
+                    <td><a routerLink="{{ networkURLPrefix }}/balances/transfer/0x{{ balanceTransfer.id }}">
+                        <div class="hash-format">0x{{ balanceTransfer.id }}</div>
+                      </a></td>
+                    <td class="is-hidden-mobile"><span rel="tooltip"
+                        title="{{ balanceTransfer.attributes.datetime | date:'medium'}}">{{ balanceTransfer.attributes.datetime | timeago }}</span>
+                    </td>
+                    <td>{{ formatBalance(balanceTransfer.attributes.value) | number:'1.0-15' }} {{ networkTokenSymbol }}
+                    </td>
+                    <td>
+                      <i *ngIf="balanceTransfer.attributes.success" class="fa fa-check" style="color: forestgreen"></i>
+                      <i *ngIf="balanceTransfer.attributes.error" class="fa fa-times" style="color: darkred"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="homeFooter">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <p class="foot">Powered by YeeCo | YeeScan © 2020</p>
+  </div>
 </div>
